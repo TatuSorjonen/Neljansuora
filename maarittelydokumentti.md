@@ -9,5 +9,5 @@
 
 ## Muut
 
-1. Käytän pythonia ja hallitsen jonkin verran Javaa, mutta en oikeastaan vielä muita kuin ihan pikkuisen.
+1. Käytän pythonia ja hallitsen jonkin verran Javaa, mutta en oikeastaan vielä muita.
 2. Käytän suomea ohjelmassa ja opiskelen tietojenkäsittelytieteen kandidaatiksi.
