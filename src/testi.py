@@ -1,30 +1,52 @@
 import pygame
-
-BLACK = (0, 0, 0)
-WHITE = (200, 200, 200)
-WINDOW_HEIGHT = 400
-WINDOW_WIDTH = 400
+from lauta import Lauta, Tulos
 
 
-def main():
-    global SCREEN, CLOCK
-    pygame.init()
-    SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-    CLOCK = pygame.time.Clock()
-    SCREEN.fill(BLACK)
+class Neljansuora:
 
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-        drawGrid()
-        pygame.display.update()
+    def __init__(self):
+        pygame.init()
+        self.lauta = Lauta()
+        self.RUUDUN_KOKO = 150
+        self.IKKUNAN_LEVEYS = self.RUUDUN_KOKO * self.lauta.SARAKKEIDEN_MAARA
+        self.IKKUNAN_KORKEUS = self.RUUDUN_KOKO * self.lauta.RIVIEN_MAARA
+        self.POHJAVARI = (200, 200, 200)
+        self.VASTAVARI = (255, 50, 25)
+        self.KELTAINEN = pygame.transform.scale(pygame.image.load\
+        ("src/kuvat/keltainen.jpeg"), (self.RUUDUN_KOKO, self.RUUDUN_KOKO))
+        self.PUNAINEN = pygame.transform.scale(pygame.image.load\
+        ("src/kuvat/punainen.jpeg"), (self.RUUDUN_KOKO, self.RUUDUN_KOKO))
+        self.VIIVAN_LEVEYS = 5
+        
+        self.ikkuna = pygame.display.set_mode((self.IKKUNAN_LEVEYS, self.IKKUNAN_KORKEUS))
+        self.ikkuna.fill(self.POHJAVARI)
 
+        
+#rivi = 6
+#sarake = 7
+#lauta = [[0] * sarake for _ in range(ROWS)]
+#pygame.display.flip()
 
-def drawGrid():
-    blockSize = 20 #Set the size of the grid block
-    for x in range(0, WINDOW_WIDTH, blockSize):
-        for y in range(0, WINDOW_HEIGHT, blockSize):
-            rect = pygame.Rect(x, y, blockSize, blockSize)
-            pygame.draw.rect(SCREEN, WHITE, rect, 1)
+    def aloita_peli(self):
+        
+        while True:
+
+            for tapahtuma in pygame.event.get():
+                if tapahtuma.type == pygame.QUIT:
+                    pygame.quit()
+                elif tapahtuma.type == pygame.MOUSEBUTTONDOWN:
+                    self.piirra_merkki()
+    
+            self.piirra_taulukko()
+            pygame.display.update()
+        
+    
+    def piirra_taulukko(self):
+        for x in range(0, self.IKKUNAN_LEVEYS, self.RUUDUN_KOKO):
+            for y in range(0, self.IKKUNAN_KORKEUS, self.RUUDUN_KOKO):
+                ruutu = pygame.Rect(x, y, self.IKKUNAN_LEVEYS, self.IKKUNAN_KORKEUS)
+                pygame.draw.rect(self.ikkuna, self.VASTAVARI, ruutu, self.VIIVAN_LEVEYS)
+        
+    def piirra_merkki(self):
+        #Tee piirtää merkin Lauta luokan taulukosta
+        self.ikkuna.blit(self.PUNAINEN, (0, 0))
