@@ -14,7 +14,6 @@ class Neljansuora:
     VIIVAN_LEVEYS = 5
         
     def __init__(self):
-        pygame.init()
         self.lauta = Lauta()
         self.KELTAINEN_NAPPI = pygame.transform.scale(pygame.image.load\
         ("src/kuvat/keltainen.jpeg"), (Neljansuora.RUUDUN_KOKO, Neljansuora.RUUDUN_KOKO))
@@ -31,6 +30,8 @@ class Neljansuora:
 #pygame.display.flip()
 
     def aloita_peli(self):
+        pygame.init()
+        
         
         while True:
 

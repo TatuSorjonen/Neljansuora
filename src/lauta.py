@@ -1,6 +1,7 @@
 from enum import Enum
 
 class Tulos(Enum):
+    """Luokka joka kertoo pelin nykytilanteen"""
 
     MENEILLAAN = 1
     TASAPELI = 2
