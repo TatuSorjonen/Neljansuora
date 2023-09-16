@@ -50,7 +50,8 @@ class Lauta():
                 return vapaa_rivi_indeksi
         
         return vapaa_rivi_indeksi
-        
+    
+    #Debug
     def tulosta_lauta(self):
         for i in range(len(self.ruudukko)):
             for j in range(len(self.ruudukko[i])):
