@@ -13,7 +13,7 @@ Jos painaa mistä vain kohtaa saraketta, nappula menee niin alas kuin laudalla o
 
 ## Testaus
 
-1. Olen vain tehnyt testejä lauta-luokalle. En jostain syystä saanut toimimaan importia Neljansuora-luokalle. Heitti kokoajan virhetää pygamen
+1. Olen vain tehnyt testejä lauta-luokalle. En jostain syystä saanut toimimaan importia Neljansuora-luokalle. Heitti kokoajan virhettä pygamen
 importtaamisen kanssa ja tällaista ongelmaa ei ole minulla ennen ollut. Yritän korjata asian tulevina viikkoina, mutta en usko että käyttöliittymän testaamisella on mikään erityisen kova kiire.
 2. Coverage raportti alla.
 
