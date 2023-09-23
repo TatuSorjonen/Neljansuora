@@ -5,7 +5,7 @@ priorisoituvat laudalle.
 2. Sunnuntaina ja maanantaina minulla meni voittologiikan keksimiseen noin 4h per päivä. Tiistain pidin vapaata. Keskiviikkona ja torstaina aloitin minimax
 algoritmia. Tein molempina päivinä muutaman tunnin ajan. Perjantaina huomasin ongelman ja jouduin muuttamaan todella paljon koodissa, jotta sain toimimaan vihdoin
 minimax algoritmin edes jollain tasolla. Minulla meni tähän koko päivä ja yö. Eli taukojen kanssa noin 10-15h. Lauantaina tein testejä ja kommentoin
-koodia selkeämmäksi ja otin suurimman osan debugista pois, mutta jätin vielä pari. Yhteensä käytin siis tällä viikolla aikaa noin 25h.
+koodia selkeämmäksi ja otin suurimman osan debugista pois, mutta jätin vielä pari. Tähän meni aikaa semmoinen 4h, en ole vielä kovin hyvä testaamisessa. Yhteensä käytin siis tällä viikolla aikaa noin 28h.
 
 ## Seuraavaksi
 
