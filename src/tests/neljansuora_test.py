@@ -1,49 +1,151 @@
 import unittest
+import copy
 from unittest.mock import patch
-#from testi import Neljansuora  #Heittää pygame import virhettä. Täytyy korjata
-#from neljansuora import Neljansuora  #Heittää pygame import virhettä. Täytyy korjata
 from lauta import Lauta, Tulos
-'''
-
-class TestNeljansuora(unittest.TestCase):
-    
-    #def setUp(self):
-    #    self.neljansuora = Neljansuora()
-    def test_konstruktori_toimii(self):
-        self.assertEqual(1, 1) 
-'''        
+#from lautaa import Lauta, Tulos
+       
 class TestLauta(unittest.TestCase):
 
     def setUp(self):
         self.lauta = Lauta()
         
     def test_konstruktori_toimii(self):
-        self.assertEqual(self.lauta.tulos, Tulos.MENEILLAAN)
         self.assertEqual(self.lauta.ruudukko, [['-' for i in range(Lauta.SARAKKEIDEN_MAARA)] for j in range(Lauta.RIVIEN_MAARA)])
-        self.assertEqual(self.lauta.kenen_vuoro, Lauta.KELTAISEN_VUORO)
+
+    def test_lisaa_nappula_toimii(self):
+        self.lauta.lisaa_nappula(1, self.lauta.ruudukko)
+        self.assertEqual(self.lauta.ruudukko[5][1], self.lauta.KELTAINEN)
+        self.lauta.lisaa_nappula(1, self.lauta.ruudukko)
+        self.assertEqual(self.lauta.ruudukko[4][1], 'P')
+        self.lauta.lisaa_nappula(1, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(1, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(1, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(1, self.lauta.ruudukko)
+        self.assertEqual(self.lauta.ruudukko[0][1], 'P')
+        self.lauta.lisaa_nappula(1, self.lauta.ruudukko)
+        self.assertEqual(self.lauta.ruudukko[0][1], 'P')
+
+    def test_vuoron_vaihto_toimii(self):
+        vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko)
+        self.assertEqual(vuoro, self.lauta.KELTAINEN)
+        self.lauta.lisaa_nappula(1, self.lauta.ruudukko)
+        vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko)
+        self.assertEqual(vuoro, self.lauta.PUNAINEN)
+        self.lauta.lisaa_nappula(1, self.lauta.ruudukko)
+        vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko)
+        self.assertEqual(vuoro, self.lauta.KELTAINEN)
+    
+    def test_peru_siirto_toimii(self):
+        self.lauta.tulosta_lauta(self.lauta.ruudukko)
+        self.lauta.peru_siirto(5, 1, self.lauta.ruudukko)
+        self.assertEqual(self.lauta.ruudukko[5][1], self.lauta.TYHJA)
+        self.lauta.lisaa_nappula(1, self.lauta.ruudukko)
+        self.assertEqual(self.lauta.ruudukko[5][1], self.lauta.KELTAINEN)
+        self.lauta.peru_siirto(5, 1, self.lauta.ruudukko)
+        self.assertEqual(self.lauta.ruudukko[5][1], self.lauta.TYHJA)
         
-    def test_lisaa_keltainen_toimii(self):
-        self.lauta.lisaa_keltainen(1)
-        self.assertEqual(self.lauta.ruudukko[5][1], 'K')
-        self.lauta.lisaa_keltainen(1)
-        self.assertEqual(self.lauta.ruudukko[4][1], 'K')
-        self.lauta.lisaa_keltainen(1)
-        self.lauta.lisaa_keltainen(1)
-        self.lauta.lisaa_keltainen(1)
-        self.lauta.lisaa_keltainen(1)
-        self.assertEqual(self.lauta.ruudukko[0][1], 'K')
-        self.lauta.lisaa_keltainen(1)
-        self.assertEqual(self.lauta.ruudukko[0][1], 'K')
+    def test_vapaa_rivi_sarakkeessa_toimii(self):
+        vapaa = self.lauta.vapaa_rivi_sarakkeessa(1, self.lauta.ruudukko)
+        self.assertEqual(vapaa, 5)
+        self.lauta.lisaa_nappula(1, self.lauta.ruudukko)
+        vapaa = self.lauta.vapaa_rivi_sarakkeessa(1, self.lauta.ruudukko)
+        self.assertEqual(vapaa, 4)
         
-    def test_lisaa_punainen_toimii(self):
-        self.lauta.lisaa_punainen(2)
-        self.assertEqual(self.lauta.ruudukko[5][2], 'P')
-        self.lauta.lisaa_punainen(2)
-        self.assertEqual(self.lauta.ruudukko[4][2], 'P')
-        self.lauta.lisaa_punainen(2)
-        self.lauta.lisaa_punainen(2)
-        self.lauta.lisaa_punainen(2)
-        self.lauta.lisaa_punainen(2)
-        self.assertEqual(self.lauta.ruudukko[0][2], 'P')
-        self.lauta.lisaa_punainen(2)
-        self.assertEqual(self.lauta.ruudukko[0][2], 'P')
+    def test_tarkista_tilanne_toimii_aloittaja(self):
+        tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+        self.assertEqual(tilanne, Tulos.MENEILLAAN)
+        self.lauta.lisaa_nappula(0, self.lauta.ruudukko)
+        tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+        self.assertEqual(tilanne, Tulos.MENEILLAAN)
+        self.lauta.lisaa_nappula(1, self.lauta.ruudukko)
+        tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+        self.assertEqual(tilanne, Tulos.MENEILLAAN)
+        self.lauta.lisaa_nappula(0, self.lauta.ruudukko)
+        tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+        self.assertEqual(tilanne, Tulos.MENEILLAAN)
+        self.lauta.lisaa_nappula(1, self.lauta.ruudukko)
+        tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+        self.assertEqual(tilanne, Tulos.MENEILLAAN)
+        self.lauta.lisaa_nappula(0, self.lauta.ruudukko)
+        tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+        self.assertEqual(tilanne, Tulos.MENEILLAAN)
+        self.lauta.lisaa_nappula(1, self.lauta.ruudukko)
+        tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+        self.assertEqual(tilanne, Tulos.MENEILLAAN)
+        self.lauta.lisaa_nappula(0, self.lauta.ruudukko)
+        tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+        self.assertEqual(tilanne, Tulos.KELTAINEN_VOITTI)
+ 
+    def test_tarkista_tilanne_toimii_toinen_pelaaja(self):
+        tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+        self.assertEqual(tilanne, Tulos.MENEILLAAN)
+        self.lauta.lisaa_nappula(0, self.lauta.ruudukko)
+        tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+        self.assertEqual(tilanne, Tulos.MENEILLAAN)
+        self.lauta.lisaa_nappula(1, self.lauta.ruudukko)
+        tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+        self.assertEqual(tilanne, Tulos.MENEILLAAN)
+        self.lauta.lisaa_nappula(0, self.lauta.ruudukko)
+        tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+        self.assertEqual(tilanne, Tulos.MENEILLAAN)
+        self.lauta.lisaa_nappula(1, self.lauta.ruudukko)
+        tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+        self.assertEqual(tilanne, Tulos.MENEILLAAN)
+        self.lauta.lisaa_nappula(0, self.lauta.ruudukko)
+        tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+        self.assertEqual(tilanne, Tulos.MENEILLAAN)
+        self.lauta.lisaa_nappula(1, self.lauta.ruudukko)
+        tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+        self.assertEqual(tilanne, Tulos.MENEILLAAN)
+        self.lauta.lisaa_nappula(4, self.lauta.ruudukko)
+        tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+        self.assertEqual(tilanne, Tulos.MENEILLAAN)
+        self.lauta.lisaa_nappula(1, self.lauta.ruudukko)
+        tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+        self.assertEqual(tilanne, Tulos.PUNAINEN_VOITTI)
+        
+    def test_tarkista_tasapeli_toimii(self):
+        self.lauta.lisaa_nappula(0, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(0, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(1, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(0, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(0, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(0, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(0, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(2, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(1, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(1, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(1, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(1, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(1, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(2, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(2, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(2, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(2, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(2, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(3, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(3, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(3, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(3, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(3, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(3, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(6, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(6, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(6, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(6, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(6, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(6, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(5, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(4, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(4, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(5, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(4, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(5, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(5, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(4, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(5, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(4, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(4, self.lauta.ruudukko)
+        self.lauta.lisaa_nappula(5, self.lauta.ruudukko)
+        tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+        self.assertEqual(tilanne, Tulos.TASAPELI)

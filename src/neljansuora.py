@@ -1,7 +1,9 @@
 import pygame
 import os
 import math
+import copy
 from lauta import Lauta, Tulos
+#from lautaa import Lauta, Tulos
     
 
 class Neljansuora:
@@ -23,13 +25,12 @@ class Neljansuora:
         self.ikkuna = pygame.display.set_mode((Neljansuora.IKKUNAN_LEVEYS, Neljansuora.IKKUNAN_KORKEUS))
         self.ikkuna.fill(Neljansuora.POHJAVARI)
 
-        
-#rivi = 6
-#sarake = 7
-#lauta = [[0] * sarake for _ in range(ROWS)]
-#pygame.display.flip()
 
     def aloita_peli(self):
+        '''Alustaa pygamen ja aloittaa pelin. Pyörii loputtomassa for loopissa kunnes painetaan raksia
+        tai hiiren vasemmalla lautaa.
+        '''
+        
         pygame.init()
         
         
@@ -46,28 +47,44 @@ class Neljansuora:
         
     
     def piirra_taulukko(self):
+        '''Piirtää taulukon neljansuora pelille pygamen ikkunaan
+        '''
+
         for x in range(0, Neljansuora.IKKUNAN_LEVEYS, Neljansuora.RUUDUN_KOKO):
             for y in range(0, Neljansuora.IKKUNAN_KORKEUS, Neljansuora.RUUDUN_KOKO):
                 ruutu = pygame.Rect(x, y, Neljansuora.IKKUNAN_LEVEYS, Neljansuora.IKKUNAN_KORKEUS)
                 pygame.draw.rect(self.ikkuna, Neljansuora.VASTAVARI, ruutu, Neljansuora.VIIVAN_LEVEYS)
                 
     def aseta_merkki(self, hiiri_x, hiiri_y):
+        '''Asettaa merkin oikeaan kohtaan laudalle käyttämällä Lauta luokan metodeita lisaa_nappula tai 
+        lisaa_paras_siirto riippuen kumman pelaajan vuoro on
+        
+        Parametrit:
+            hiiri_x: X koordinaattii johon painettiin
+            hiiri_y: Y koordinaatti johon painettiin
+        '''
+ 
         sarake = math.floor(hiiri_x / Neljansuora.RUUDUN_KOKO)
         #rivi = math.floor(hiiri_y / Neljansuora.RUUDUN_KOKO)
+
+        vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko) 
         
-        #debug
-        print(f"sarake:{sarake}")
-        print(f"Kenenvuoro:{self.lauta.kenen_vuoro}") 
-        
-        if self.lauta.kenen_vuoro == Lauta.KELTAISEN_VUORO:
-            self.lauta.tulosta_lauta()
-            self.lauta.lisaa_keltainen(sarake)
-        elif self.lauta.kenen_vuoro == Lauta.PUNAISEN_VUORO:
-            self.lauta.tulosta_lauta() #debug muuta
-            self.lauta.lisaa_punainen(sarake)
+        if vuoro == Lauta.KELTAINEN:
+            self.lauta.lisaa_nappula(sarake, self.lauta.ruudukko)
+        elif vuoro == Lauta.PUNAINEN:
+            self.lauta.lisaa_paras_siirto()
+      
         self.piirra_tilanne()
+        tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+        
+        if tilanne != Tulos.MENEILLAAN:
+            self.lauta.tulosta_lauta(self.lauta.ruudukko)
+            input(f'TULOS: {tilanne}')
         
     def piirra_tilanne(self):
+        '''Piirtää tilanteen pygamen ikkunaan Lauta luokan ruudukosta
+        '''
+
         self.piirra_taulukko()
         
         for x_ruutu in range(0, self.lauta.SARAKKEIDEN_MAARA):

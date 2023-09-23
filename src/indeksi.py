@@ -1,5 +1,5 @@
-from neljansuora import Neljansuora
-#from testi import Neljansuora
+#from neljansuora import Neljansuora
+from testi import Neljansuora
 
 def main():
     neljansuora = Neljansuora()
