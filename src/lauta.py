@@ -72,6 +72,8 @@ class Lauta():
 
         paras_tulos = -math.inf
         paras_sarake = -1
+        paras_etaisyys = 3
+        vari = Lauta.KELTAINEN
         
         for sarake in range(0, Lauta.SARAKKEIDEN_MAARA):
 
@@ -81,7 +83,14 @@ class Lauta():
             rivi = self.vapaa_rivi_sarakkeessa(sarake, taulukko)
             if rivi != -1: 
                 self.lisaa_nappula(sarake, taulukko)
-                minimax_tulos = self.minimax(3, False, taulukko)
+                minimax_tulos = self.minimax(5, False, taulukko, -math.inf, math.inf)
+                if minimax_tulos == 0:
+                    minimax_tulos = self.tarkista_paras_asema(rivi, sarake, vari)
+                    etaisyys = math.dist([rivi, sarake], [2,3])
+                    if etaisyys < paras_etaisyys:
+                        paras_etaisyys = etaisyys
+                        minimax_tulos += 1
+                        print(f'Etäisyys on {etaisyys}') #Debug
                 print(f'SARAKE: {sarake}: MINIMAX TULOS: {minimax_tulos}') #Debug
                 if minimax_tulos > paras_tulos:
                     paras_tulos = minimax_tulos
@@ -91,7 +100,7 @@ class Lauta():
         self.laskuri = 0
         self.lisaa_nappula(paras_sarake, self.ruudukko)
         
-    def minimax(self, syvyys, onko_max, taulukko):
+    def minimax(self, syvyys, onko_max, taulukko, alpha, beta):
         '''Käy läpi eri vaihtoehtoja ja palauttaa parhaan vaihtoehdon
         
         Parametrit:
@@ -109,11 +118,13 @@ class Lauta():
         tulos = self.tarkista_tilanne(taulukko)
         if tulos != Tulos.MENEILLAAN or syvyys == 0:
             if tulos == Tulos.KELTAINEN_VOITTI:
-                return -1
+                return -100 - syvyys
             elif tulos == Tulos.PUNAINEN_VOITTI:
-                return 1
+                return 100 + syvyys
             else:
-                return 0                
+                return 0
+        #else:
+        #    return self.paras_asema(taulukko)       
 
         if onko_max:
             paras_tulos = -math.inf
@@ -124,9 +135,11 @@ class Lauta():
 
                 rivi = self.vapaa_rivi_sarakkeessa(sarake, kopio_taulukko)
                 self.lisaa_nappula(sarake, kopio_taulukko)
-                minimax_tulos = self.minimax(syvyys - 1, False, kopio_taulukko)
-                if minimax_tulos > paras_tulos: 
-                    paras_tulos = minimax_tulos
+                minimax_tulos = self.minimax(syvyys - 1, False, kopio_taulukko, alpha, beta) 
+                paras_tulos = max(paras_tulos, minimax_tulos)
+                alpha = max(alpha, paras_tulos)
+                if beta <= alpha:
+                    break
             return paras_tulos
         else:
             paras_tulos = math.inf
@@ -137,10 +150,46 @@ class Lauta():
 
                 rivi = self.vapaa_rivi_sarakkeessa(sarake, kopio_taulukko)
                 self.lisaa_nappula(sarake, kopio_taulukko)
-                minimax_tulos = self.minimax(syvyys - 1, True, kopio_taulukko)
-                if minimax_tulos < paras_tulos:
-                    paras_tulos = minimax_tulos
-            return paras_tulos              
+                minimax_tulos = self.minimax(syvyys - 1, True, kopio_taulukko, alpha, beta)
+                paras_tulos = min(minimax_tulos, paras_tulos)
+                beta = min(beta, paras_tulos)
+                if beta <= alpha:
+                    break
+            return paras_tulos
+    
+    def tarkista_paras_asema(self, rivi, sarake, vari):
+        toinen_vari = Lauta.PUNAINEN
+        if vari == Lauta.PUNAINEN:
+            toinen_vari = Lauta.KELTAINEN
+        paras_tulos = 0
+        print(f'Rivi on {rivi} ja Sarake on {sarake}')
+        for x in range(0, Lauta.RIVIEN_MAARA):
+            for y in range(0, Lauta.SARAKKEIDEN_MAARA):
+                if y + 1 < Lauta.SARAKKEIDEN_MAARA:
+                    if self.ruudukko[x][y] == vari and self.ruudukko[x][y+1] == vari and (y+2 == sarake or y-1 == sarake):
+                        paras_tulos += 1
+                    if self.ruudukko[x][y] == toinen_vari and self.ruudukko[x][y+1] == vari and (y+2 == sarake or y-1 == sarake):
+                        paras_tulos += 1
+
+                if x + 1 < Lauta.RIVIEN_MAARA:
+                    if self.ruudukko[x][y] == vari and self.ruudukko[x+1][y] == vari and (x+2 == rivi or x-1 == rivi):
+                        paras_tulos += 1
+                    if self.ruudukko[x][y] == toinen_vari and self.ruudukko[x+1][y] == toinen_vari and (x+2 == rivi or x-1 == rivi):
+                        paras_tulos += 1
+
+                if x + 1 < Lauta.RIVIEN_MAARA and y + 1 < Lauta.SARAKKEIDEN_MAARA:
+                    if self.ruudukko[x][y] == vari and self.ruudukko[x+1][y+1] == vari and ((x+2 == rivi and y+2 == sarake) or (x-1 == rivi and y-1 == sarake)):
+                        paras_tulos += 1
+                    if self.ruudukko[x][y] == toinen_vari and self.ruudukko[x+1][y+1] == toinen_vari and ((x+2 == rivi and y+2 == sarake) or (x-1 == rivi and y-1 == sarake)):
+                        paras_tulos += 1
+
+                if x - 1 >= 0 and y + 1 < Lauta.SARAKKEIDEN_MAARA:
+                    if self.ruudukko[x][y] == vari and self.ruudukko[x-1][y+1] == vari and ((x-2 == rivi and y+2 == sarake) or (x+1 == rivi and y-1 == sarake)):
+                        paras_tulos += 1
+                    if self.ruudukko[x][y] == toinen_vari and self.ruudukko[x-1][y+1] == toinen_vari and ((x-2 == rivi and y+2 == sarake) or (x+1 == rivi and y-1 == sarake)):
+                        paras_tulos += 1
+                        
+        return paras_tulos
         
     def vapaa_rivi_sarakkeessa(self, sarake, taulukko):
         '''Tarkistaa annetun sarakkeen avulla seuraavan vapaan rivin
