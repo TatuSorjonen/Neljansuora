@@ -1,6 +1,6 @@
 # Viikko4 Neljänsuora
 
-1. Olen tehnyt tällä viikolla jonkinlaisen logiikan tekoälyn pelille ja buustannut minimaxia alpha-beta pruningilla. Tämä pitää siirtää hieman eri muodossa vielä minimaxin sisälle. Olen myös tehnyt käyttöliittymää
+1. Olen tehnyt tällä viikolla jonkinlaisen logiikan tekoälyn pelille ja buustannut minimaxia alpha-beta pruningilla. Logiikka pitää siirtää hieman eri muodossa vielä minimaxin sisälle. Olen myös tehnyt käyttöliittymää
 loppuviikon, sillä peli on jo pelattavalla tasolla. Pelin voi sulkea tai aloittaa alusta painikkeila oikealla tai vasemmalla yläkulmasta. Myös pelin tilanne
 näkyy nyt pelissä ylhäällä keskellä.
 2. En ole ehtinyt käyttämään niin paljoa aikaa tähän työhön tällä viikolla, mitä edellisellä viikolla. Ollut muiden hommien kanssa kiirettä tällä viikolla. Sunnuntaina pidin vapaata, maanantaina ja tiistaina
