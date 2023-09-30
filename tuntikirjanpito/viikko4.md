@@ -12,7 +12,7 @@ työhön noin 15h viikolla numero 4.
 ## Seuraavaksi
 
 Siirrän tekoälyn pelaamisen logiikan minimaxin sisälle. Tähän voi mennä jonkin aikaa, mutta jos jää aikaa niin teen luultavimmin jonkinlaisen aloitusruudun tai sitten pelin päättymisruudun.
-Jos kerkeen tehä kaiken niin sitten teen muutaman testin lisää varsinkin minimaxille ja aloitan dokumentaatiota.
+Jos kerkeen tehä kaiken, teen muutaman testin lisää varsinkin minimaxille sekä aloitan dokumentaatiota.
 
 ## Testaus
 
