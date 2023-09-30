@@ -90,13 +90,13 @@ class Lauta():
                     if etaisyys < paras_etaisyys:
                         paras_etaisyys = etaisyys
                         minimax_tulos += 1
-                        print(f'Etäisyys on {etaisyys}') #Debug
-                print(f'SARAKE: {sarake}: MINIMAX TULOS: {minimax_tulos}') #Debug
+                        #print(f'Etäisyys on {etaisyys}') #Debug
+                #print(f'SARAKE: {sarake}: MINIMAX TULOS: {minimax_tulos}') #Debug
                 if minimax_tulos > paras_tulos:
                     paras_tulos = minimax_tulos
                     paras_sarake = sarake
 
-        print(f'Käytiin läpi {self.laskuri} asemaa!') #Debug
+        #print(f'Käytiin läpi {self.laskuri} asemaa!') #Debug
         self.laskuri = 0
         self.lisaa_nappula(paras_sarake, self.ruudukko)
         
@@ -162,7 +162,7 @@ class Lauta():
         if vari == Lauta.PUNAINEN:
             toinen_vari = Lauta.KELTAINEN
         paras_tulos = 0
-        print(f'Rivi on {rivi} ja Sarake on {sarake}')
+        #print(f'Rivi on {rivi} ja Sarake on {sarake}') #Debug
         for x in range(0, Lauta.RIVIEN_MAARA):
             for y in range(0, Lauta.SARAKKEIDEN_MAARA):
                 if y + 1 < Lauta.SARAKKEIDEN_MAARA:
@@ -287,6 +287,9 @@ class Lauta():
         if not any('-' in x for x in taulukko):
             tilanne = Tulos.TASAPELI
         return tilanne
+        
+    def nollaa_taulu(self):
+        self.ruudukko = [['-' for i in range(Lauta.SARAKKEIDEN_MAARA)] for j in range(Lauta.RIVIEN_MAARA)]
     
     #Debug
     def tulosta_lauta(self, taulukko):

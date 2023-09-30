@@ -2,7 +2,6 @@ import unittest
 import copy
 from unittest.mock import patch
 from lauta import Lauta, Tulos
-#from lautaa import Lauta, Tulos
        
 class TestLauta(unittest.TestCase):
 
