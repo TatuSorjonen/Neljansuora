@@ -16,6 +16,6 @@ Jos kerkeen tehä kaiken, teen muutaman testin lisää varsinkin minimaxille sek
 
 ## Testaus
 
-En ole kerennyt tekemään mitään testauksien osalta tällä viikolla, mutta alapuolella on tämänhetkinen coverage-kattavuusraportti
+En ole kerennyt tekemään mitään testauksien osalta tällä viikolla, mutta alapuolella on tämän hetkinen coverage-kattavuusraportti
 
 ![](/kuvat/Coverage_raportti.png)
