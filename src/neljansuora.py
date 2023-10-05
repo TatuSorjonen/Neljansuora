@@ -12,19 +12,22 @@ class Neljansuora:
     IKKUNAN_KORKEUS = RUUDUN_KOKO * Lauta.RIVIEN_MAARA + VALIKON_KOKO
     POHJAVARI = (255,250,240)
     VASTAVARI = (28,134,238)
+    KELTAINEN = (204,204,0)
+    PUNAINEN = (204,0,0)
     VIIVAN_LEVEYS = 5
     NAPPIEN_MAARA = 3
         
     def __init__(self):
         self.lauta = Lauta()
-        self.KELTAINEN_NAPPI = pygame.transform.scale(pygame.image.load\
-        ("src/kuvat/keltainen.jpeg"), (Neljansuora.RUUDUN_KOKO, Neljansuora.RUUDUN_KOKO))
-        self.PUNAINEN_NAPPI = pygame.transform.scale(pygame.image.load\
-        ("src/kuvat/punainen.jpeg"), (Neljansuora.RUUDUN_KOKO, Neljansuora.RUUDUN_KOKO))
+        #self.KELTAINEN_NAPPI = pygame.transform.scale(pygame.image.load\
+        #("src/kuvat/keltainen.jpeg"), (Neljansuora.RUUDUN_KOKO, Neljansuora.RUUDUN_KOKO))
+        #self.PUNAINEN_NAPPI = pygame.transform.scale(pygame.image.load\
+        #("src/kuvat/punainen.jpeg"), (Neljansuora.RUUDUN_KOKO, Neljansuora.RUUDUN_KOKO))
         
-        self.ikkuna = pygame.display.set_mode((Neljansuora.IKKUNAN_LEVEYS, Neljansuora.IKKUNAN_KORKEUS))
+        self.ikkuna = pygame.display.set_mode((Neljansuora.IKKUNAN_LEVEYS, Neljansuora.IKKUNAN_KORKEUS), pygame.NOFRAME)
         self.ikkuna.fill(Neljansuora.POHJAVARI)
         self.on_kaynnissa = True
+        self.tapahtuma = 0
 
 
     def aloita_peli(self):
@@ -33,7 +36,7 @@ class Neljansuora:
         '''
         
         pygame.init()
-        
+        self.piirra_ikkuna()
         
         while self.on_kaynnissa:
 
@@ -42,9 +45,18 @@ class Neljansuora:
                     self.on_kaynnissa = False
                 elif tapahtuma.type == pygame.MOUSEBUTTONDOWN:
                     self.tarkista_nappulan_painallus(tapahtuma.pos[0], tapahtuma.pos[1])
-                    self.aseta_merkki(tapahtuma.pos[0], tapahtuma.pos[1])       
-            self.piirra_ikkuna()
+                    tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+                    if tilanne == Tulos.MENEILLAAN:
+                        self.aseta_merkki(tapahtuma.pos[0], tapahtuma.pos[1])       
+                    self.piirra_ikkuna()
+                    
         pygame.quit()
+        
+    def aloitusikkuna(self):
+        self.ikkuna = pygame.display.set_mode((Neljansuora.IKKUNAN_LEVEYS, Neljansuora.IKKUNAN_KORKEUS), pygame.NOFRAME)
+        self.ikkuna.fill(Neljansuora.POHJAVARI)
+        #self.piirra_aloitusikkunan_napit_ja_tekstit()
+        pygame.display.update()
         
     def piirra_ikkuna(self):
         self.piirra_taulukko()
@@ -53,42 +65,55 @@ class Neljansuora:
         pygame.display.update()
         
     def piirra_tekstit(self):
-        minun_fontti = 'arial'
+        minun_fontti = 'freesansbold'
         fontin_koko = 45
-        fontin_vari = (0, 0, 0)
+        status_fontin_vari = (0, 51, 102)
+        nappuloiden_fontin_vari = (0, 51, 102)
         fontti = pygame.font.SysFont(minun_fontti, fontin_koko)
         status = (Neljansuora.IKKUNAN_LEVEYS / 2, Neljansuora.VALIKON_KOKO / 2)
         sulje = (Neljansuora.IKKUNAN_LEVEYS * (((Neljansuora.NAPPIEN_MAARA * 2)-1)/(Neljansuora.NAPPIEN_MAARA * 2)), Neljansuora.VALIKON_KOKO / 2)
         aloita_alusta = (Neljansuora.IKKUNAN_LEVEYS / (Neljansuora.NAPPIEN_MAARA * 2), Neljansuora.VALIKON_KOKO / 2)
-        
+
         
         #Status teksti
         tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+        taustan_vari = (220,220,220)
         if tilanne == Tulos.MENEILLAAN:
             if self.lauta.kenen_vuoro(self.lauta.ruudukko) == Lauta.KELTAINEN:
                 vuoro = "Keltaisen vuoro"
+                status_fontin_vari = Neljansuora.KELTAINEN
             else:
                 vuoro = "Punaisen vuoro"
+                status_fontin_vari = Neljansuora.PUNAINEN
         elif tilanne == Tulos.TASAPELI:
             vuoro = "Tasapeli"
+            status_fontin_vari = (255,255,255)
         elif tilanne == Tulos.KELTAINEN_VOITTI:
             vuoro = "Keltainen voitti"
+            status_fontin_vari = Neljansuora.KELTAINEN
         elif tilanne == Tulos.PUNAINEN_VOITTI:
             vuoro = "Punainen voitti"
+            status_fontin_vari = Neljansuora.PUNAINEN
+            
+        #Statuksen tausta
+        taustan_vari = Neljansuora.VASTAVARI
+        pygame.draw.rect(self.ikkuna, taustan_vari, (Neljansuora.IKKUNAN_LEVEYS / Neljansuora.NAPPIEN_MAARA,\
+                                                     0, Neljansuora.IKKUNAN_LEVEYS / Neljansuora.NAPPIEN_MAARA,\
+                                                     Neljansuora.VALIKON_KOKO))
 
-        status_teksti = fontti.render(vuoro, 1, fontin_vari)
+        status_teksti = fontti.render(vuoro, 1, status_fontin_vari)
         status_rect = status_teksti.get_rect(center=status)
         self.ikkuna.blit(status_teksti, status_rect)
         
         
         #Sulje teksti
-        sulje_teksti = fontti.render("Sulje peli", 1, fontin_vari)
+        sulje_teksti = fontti.render("Sulje peli", 1, nappuloiden_fontin_vari)
         sulje_rect = sulje_teksti.get_rect(center=sulje)
         self.ikkuna.blit(sulje_teksti, sulje_rect)
         
         
         #Aloita alusta teskti
-        aloita_alusta_teksti = fontti.render("Aloita alusta", 1, fontin_vari)
+        aloita_alusta_teksti = fontti.render("Aloita alusta", 1, nappuloiden_fontin_vari)
         aloita_alusta_rect = aloita_alusta_teksti.get_rect(center=aloita_alusta)
         self.ikkuna.blit(aloita_alusta_teksti, aloita_alusta_rect)
     
@@ -102,24 +127,15 @@ class Neljansuora:
                 pygame.draw.rect(self.ikkuna, Neljansuora.VASTAVARI, ruutu, Neljansuora.VIIVAN_LEVEYS)
         
     def piirra_napit(self):
-        nappien_vari = Neljansuora.VASTAVARI
-        nappien_reunan_vari = (61, 89, 171)
-        nappien_reunan_koko = 10
+        nappien_vari = (153, 204, 255)
+        nappien_reunan_vari = (102, 178, 255)
+        nappien_reunan_koko = 5
         
         #Ensimmäinen nappi
         pygame.draw.rect(self.ikkuna, nappien_vari, (0, 0, Neljansuora.IKKUNAN_LEVEYS / Neljansuora.NAPPIEN_MAARA,\
                                                      Neljansuora.VALIKON_KOKO))
         pygame.draw.rect(self.ikkuna, nappien_reunan_vari, \
                          pygame.Rect((0, 0, Neljansuora.IKKUNAN_LEVEYS / Neljansuora.NAPPIEN_MAARA,\
-                                      Neljansuora.VALIKON_KOKO - nappien_reunan_koko / 2)), nappien_reunan_koko)
-        
-        #Status
-        pygame.draw.rect(self.ikkuna, nappien_vari, (Neljansuora.IKKUNAN_LEVEYS / Neljansuora.NAPPIEN_MAARA,\
-                                                     0, Neljansuora.IKKUNAN_LEVEYS / Neljansuora.NAPPIEN_MAARA,\
-                                                     Neljansuora.VALIKON_KOKO))
-        pygame.draw.rect(self.ikkuna, nappien_reunan_vari, \
-                         pygame.Rect((Neljansuora.IKKUNAN_LEVEYS / Neljansuora.NAPPIEN_MAARA,\
-                                      0, Neljansuora.IKKUNAN_LEVEYS / Neljansuora.NAPPIEN_MAARA,\
                                       Neljansuora.VALIKON_KOKO - nappien_reunan_koko / 2)), nappien_reunan_koko)
         
         #Kolmas nappi
@@ -169,9 +185,11 @@ class Neljansuora:
         
         for x_ruutu in range(0, self.lauta.SARAKKEIDEN_MAARA):
             for y_ruutu in range(0, self.lauta.RIVIEN_MAARA):
-                x_koordinaatti = Neljansuora.RUUDUN_KOKO * x_ruutu
-                y_koordinaatti = Neljansuora.RUUDUN_KOKO * y_ruutu
+                x_koordinaatti = Neljansuora.RUUDUN_KOKO * x_ruutu + int(Neljansuora.RUUDUN_KOKO / 2)
+                y_koordinaatti = Neljansuora.RUUDUN_KOKO * y_ruutu + int(Neljansuora.RUUDUN_KOKO / 2) + Neljansuora.VALIKON_KOKO
                 if self.lauta.ruudukko[y_ruutu][x_ruutu] == 'K':
-                    self.ikkuna.blit(self.KELTAINEN_NAPPI, (x_koordinaatti, y_koordinaatti + Neljansuora.VALIKON_KOKO))
+                    pygame.draw.circle(self.ikkuna, Neljansuora.KELTAINEN, (x_koordinaatti, y_koordinaatti), int(Neljansuora.RUUDUN_KOKO / 2))
+                    #self.ikkuna.blit(self.KELTAINEN_NAPPI, (x_koordinaatti, y_koordinaatti + Neljansuora.VALIKON_KOKO))
                 elif self.lauta.ruudukko[y_ruutu][x_ruutu] == 'P':
-                    self.ikkuna.blit(self.PUNAINEN_NAPPI, (x_koordinaatti, y_koordinaatti + Neljansuora.VALIKON_KOKO))
+                    pygame.draw.circle(self.ikkuna, Neljansuora.PUNAINEN, (x_koordinaatti, y_koordinaatti), int(Neljansuora.RUUDUN_KOKO / 2))
+                    #self.ikkuna.blit(self.PUNAINEN_NAPPI, (x_koordinaatti, y_koordinaatti + Neljansuora.VALIKON_KOKO))
