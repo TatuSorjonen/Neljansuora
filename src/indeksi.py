@@ -2,7 +2,7 @@ from neljansuora import Neljansuora
 
 def main():
     neljansuora = Neljansuora()
-    neljansuora.aloita_peli()
+    neljansuora.aloitusikkuna()
 
 if __name__ == "__main__":
     main()
