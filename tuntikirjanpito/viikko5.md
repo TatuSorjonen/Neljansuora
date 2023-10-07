@@ -15,5 +15,5 @@ Yhteensä olen tehnyt noin 20h viikolla 5.
 
 ## Seuraavaksi
 
-Teen aloitusvalikolle oma luokan (jos saan toimimaan aloitusvalikon) ja toteutan pelimuodot. Muutamaa juttua koodissa täytyy vielä muokata, jotta saan
+Teen aloitusvalikolle oman luokan (jos saan toimimaan aloitusvalikon) ja toteutan pelimuodot. Muutamaa juttua koodissa täytyy vielä muokata, jotta saan
 toimimaan sovelluksen kaikilla pelimuodoilla + teen mahdollisesti minimaxille oman luokan. Sitten teen muutaman testin lisää ja aloitan dokumentaation kunnolla.
