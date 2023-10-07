@@ -5,13 +5,6 @@ import copy
 from enum import Enum
 from lauta import Lauta, Tulos
 
-class Pelimuoto(Enum):
-    
-    YKSINPELI = 1
-    HELPPO_YKSINPELI = 2
-    KAKSINPELI = 3
-    TEKOÄLY = 4
-
 class Neljansuora:
 
     RUUDUN_KOKO = 150
@@ -37,8 +30,6 @@ class Neljansuora:
         self.ikkuna = pygame.display.set_mode((Neljansuora.IKKUNAN_LEVEYS, Neljansuora.IKKUNAN_KORKEUS), pygame.NOFRAME)
         self.ikkuna.fill(Neljansuora.POHJAVARI)
         self.on_kaynnissa = True
-        self.pelimuoto = Pelimuoto.YKSINPELI
-        self.pelaaja_aloittaa = True
 
 
     def aloitusikkuna(self):
