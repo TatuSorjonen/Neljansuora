@@ -1,4 +1,5 @@
 from enum import Enum
+#from maaritykset import Aloitusikkuna
 import random
 import math
 import copy
@@ -11,8 +12,8 @@ class Tulos(Enum):
     TASAPELI = 3
     PUNAINEN_VOITTI = 4
     MAKSIMIPISTEET = 1000
-    
-class Lauta():
+
+class Lauta:
 
     SARAKKEIDEN_MAARA = 7 
     RIVIEN_MAARA = 6
@@ -76,10 +77,9 @@ class Lauta():
         paras_tulos = -math.inf
         paras_sarake = -1
         paras_rivi = -1
-        paras_etaisyys = 3
-        vari = Lauta.KELTAINEN
         syvyys = 5
-        
+
+        #print(self.kenen_vuoro(self.ruudukko))
         for sarake in range(0, Lauta.SARAKKEIDEN_MAARA):
 
             #Jokainen testattava siirto tehdään uudelle laudan kopiolle
@@ -116,13 +116,42 @@ class Lauta():
 
         self.laskuri = self.laskuri + 1
         tulos = self.tarkista_tilanne(taulukko)
+
+
         if tulos != Tulos.MENEILLAAN or syvyys == 0:
-            if tulos == Tulos.KELTAINEN_VOITTI:
-                return 0 - Tulos.MAKSIMIPISTEET.value + syvyys
-            elif tulos == Tulos.PUNAINEN_VOITTI:
+        #    if tulos == Tulos.KELTAINEN_VOITTI:
+        #        if onko_max:
+        #            return 0 - Tulos.MAKSIMIPISTEET.value + syvyys
+        #        else:
+        #            return Tulos.MAKSIMIPISTEET.value + syvyys
+        #    elif tulos == Tulos.PUNAINEN_VOITTI:
+        #        if onko_max:
+        #            return 0 - Tulos.MAKSIMIPISTEET.value + syvyys
+        #        else:
+        #            return Tulos.MAKSIMIPISTEET.value + syvyys
+        #    else:
+                 #return 0
+        #        return self.arvioi_asema(taulukko, onko_max) + syvyys
+            if onko_max and (tulos == Tulos.KELTAINEN_VOITTI or tulos == Tulos.PUNAINEN_VOITTI):
+                return 0 - Tulos.MAKSIMIPISTEET.value - syvyys #oli + syvyys
+            elif tulos == Tulos.KELTAINEN_VOITTI or tulos == Tulos.PUNAINEN_VOITTI:
                 return Tulos.MAKSIMIPISTEET.value + syvyys
+            elif tulos == Tulos.TASAPELI:
+                return 0
             else:
-                return self.arvioi_asema(taulukko) + syvyys
+                #return 0
+                return self.arvioi_asema(taulukko, onko_max)
+            """
+            if tulos == Tulos.KELTAINEN_VOITTI or tulos == Tulos.PUNAINEN_VOITTI:
+                if onko_max:
+                    return 0 - Tulos.MAKSIMIPISTEET.value - syvyys 
+                else:
+                    return Tulos.MAKSIMIPISTEET.value + syvyys
+            elif tulos == Tulos.TASAPELI:
+                return 0
+            else:
+                return self.arvioi_asema(taulukko, onko_max) + syvyys
+            """
 
         if onko_max:
             paras_tulos = -math.inf
@@ -156,7 +185,8 @@ class Lauta():
             return paras_tulos
             
             
-    def arvioi_asema(self, taulukko):
+    def arvioi_asema(self, taulukko, onko_max):
+    
         pisteet = {Lauta.KELTAINEN: 0, Lauta.PUNAINEN: 0}
         for rivi in range(0, Lauta.RIVIEN_MAARA):
             for sarake in range(0, Lauta.SARAKKEIDEN_MAARA):
@@ -164,7 +194,16 @@ class Lauta():
                     continue
                 pisteet = self.pisteyta_voittomahdollisuudet(taulukko, rivi, sarake, pisteet)
                 pisteet[taulukko[rivi][sarake]] += self.pisteyta_nappulan_sijainti(rivi, sarake)
-        return pisteet[Lauta.PUNAINEN] - pisteet[Lauta.KELTAINEN]
+
+        pisteet_keltainen = int(pisteet[Lauta.KELTAINEN] / 2)
+        pisteet_punainen = int(pisteet[Lauta.PUNAINEN] / 2)
+    
+        if onko_max and (pisteet_keltainen != pisteet_punainen):
+            return 0 - max(pisteet_keltainen, pisteet_punainen)
+        elif pisteet_keltainen != pisteet_punainen:
+            return max(pisteet_keltainen, pisteet_punainen)
+        else:
+            return 0
                 
     def pisteyta_voittomahdollisuudet(self, taulukko, rivi, sarake, pisteet):
         vari = taulukko[rivi][sarake]
@@ -224,15 +263,20 @@ class Lauta():
         keskisarake = 3
         
         sijaintipisteet = 0
+
+        oikea_ruutu = int(Tulos.MAKSIMIPISTEET.value/2)
+        yhen_paassa_oikea_ruutu = int(Tulos.MAKSIMIPISTEET.value/100)
+        kahen_paassa_oikea_ruutu = int(Tulos.MAKSIMIPISTEET.value/300)
+        muulloin = int(Tulos.MAKSIMIPISTEET.value/Tulos.MAKSIMIPISTEET.value)
         
         if rivi == keskirivi and sarake == keskisarake:
-            sijaintipisteet = int(Tulos.MAKSIMIPISTEET.value/5*2)
+            sijaintipisteet = oikea_ruutu
         elif rivi+1 == keskirivi or rivi-1 == keskirivi or sarake+1 == keskisarake or sarake-1 == keskisarake:
-            sijaintipisteet = int(Tulos.MAKSIMIPISTEET.value/100)
+            sijaintipisteet = yhen_paassa_oikea_ruutu
         elif rivi+2 == keskirivi or rivi-2 == keskirivi or sarake+2 == keskisarake or sarake-2 == keskisarake:
-            sijaintipisteet = int(Tulos.MAKSIMIPISTEET.value/300)
+            sijaintipisteet = kahen_paassa_oikea_ruutu
         else:
-            sijaintipisteet = int(Tulos.MAKSIMIPISTEET.value/Tulos.MAKSIMIPISTEET.value)
+            sijaintipisteet = muulloin
 
         return sijaintipisteet
 
@@ -358,17 +402,19 @@ class Lauta():
 
         taulukko[rivi][sarake] = Lauta.TYHJA
         
-    '''
-    Käytän ehkä myöhemmin lisaa_random_punainen funktiota
     
-    def lisaa_random_punainen(self):
-        sarake = random.randint(0, 6)
+    
+    def lisaa_random_punainen(self, vari):
+        vapaa_rivi = -1
+        sarake = 0
+        while vapaa_rivi == -1:
+            sarake = random.randint(0, 6)
         #print("Lisätään punainen")
-        vapaa_rivi = self.vapaa_rivi_sarakkeessa(sarake)
+            vapaa_rivi = self.vapaa_rivi_sarakkeessa(sarake, self.ruudukko)
         #print(f'Vapaa rivi {vapaa_rivi}')
-        if vapaa_rivi != -1:
-            self.ruudukko[vapaa_rivi][sarake] = Lauta.PUNAINEN
-    '''
+            if vapaa_rivi != -1:
+                 self.ruudukko[vapaa_rivi][sarake] = vari
+        return vapaa_rivi, sarake
     
     '''
     Käytän ehkä myöhemmin lisaa_punainen funktiota

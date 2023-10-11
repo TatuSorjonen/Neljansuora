@@ -15,7 +15,7 @@ class Neljansuora:
         self.pelimuoto = Pelimuoto.YKSINPELI
         self.aloittaja = Aloitusikkuna.PELAAJA_ALOITTAA
 
-        self.ikkuna = pygame.display.set_mode((Maaritykset.IKKUNAN_LEVEYS, Maaritykset.IKKUNAN_KORKEUS), pygame.NOFRAME)
+        self.ikkuna = pygame.display.set_mode((Maaritykset.IKKUNAN_LEVEYS, Maaritykset.IKKUNAN_KORKEUS))#, pygame.NOFRAME)
         self.ikkuna.fill(Maaritykset.POHJAVARI)
         pygame.init()
 
@@ -58,6 +58,17 @@ class Neljansuora:
 
         self.piirra_ikkuna()
         #print(self.pelimuoto) #Debug
+        vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko)
+        if self.aloittaja == Aloitusikkuna.TEKOALY_ALOITTAA:
+            self.pelaa_tekoaly(vuoro)
+            self.aloittaja = Aloitusikkuna.PELAAJA_ALOITTAA
+        elif self.pelimuoto == Pelimuoto.TEKOÄLY:
+            tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+            while tilanne == Tulos.MENEILLAAN:
+                self.pelaa_tekoaly(vuoro)
+                pygame.display.update()
+                vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko)
+                tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
         
         while self.on_kaynnissa:
 
@@ -138,7 +149,7 @@ class Neljansuora:
     def tarkista_hiiren_painallus(self, hiiri_x, hiiri_y):
         tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
         if tilanne == Tulos.MENEILLAAN and hiiri_y > Maaritykset.VALIKON_KOKO:
-            self.aseta_merkki(hiiri_x, hiiri_y) 
+            self.aseta_merkki(hiiri_x, hiiri_y)
         elif hiiri_x >= Maaritykset.IKKUNAN_LEVEYS - Maaritykset.IKKUNAN_LEVEYS / Neljansuora.NAPPIEN_MAARA\
         and hiiri_y <= Maaritykset.VALIKON_KOKO:
             self.on_kaynnissa = False
@@ -162,23 +173,62 @@ class Neljansuora:
         sarake = math.floor(hiiri_x / Maaritykset.RUUDUN_KOKO)
         rivi = math.floor(hiiri_y / Maaritykset.RUUDUN_KOKO)
 
-        vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko) 
-        if vuoro == Lauta.KELTAINEN and hiiri_y > 100:
-            rivi = self.lauta.lisaa_nappula(sarake, self.lauta.ruudukko)
-            self.animoi_pudotus(sarake, rivi, vuoro)
-            self.piirra_ikkuna()
-            pygame.display.update()
-            #pygame.mixer.music.play(1)
-            vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko)
-            sarake, rivi = self.lauta.lisaa_paras_siirto() #Jos halutaan pelaavan heti
-            self.animoi_pudotus(sarake, rivi, vuoro)
-            #pygame.mixer.music.play(1)
-            self.piirra_ikkuna()
-        elif vuoro == Lauta.PUNAINEN and hiiri_y > 100:
-            self.lauta.lisaa_paras_siirto()
+        vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko)
+
+        #Yksinpeli
+        if hiiri_y > 100 and self.pelimuoto == Pelimuoto.YKSINPELI:
+            if self.aloittaja == Aloitusikkuna.PELAAJA_ALOITTAA:
+                self.pelaa_pelaaja(sarake, vuoro)
+                vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko)
+                self.pelaa_tekoaly(vuoro)
+            else:
+                self.pelaa_tekoaly(vuoro)
+                vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko)
+                self.pelaa_pelaaja(sarake, vuoro)
+
+        #Helppo yksinpeli
+        elif hiiri_y > 100 and self.pelimuoto == Pelimuoto.HELPPO_YKSINPELI:
+            if self.aloittaja == Aloitusikkuna.PELAAJA_ALOITTAA:
+                self.pelaa_pelaaja(sarake, vuoro)
+                vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko)
+                self.pelaa_tekoaly(vuoro)
+            else:
+                self.pelaa_tekoaly(vuoro)
+                vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko)
+                self.pelaa_pelaaja(sarake, vuoro)
+
+        #Kaksinpeli
+        elif hiiri_y > 100 and self.pelimuoto == Pelimuoto.KAKSINPELI:
+            self.pelaa_pelaaja(sarake, vuoro)
+
+        #Tekoälyn peli
+        elif hiiri_y > 100 and self.pelimuoto == Pelimuoto.TEKOÄLY:
+            tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+            while tilanne == Tulos.MENEILLAAN:
+                self.pelaa_tekoaly(vuoro)
+                pygame.display.update()
+                vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko)
+                tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+
+            #self.lauta.lisaa_paras_siirto()
 
         #self.piirra_tilanne()
         #tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+
+    def pelaa_pelaaja(self, sarake, vuoro):
+        rivi = self.lauta.lisaa_nappula(sarake, self.lauta.ruudukko)
+        self.animoi_pudotus(sarake, rivi, vuoro)
+        self.piirra_ikkuna()
+
+    def pelaa_tekoaly(self, vuoro):
+        if self.pelimuoto == Pelimuoto.YKSINPELI or self.pelimuoto == Pelimuoto.TEKOÄLY:
+            sarake, rivi = self.lauta.lisaa_paras_siirto() #Jos halutaan pelaavan heti
+            self.animoi_pudotus(sarake, rivi, vuoro)
+            self.piirra_ikkuna()
+        elif self.pelimuoto == Pelimuoto.HELPPO_YKSINPELI:
+            rivi, sarake = self.lauta.lisaa_random_punainen(vuoro)
+            self.animoi_pudotus(sarake, rivi, vuoro)
+            self.piirra_ikkuna()
         
     def animoi_pudotus(self, sarake, rivi, vuoro):
         pygame.mixer.music.load('Pudotus.mp3')
