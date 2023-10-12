@@ -89,7 +89,7 @@ class Neljansuora:
         
     def piirra_pelin_napit_ja_tekstit(self):
         minun_fontti = 'freesansbold'
-        fontin_koko = 45
+        fontin_koko = math.ceil(Maaritykset.RUUDUN_KOKO / 3) - 5
         status_fontin_vari = Maaritykset.KELTAINEN
         nappuloiden_fontin_vari = Maaritykset.NAPPIEN_TEKSTIN_VARI
         fontti = pygame.font.SysFont(minun_fontti, fontin_koko)

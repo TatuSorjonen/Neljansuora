@@ -3,6 +3,7 @@ import os
 from enum import Enum
 #from neljansuora import Neljansuora, Pelimuoto
 from lauta import Lauta, Tulos
+import math
 
 class Pelimuoto(Enum):
     
@@ -12,34 +13,32 @@ class Pelimuoto(Enum):
     TEKOÄLY = 'Tekoäly peli'
 
 class Maaritykset:
-
+    
     #Kummallekin näkymälle yhteiset määritykset
     RUUDUN_KOKO = 150
-    VALIKON_KOKO = 100
+    VIIVAN_LEVEYS = int(RUUDUN_KOKO / 30) 
+    VALIKON_KOKO = math.ceil (2 * RUUDUN_KOKO / 3)
     IKKUNAN_LEVEYS = RUUDUN_KOKO * Lauta.SARAKKEIDEN_MAARA
-    IKKUNAN_KORKEUS = RUUDUN_KOKO * Lauta.RIVIEN_MAARA + VALIKON_KOKO
+    IKKUNAN_KORKEUS = RUUDUN_KOKO * Lauta.RIVIEN_MAARA + VALIKON_KOKO + math.ceil(VIIVAN_LEVEYS / 2)
     POHJAVARI = (255,250,240)
     VASTAVARI = (28,134,238)
     KELTAINEN = (204,204,0)
     PUNAINEN = (204,0,0)
     NAPPIEN_VARI = (153, 204, 255)
     NAPPIEN_REUNAN_VARI = (102, 178, 255)
-    NAPPIEN_REUNAN_KOKO = 5
+    NAPPIEN_REUNAN_KOKO = math.ceil(RUUDUN_KOKO/30)
     OLETUS_FONTTI = 'freesansbold'
     NAPPIEN_TEKSTIN_VARI = (0, 51, 102)
-    NAPPIEN_FONTIN_KOKO = 45
+    NAPPIEN_FONTIN_KOKO = int(RUUDUN_KOKO / 3) - 5
      
     #Alkuvalikon määritykset
     PELITAPOJEN_MAARA = 4
-    LEVEYS_MARGINAALI = 10
-    NAPPIEN_VALI = 10
+    LEVEYS_MARGINAALI = int(RUUDUN_KOKO / 15)
+    NAPPIEN_VALI = LEVEYS_MARGINAALI
     NAPIN_LEVEYS = (IKKUNAN_LEVEYS - LEVEYS_MARGINAALI * 2)/4 - NAPPIEN_VALI * (3/4)
     NAPIN_KORKEUS = int(NAPIN_LEVEYS / 3)
-    OTSIKOIDEN_FONTIN_KOKO = 100
+    OTSIKOIDEN_FONTIN_KOKO = math.ceil(2 * RUUDUN_KOKO / 3)
     OTSIKOIDEN_FONTIN_VARI = NAPPIEN_TEKSTIN_VARI
-    
-    #Pelin määritykset
-    VIIVAN_LEVEYS = 5   
     
 
 class Aloitusikkuna:
@@ -49,9 +48,9 @@ class Aloitusikkuna:
 
     def __init__(self, ikkuna):
         self.ikkuna = ikkuna
-        self.pelitapanapit_y = 250
-        self.aloitusvuoronapit_y = 600
-        self.aloita_nappi_y = 800
+        self.pelitapanapit_y = Maaritykset.RUUDUN_KOKO + math.ceil(Maaritykset.RUUDUN_KOKO / 3)
+        self.aloitusvuoronapit_y = Maaritykset.RUUDUN_KOKO * 4
+        self.aloita_nappi_y = Maaritykset.RUUDUN_KOKO * 5
         self.pelimuoto = Pelimuoto.YKSINPELI
         self.aloittaja = Aloitusikkuna.PELAAJA_ALOITTAA
         self.valmis = False

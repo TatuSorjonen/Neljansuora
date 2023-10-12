@@ -79,7 +79,7 @@ class Lauta:
         paras_rivi = -1
         syvyys = 5
 
-        #print(self.kenen_vuoro(self.ruudukko))
+        print('')
         for sarake in range(0, Lauta.SARAKKEIDEN_MAARA):
 
             #Jokainen testattava siirto tehdään uudelle laudan kopiolle
@@ -89,7 +89,7 @@ class Lauta:
             if rivi != -1: 
                 self.lisaa_nappula(sarake, taulukko)
                 minimax_tulos = self.minimax(syvyys, False, taulukko, -math.inf, math.inf)
-                #print(f'SARAKE: {sarake}: MINIMAX TULOS: {minimax_tulos}') #Debug
+                print(f'SARAKE: {sarake}: MINIMAX TULOS: {minimax_tulos}') #Debug
                 if minimax_tulos > paras_tulos:
                     paras_tulos = minimax_tulos
                     paras_sarake = sarake
@@ -140,7 +140,7 @@ class Lauta:
                 return 0
             else:
                 #return 0
-                return self.arvioi_asema(taulukko, onko_max)
+                return self.arvioi_asema(taulukko, onko_max, syvyys)
             """
             if tulos == Tulos.KELTAINEN_VOITTI or tulos == Tulos.PUNAINEN_VOITTI:
                 if onko_max:
@@ -185,7 +185,7 @@ class Lauta:
             return paras_tulos
             
             
-    def arvioi_asema(self, taulukko, onko_max):
+    def arvioi_asema(self, taulukko, onko_max, syvyys):
     
         pisteet = {Lauta.KELTAINEN: 0, Lauta.PUNAINEN: 0}
         for rivi in range(0, Lauta.RIVIEN_MAARA):
@@ -195,21 +195,21 @@ class Lauta:
                 pisteet = self.pisteyta_voittomahdollisuudet(taulukko, rivi, sarake, pisteet)
                 pisteet[taulukko[rivi][sarake]] += self.pisteyta_nappulan_sijainti(rivi, sarake)
 
-        pisteet_keltainen = int(pisteet[Lauta.KELTAINEN] / 2)
-        pisteet_punainen = int(pisteet[Lauta.PUNAINEN] / 2)
+        pisteet_keltainen = int(pisteet[Lauta.KELTAINEN])
+        pisteet_punainen = int(pisteet[Lauta.PUNAINEN])
     
         if onko_max and (pisteet_keltainen != pisteet_punainen):
-            return 0 - max(pisteet_keltainen, pisteet_punainen)
+            return 0 - max(pisteet_keltainen, pisteet_punainen) - syvyys
         elif pisteet_keltainen != pisteet_punainen:
-            return max(pisteet_keltainen, pisteet_punainen)
+            return max(pisteet_keltainen, pisteet_punainen) + syvyys
         else:
             return 0
                 
     def pisteyta_voittomahdollisuudet(self, taulukko, rivi, sarake, pisteet):
         vari = taulukko[rivi][sarake]
-        pisteet_kolmesta = Tulos.MAKSIMIPISTEET.value/2
-        pisteet_kahdesta = Tulos.MAKSIMIPISTEET.value/10
-        pisteet_yhdesta = Tulos.MAKSIMIPISTEET.value/20
+        pisteet_kolmesta = int(Tulos.MAKSIMIPISTEET.value/7)
+        pisteet_kahdesta = int(Tulos.MAKSIMIPISTEET.value/30)
+        pisteet_yhdesta = int(Tulos.MAKSIMIPISTEET.value/75)
         
         #Neljän suoran mahdollisuudet ruudusta suoraan ylöspäin
         if rivi-4 >= 0:
@@ -264,17 +264,17 @@ class Lauta:
         
         sijaintipisteet = 0
 
-        oikea_ruutu = int(Tulos.MAKSIMIPISTEET.value/2)
-        yhen_paassa_oikea_ruutu = int(Tulos.MAKSIMIPISTEET.value/100)
-        kahen_paassa_oikea_ruutu = int(Tulos.MAKSIMIPISTEET.value/300)
+        oikea_ruutu = int(Tulos.MAKSIMIPISTEET.value/7)
+        yhden_paassa_oikea_ruutu = int(Tulos.MAKSIMIPISTEET.value/200)
+        kahden_paassa_oikea_ruutu = int(Tulos.MAKSIMIPISTEET.value/500)
         muulloin = int(Tulos.MAKSIMIPISTEET.value/Tulos.MAKSIMIPISTEET.value)
         
         if rivi == keskirivi and sarake == keskisarake:
             sijaintipisteet = oikea_ruutu
         elif rivi+1 == keskirivi or rivi-1 == keskirivi or sarake+1 == keskisarake or sarake-1 == keskisarake:
-            sijaintipisteet = yhen_paassa_oikea_ruutu
+            sijaintipisteet = yhden_paassa_oikea_ruutu
         elif rivi+2 == keskirivi or rivi-2 == keskirivi or sarake+2 == keskisarake or sarake-2 == keskisarake:
-            sijaintipisteet = kahen_paassa_oikea_ruutu
+            sijaintipisteet = kahden_paassa_oikea_ruutu
         else:
             sijaintipisteet = muulloin
 
