@@ -2,7 +2,7 @@
 
 [Määrittelydokumentti](https://github.com/TatuSorjonen/Tiha/blob/master/maarittelydokumentti.md)
 
-[Tuntikijanpito/viikko6](https://github.com/TatuSorjonen/Tiha/blob/master/Dokumentaatio/tuntikirjanpito/viikko6.md)
+[Tuntikirjanpito/viikko6](https://github.com/TatuSorjonen/Tiha/blob/master/Dokumentaatio/tuntikirjanpito/viikko6.md)
 
 [Käyttöohje](https://github.com/TatuSorjonen/Tiha/blob/master/Dokumentaatio/kayttoohje.md)
 
