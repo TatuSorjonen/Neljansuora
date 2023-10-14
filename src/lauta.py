@@ -1,11 +1,11 @@
 from enum import Enum
-#from maaritykset import Aloitusikkuna
 import random
 import math
 import copy
 
 class Tulos(Enum):
-    """Luokka joka kertoo pelin nykytilanteen"""
+    """Luokka joka kertoo pelin nykytilanteen
+    """
 
     MENEILLAAN = 1
     KELTAINEN_VOITTI = 2
@@ -29,8 +29,8 @@ class Lauta:
         '''Lisaa nappulan ruudukkoon
         
         Parametrit:
-            sarake: mihin sarakkeeseen nappula laitetaan
-            taulukko: taulukko mihin nappula laitetaan
+            sarake: Mihin sarakkeeseen nappula laitetaan
+            taulukko: Taulukko mihin nappula laitetaan
         '''
 
         vuoro = self.kenen_vuoro(taulukko)
@@ -45,7 +45,7 @@ class Lauta:
         nappuloita on enemmän
         
         Parametrit:
-            taulukko: taulukko mistä molempien pelaajien nappuloiden määrä tarkastetaan
+            taulukko: Taulukko josta molempien pelaajien nappuloiden määrä tarkastetaan
             
         Palauttaa:
             Kumman pelaajan vuoro on seuraavaksi
@@ -104,14 +104,12 @@ class Lauta:
         '''Käy läpi eri vaihtoehtoja ja palauttaa parhaan vaihtoehdon
         
         Parametrit:
-            syvyys: kuinka monen siirron takaa haetaan vaihtoehtoja
-            onko_max: halutaanko tarkastaa paras vaihtoehto tekoälylle vai huonoin vaihtoehto pelaajalle
-            taulukko: taulukko mistä katsotaan vaihtoehdot
+            syvyys: Kuinka monen siirron takaa haetaan vaihtoehtoja
+            onko_max: Halutaanko tarkastaa paras vaihtoehto tekoälylle vai huonoin vaihtoehto pelaajalle
+            taulukko: Taulukko josta katsotaan vaihtoehdot
         
         Palauttaa:
-            -1 jos löytyy keltaiselle voitto
-            1 jos löytyy punaiselle voitto
-            0 jos ei löydy kummallekaan voittoa
+            Parhaan aseman pisteet
         '''
 
         self.laskuri = self.laskuri + 1
@@ -186,6 +184,16 @@ class Lauta:
             
             
     def arvioi_asema(self, taulukko, onko_max, syvyys):
+        '''Arvioi parhaimman aseman, jos ei ole löytynyt suoraa voittoa kummallekaan.
+
+        Parametrit:
+            taulukko: Taulukko mistä arvioidaan
+            onko_max: Kumman pelaajan vuoro
+            syvyys: Miltä syvyydeltä ollaan katsottu
+
+        Palauttaa:
+            Parhaat pisteet
+        '''
     
         pisteet = {Lauta.KELTAINEN: 0, Lauta.PUNAINEN: 0}
         for rivi in range(0, Lauta.RIVIEN_MAARA):
@@ -206,6 +214,18 @@ class Lauta:
             return 0
                 
     def pisteyta_voittomahdollisuudet(self, taulukko, rivi, sarake, pisteet):
+        '''Pisteyttää voittomahdollisuudet
+
+        Parametrit:
+            taulukko: Taulukko josta pisteytetään
+            rivi: Rivi josta pisteytetään
+            sarake: Sarake josta pisteytetään
+            pisteet: Pisteet joihin lisätään
+
+        Palauttaa:
+            Pisteet lisäämisten jälkeen
+        '''
+
         vari = taulukko[rivi][sarake]
         pisteet_kolmesta = int(Tulos.MAKSIMIPISTEET.value/7)
         pisteet_kahdesta = int(Tulos.MAKSIMIPISTEET.value/30)
@@ -259,6 +279,16 @@ class Lauta:
         return pisteet
         
     def pisteyta_nappulan_sijainti(self, rivi, sarake):
+        '''Pisteyttää nappulan sijainnista riippuen
+
+        Parametrit:
+            rivi: Rivi josta pisteytetään
+            sarake: Sarake, josta pisteytetään
+
+        Palauttaa:
+            Sijainnista saadut pisteet
+        '''
+
         keskirivi = 2
         keskisarake = 3
         
@@ -285,10 +315,10 @@ class Lauta:
         '''Tarkistaa annetun sarakkeen avulla seuraavan vapaan rivin
         
         Parametrit:
-            sarake: mistä sarakkeesta tarkistetaan vapaa rivi
-            taulukko: taulukko mistä tarkistetaan
+            sarake: Mistä sarakkeesta tarkistetaan vapaa rivi
+            taulukko: Taulukko mistä tarkistetaan
         Palauttaa:
-            vapaan rivin annetun sarakkeen avulla
+            Vapaan rivin annetun sarakkeen avulla
         '''
 
         vapaa_rivi_indeksi = -1
@@ -303,10 +333,10 @@ class Lauta:
         onko tasapeli vai onko peli edelleen meneillään
         
         Parametrit:
-            taulukko: kyseinen taulukko mistä katsotaan pelin tilanne
+            taulukko: Kyseinen taulukko josta katsotaan pelin tilanne
             
         Palauttaa:
-            pelin tilanteen
+            Pelin tilanteen
         '''
 
         tilanne = Tulos.MENEILLAAN        
@@ -326,12 +356,12 @@ class Lauta:
         '''Tarkistaa onko pelissä jo voittaja
         
         Parametrit:
-            rivi: rivikoordinaatti
-            sarake: sarakkeen koordinaatti
-            taulukko: taulukko josta katsotaan löytyykö voittajaa
+            rivi: Rivikoordinaatti
+            sarake: Sarakkeen koordinaatti
+            taulukko: Taulukko josta katsotaan löytyykö voittajaa
             
         Palauttaa:
-            pelin tilanteen
+            Pelin tilanteen
         '''
 
         voittaja = None
@@ -367,10 +397,10 @@ class Lauta:
         '''Tarkastaa onko peli päättynyt tasapeliin katsomalla onko laudalla enään tyhjiä merkkejä
         
         Parametrit:
-            taulukko: kyseinen tulukko, josta tasapeli tarkistetaan
+            taulukko: Kyseinen tulukko, josta tasapeli tarkistetaan
             
         Palauttaa:
-            pelin tilanteen
+            Pelin tilanteen
         '''
 
         tilanne = Tulos.MENEILLAAN
@@ -395,16 +425,24 @@ class Lauta:
         '''Peruu siirron
         
         Parametrit:
-            rivi: miltä riviltä nappula poistetaan
-            sarake: miltä sarakkeelta nappula poistetaan
-            taulukko: taulukko josta nappula poistetaan
+            rivi: Miltä riviltä nappula poistetaan
+            sarake: Miltä sarakkeelta nappula poistetaan
+            taulukko: Taulukko josta nappula poistetaan
         '''
 
         taulukko[rivi][sarake] = Lauta.TYHJA
         
     
     
-    def lisaa_random_punainen(self, vari):
+    def lisaa_satunnainen_punainen(self, vari):
+        '''Lisää satunnaisen pelinappulan laudalle
+        
+        Parametrit:
+            vari: Kummalle värille satunnainen pelinappula asetetaan
+
+        Palauttaa:
+            Vapaan rivin ja sarakkeen
+        '''
         vapaa_rivi = -1
         sarake = 0
         while vapaa_rivi == -1:
@@ -415,16 +453,3 @@ class Lauta:
             if vapaa_rivi != -1:
                  self.ruudukko[vapaa_rivi][sarake] = vari
         return vapaa_rivi, sarake
-    
-    '''
-    Käytän ehkä myöhemmin lisaa_punainen funktiota
-
-    def lisaa_punainen(self, sarake):
-        #print("Lisätään punainen")
-        vapaa_rivi = self.vapaa_rivi_sarakkeessa(sarake)
-        print(f'Vapaa rivi {vapaa_rivi}')
-        if vapaa_rivi != -1:
-            self.ruudukko[vapaa_rivi][sarake] = Lauta.PUNAINEN
-            self.kenen_vuoro = Lauta.KELTAISEN_VUORO
-        self.tarkista_tilanne()
-    '''

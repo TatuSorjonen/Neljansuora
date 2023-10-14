@@ -1,5 +1,4 @@
 import pygame
-import os
 from enum import Enum
 #from neljansuora import Neljansuora, Pelimuoto
 from lauta import Lauta, Tulos
@@ -64,28 +63,34 @@ class Aloitusikkuna:
         self.otsikko_fontti = pygame.font.SysFont(Maaritykset.OLETUS_FONTTI, Maaritykset.OTSIKOIDEN_FONTIN_KOKO)
         
     def lue_pelitapa(self):
+        '''Aloitusikkuna, josta valitaan pelimuoto ja mahdollisesti aloittaja
+        '''
+
         self.piirra_aloitusikkuna()
         
         while not self.valmis:
             for tapahtuma in pygame.event.get():
                 if tapahtuma.type == pygame.MOUSEBUTTONDOWN:
                     self.tarkista_nappien_painallus(tapahtuma.pos[0], tapahtuma.pos[1])
-                    #self.valmis = True
             self.piirra_aloitusikkuna()
             pygame.display.update()
 
         return self.pelimuoto, self.aloittaja
 
     def tarkista_nappien_painallus(self, hiiri_x, hiiri_y):
+        '''Tarkistaa napin_painallus funktion avulla onko nappia painettu
+
+        Parametrit:
+            hiiri_x: Hiiren painalluksen x koordinaatti
+            hiiri_y: Hiiren painalluksen y koordinaatti
+        '''
         nappi_x = self.yksinpeli_x
         nappi_y = self.pelitapanapit_y 
         napin_leveys = Maaritykset.NAPIN_LEVEYS
         napin_korkeus = Maaritykset.NAPIN_KORKEUS
-        pelimuoto = Pelimuoto.YKSINPELI
-
-        #self.piirra_aloitusikkuna()
         
         #Yksinpeli
+        pelimuoto = Pelimuoto.YKSINPELI
         self.tarkista_napin_painallus(pelimuoto, hiiri_x, hiiri_y, nappi_x, nappi_y, napin_leveys, napin_korkeus, Aloitusikkuna.PELAAJA_ALOITTAA)
         
         #Helppo yksinpeli
@@ -122,17 +127,24 @@ class Aloitusikkuna:
         napin_leveys = self.aloita_peli_leveys
         if hiiri_x > nappi_x and hiiri_x < nappi_x + napin_leveys and hiiri_y > nappi_y and hiiri_y < nappi_y + napin_korkeus:
             self.valmis = True
-
-        #print(self.pelimuoto)
-
-    #def piirra_aloitusvuoronapit()
                     
     def tarkista_napin_painallus(self, pelimuoto, hiiri_x, hiiri_y, nappi_x, nappi_y, napin_leveys, napin_korkeus, aloittaja):
+        '''Tarkistaa parametrien avulla onko nappia painettu
+        
+        Parametrit:
+            pelimuoto: Mikä pelimuoto on kyseessä
+            hiiri_x: Hiiren painalluksen x koordinaatti
+            hiiri_y: Hiiren painalluksen y koordinaatti
+            nappi_x: Napin x koordinaatti
+            nappi_y: Napin y koordinaatti
+            napin_leveys: Napin leveys
+            napin_korkeus: Napin korkeus
+            aloittaja: Kumpi aloittaa
+        '''
         if hiiri_x > nappi_x and hiiri_x < nappi_x + napin_leveys and hiiri_y > nappi_y and hiiri_y < nappi_y + napin_korkeus:
             
             self.pelimuoto = pelimuoto
             teksti = self.pelimuoto.value
-            #input('toimii')
             self.aloittaja = aloittaja
             teksti = self.aloittaja
             
@@ -141,6 +153,8 @@ class Aloitusikkuna:
                               Maaritykset.NAPPIEN_REUNAN_VARI, Maaritykset.NAPPIEN_REUNAN_KOKO)
       
     def piirra_aloitusikkuna(self):
+        '''Piirtää pelin aloitusikkunan
+        '''
             
         x = self.yksinpeli_x
         y = self.pelitapanapit_y 
@@ -195,11 +209,34 @@ class Aloitusikkuna:
 
         
     def piirra_teksti(self, koordinaatti, teksti, fontti, fontin_vari):
+        '''Piirtää tekstin käyttäen parametrejä hyväkseen
+
+        Parametrit:
+            koordinaatti: Tekstin koordinaatti
+            teksti: Teksti
+            fontti: Tekstin fontti
+            fontin_vari: Tekstin fontin väri
+        '''
+
         teksti = fontti.render(teksti, 1, fontin_vari)
         rect = teksti.get_rect(center=koordinaatti)
         self.ikkuna.blit(teksti, rect)
         
     def piirra_nappi(self, x, y, leveys, korkeus, teksti, fontti, fontin_vari, taustavari, reunavari, reunan_koko):
+        '''Piirtaa napin käyttäen parametrejä hyväkseen
+
+        Parametrit:
+            x: X koordinaatti
+            y: Y koordinaatti
+            leveys: Leveys
+            korkeus: Korkeus
+            teksti: Nappulan teksti
+            fontti: Nappulan tekstin fontti
+            fontin_vari: Nappulan fontin väri
+            taustavari: Napin taustaväri
+            reunavari: Napin reunan väri
+            reunan_koko: Napin reunan koko
+        '''
     
         koordinaatti = (x,y,leveys,korkeus)
         if teksti == self.pelimuoto.value or teksti == self.aloittaja:

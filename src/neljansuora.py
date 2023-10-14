@@ -1,8 +1,5 @@
 import pygame
-import os
 import math
-import copy
-from enum import Enum
 from lauta import Lauta, Tulos
 from maaritykset import Pelimuoto, Maaritykset, Aloitusikkuna
 
@@ -22,6 +19,13 @@ class Neljansuora:
         self.lauta = Lauta()
 
     def alusta_peli(self, pelimuoto, aloittaja):
+        '''Funktio jossa peli alustetaan uudelleen pelimuodon ja aloittajan mukaan
+
+        Parametrit:
+            pelimuoto: Pelimuoto joka on asetettu pelille
+            aloittaja: Pelin aloittaja
+        '''
+
         self.on_kaynnissa = True
         self.pelimuoto = pelimuoto
         self.aloittaja = aloittaja
@@ -29,6 +33,9 @@ class Neljansuora:
         self.lauta = Lauta()
 
     def lue_maaritykset(self):
+        '''Alustaa aloitusikkunan
+        '''
+
         #print('toimii')
         aloitusikkuna = Aloitusikkuna(self.ikkuna)
         pelimuoto, aloittaja = aloitusikkuna.lue_pelitapa()
@@ -37,6 +44,20 @@ class Neljansuora:
         self.aloita_peli()
         
     def piirra_nappi(self, x, y, leveys, korkeus, teksti, fontti, fontin_vari, taustavari, reunavari, reunan_koko):
+        '''Piirtaa napin käyttäen parametrejä hyväkseen
+
+        Parametrit:
+            x: X koordinaatti
+            y: Y koordinaatti
+            leveys: Leveys
+            korkeus: Korkeus
+            teksti: Nappulan teksti
+            fontti: Nappulan tekstin fontti
+            fontin_vari: Nappulan fontin väri
+            taustavari: Napin taustaväri
+            reunavari: Napin reunan väri
+            reunan_koko: Napin reunan koko
+        '''
     
         koordinaatti = (x,y,leveys,korkeus)
 
@@ -47,17 +68,41 @@ class Neljansuora:
         self.piirra_teksti(keskikohta, teksti, fontti, fontin_vari)
         
     def piirra_teksti(self, koordinaatti, teksti, fontti, fontin_vari):
+        '''Piirtää tekstin käyttäen parametrejä hyväkseen
+
+        Parametrit:
+            koordinaatti: Tekstin koordinaatti
+            teksti: Teksti
+            fontti: Tekstin fontti
+            fontin_vari: Tekstin fontin väri
+        '''
+
         teksti = fontti.render(teksti, 1, fontin_vari)
         rect = teksti.get_rect(center=koordinaatti)
         self.ikkuna.blit(teksti, rect)
 
     def aloita_peli(self):
-        '''Alustaa pygamen ja aloittaa pelin. Pyörii loputtomassa for loopissa kunnes painetaan raksia
-        tai hiiren vasemmalla lautaa.
+        '''Alustaa pygamen ja aloittaa pelin. Pyörii loputtomassa for loopissa kunnes painetaan hiiren vasemmalla lautaa.
         '''
 
         self.piirra_ikkuna()
-        #print(self.pelimuoto) #Debug
+        self.tarkista_tekoaly()
+        
+        while self.on_kaynnissa:
+
+            for tapahtuma in pygame.event.get():
+                if tapahtuma.type == pygame.QUIT:
+                    self.on_kaynnissa = False
+                elif tapahtuma.type == pygame.MOUSEBUTTONDOWN:
+                    self.tarkista_hiiren_painallus(tapahtuma.pos[0], tapahtuma.pos[1])
+                    
+        pygame.quit()
+
+    def tarkista_tekoaly(self):
+        '''Tarkistaa onko tekoälyn aloituvuoro tai onko pelimuotona tekoälyjen keskinäinen peli
+        ja pelaa tarvittavat vuorot
+        '''
+
         vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko)
         if self.aloittaja == Aloitusikkuna.TEKOALY_ALOITTAA:
             self.pelaa_tekoaly(vuoro)
@@ -70,17 +115,10 @@ class Neljansuora:
                 vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko)
                 tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
         
-        while self.on_kaynnissa:
-
-            for tapahtuma in pygame.event.get():
-                if tapahtuma.type == pygame.QUIT:
-                    self.on_kaynnissa = False
-                elif tapahtuma.type == pygame.MOUSEBUTTONDOWN:
-                    self.tarkista_hiiren_painallus(tapahtuma.pos[0], tapahtuma.pos[1])
-                    
-        pygame.quit()
-        
     def piirra_ikkuna(self):
+        '''Piirtää pelille ikkunan
+        '''
+
         self.ikkuna.fill(Maaritykset.POHJAVARI)
         self.piirra_taulukko()
         self.piirra_pelin_napit_ja_tekstit()
@@ -88,6 +126,9 @@ class Neljansuora:
         pygame.display.update()
         
     def piirra_pelin_napit_ja_tekstit(self):
+        '''Piirtää napit ja tekstit pelille
+        '''
+
         minun_fontti = 'freesansbold'
         fontin_koko = math.ceil(Maaritykset.RUUDUN_KOKO / 3) - 5
         status_fontin_vari = Maaritykset.KELTAINEN
@@ -138,7 +179,7 @@ class Neljansuora:
         self.piirra_teksti(status, vuoro, fontti, status_fontin_vari)
     
     def piirra_taulukko(self):
-        '''Piirtää taulukon neljansuora pelille pygamen ikkunaan
+        '''Piirtää taulukon neljänsuora pelille pygamen ikkunaan
         '''
 
         for x in range(0, Maaritykset.IKKUNAN_LEVEYS, Maaritykset.RUUDUN_KOKO):
@@ -147,6 +188,13 @@ class Neljansuora:
                 pygame.draw.rect(self.ikkuna, Maaritykset.VASTAVARI, ruutu, Maaritykset.VIIVAN_LEVEYS)
                                       
     def tarkista_hiiren_painallus(self, hiiri_x, hiiri_y):
+        '''Tarkistaa mihin kohtaan on hiirellä painettu
+
+        Parametrit:
+            hiiri_x: X koordinaattii johon painettiin
+            hiiri_y: Y koordinaatti johon painettiin
+        '''
+
         tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
         if tilanne == Tulos.MENEILLAAN and hiiri_y > Maaritykset.VALIKON_KOKO:
             self.aseta_merkki(hiiri_x, hiiri_y)
@@ -178,59 +226,76 @@ class Neljansuora:
         #Yksinpeli
         if hiiri_y > 100 and self.pelimuoto == Pelimuoto.YKSINPELI:
             if self.aloittaja == Aloitusikkuna.PELAAJA_ALOITTAA:
-                self.pelaa_pelaaja(sarake, vuoro)
-                vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko)
-                self.pelaa_tekoaly(vuoro)
+                rivi = self.pelaa_pelaaja(sarake, vuoro)
+                tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+                if tilanne == Tulos.MENEILLAAN and rivi != -1:
+                    vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko)
+                    self.pelaa_tekoaly(vuoro)
             else:
                 self.pelaa_tekoaly(vuoro)
-                vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko)
-                self.pelaa_pelaaja(sarake, vuoro)
+                tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+                if tilanne == Tulos.MENEILLAAN:
+                    vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko)
+                    self.pelaa_pelaaja(sarake, vuoro)
 
         #Helppo yksinpeli
         elif hiiri_y > 100 and self.pelimuoto == Pelimuoto.HELPPO_YKSINPELI:
             if self.aloittaja == Aloitusikkuna.PELAAJA_ALOITTAA:
-                self.pelaa_pelaaja(sarake, vuoro)
-                vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko)
-                self.pelaa_tekoaly(vuoro)
+                rivi = self.pelaa_pelaaja(sarake, vuoro)
+                tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+                if tilanne == Tulos.MENEILLAAN and rivi != -1:
+                    vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko)
+                    self.pelaa_tekoaly(vuoro)
             else:
                 self.pelaa_tekoaly(vuoro)
-                vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko)
-                self.pelaa_pelaaja(sarake, vuoro)
+                tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
+                if tilanne == Tulos.MENEILLAAN:
+                    vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko)
+                    self.pelaa_pelaaja(sarake, vuoro)
 
         #Kaksinpeli
         elif hiiri_y > 100 and self.pelimuoto == Pelimuoto.KAKSINPELI:
             self.pelaa_pelaaja(sarake, vuoro)
 
-        #Tekoälyn peli
-        elif hiiri_y > 100 and self.pelimuoto == Pelimuoto.TEKOÄLY:
-            tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
-            while tilanne == Tulos.MENEILLAAN:
-                self.pelaa_tekoaly(vuoro)
-                pygame.display.update()
-                vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko)
-                tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
-
-            #self.lauta.lisaa_paras_siirto()
-
-        #self.piirra_tilanne()
-        #tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
-
     def pelaa_pelaaja(self, sarake, vuoro):
+        '''Pelaa pelaajan vuoron
+
+        Parametrit:
+            sarake: Sarake
+            vuoro: Kumman vuoro
+        '''
+
         rivi = self.lauta.lisaa_nappula(sarake, self.lauta.ruudukko)
+        if rivi == -1:
+            return rivi
         self.animoi_pudotus(sarake, rivi, vuoro)
         self.piirra_ikkuna()
 
     def pelaa_tekoaly(self, vuoro):
+        '''Pelaa tekoälyn vuoron
+
+        Parametrit:
+            vuoro: Kumman vuoro
+        '''
+
         if self.pelimuoto == Pelimuoto.YKSINPELI or self.pelimuoto == Pelimuoto.TEKOÄLY:
             sarake, rivi = self.lauta.lisaa_paras_siirto() #Jos halutaan pelaavan heti
             self.animoi_pudotus(sarake, rivi, vuoro)
             self.piirra_ikkuna()
         elif self.pelimuoto == Pelimuoto.HELPPO_YKSINPELI:
-            rivi, sarake = self.lauta.lisaa_random_punainen(vuoro)
+            rivi, sarake = self.lauta.lisaa_satunnainen_punainen(vuoro)
             self.animoi_pudotus(sarake, rivi, vuoro)
             self.piirra_ikkuna()
         
     def animoi_pudotus(self, sarake, rivi, vuoro):
+        '''Animoi pelinappulan pudotuksen
+
+        Parametrit:
+            sarake: Sarake mihin nappula pudotetaan
+            rivi: Mihin riville nappula pudotetaan
+            vuoro: Kumman värinen nappula pudotetaan
+        '''
+
         pygame.mixer.music.load('Pudotus.mp3')
         nappulan_vari = Maaritykset.KELTAINEN
         if vuoro == self.lauta.PUNAINEN:
