@@ -22,3 +22,7 @@ Voit vaihtaa pelimuotoa tai aloittajaa
 Jos valitset kaksinpelin tai tekoaly pelin, aloittajaa ei valita ja niiden valikko häviää
 
 ![](./kuvat/aloitusruutu_ilman_aloittajaa.png)
+
+Kun aloitat pelin. Pelilauta tulee näkyville. Pelilaudalla on aluksi ruudukko, jossa on nappi pelin uudelleen aloittamiselle ja sulkemiselle. Myös kumman pelaajan vuoro on, näkyy ylhäällä keskellä.
+
+![](./kuvat/peliruutu.png)
