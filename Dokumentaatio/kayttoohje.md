@@ -2,7 +2,9 @@
 
 ## Tarvittavat komennot:
 lataa ohjelma itsellesi komennolla " git clone "työn linkki" "
+
 siirry työn kansioon
+
 lataa poetry komentorivillä komenolla poetry install
 
 voit aloittaa pelin komennolla "python3 src/indeksi.py", kun olet kansiossa
