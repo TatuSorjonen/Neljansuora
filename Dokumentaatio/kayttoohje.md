@@ -1,0 +1,1 @@
+![](./kuvat/aloitusruutu.png)
