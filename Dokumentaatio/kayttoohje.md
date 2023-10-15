@@ -1,13 +1,13 @@
 # Neljänsuoran käyttöohjeet
 
 ## Tarvittavat komennot:
-lataa ohjelma itsellesi komennolla " git clone "työn linkki" "
+1. Lataa ohjelma itsellesi komennolla " git clone "työn linkki" "
 
-siirry työn kansioon
+2. Siirry ohjelman kansioon komennolla "cd Tiha"
 
-lataa poetry komentorivillä komenolla poetry install
+3. Lataa poetry komentorivillä komenolla poetry install
 
-voit aloittaa pelin komennolla "python3 src/indeksi.py", kun olet kansiossa
+4. Voit aloittaa pelin komennolla "python3 src/indeksi.py", kun olet kansiossa
 
 ## Ohjeet pelaamiseen
 
