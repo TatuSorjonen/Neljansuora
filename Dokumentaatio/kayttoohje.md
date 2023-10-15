@@ -26,3 +26,23 @@ Jos valitset kaksinpelin tai tekoaly pelin, aloittajaa ei valita ja niiden valik
 Kun aloitat pelin. Pelilauta tulee näkyville. Pelilaudalla on aluksi ruudukko, jossa on nappi pelin uudelleen aloittamiselle ja sulkemiselle. Myös kumman pelaajan vuoro on, näkyy ylhäällä keskellä.
 
 ![](./kuvat/peliruutu.png)
+
+Kun pelin aloittaja on asettanut keltaisen pelimerkin, pelivuoro siirtyy punaiselle
+
+![](./kuvat/punaisen_vuoro.png)
+
+Jos keltainen voittaa. Peliruudun yläpuolelle tulee teksti voittajasta
+
+![](./kuvat/keltainen_voitti.png)
+
+Myös punaiselle tapahtuu sama
+
+![](./kuvat/punainen_voitti.png)
+
+Jos tulee tasapeli eli lauta tulee täyteen, samaan kohtaan tulee tasapeli teksti
+
+![](./kuvat/tasapeli.png)
+
+Jos painat aloita alusta, missä tahansa kohtaa pelin aikana, kun on pelaajan vuoro niin peli alkaa alusta ja palataan aloitusikkkunaan
+
+![](./kuvat/aloitusruutu.png)
