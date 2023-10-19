@@ -1,18 +1,27 @@
-import pygame
+'''Tiedostossa on luokka Neljansuora
+'''
+
 import math
+import pygame
 from lauta import Lauta, Tulos
 from maaritykset import Pelimuoto, Maaritykset, Aloitusikkuna
 
 class Neljansuora:
+    '''Neljansuora pitää yllään neljänsuoran käyttöliittymän
+    '''
 
     NAPPIEN_MAARA = 3
-        
+
     def __init__(self):
+        '''Konstruktori jossa alustetaan neljansuora alkuun
+        '''
+
         self.on_kaynnissa = False
         self.pelimuoto = Pelimuoto.YKSINPELI
         self.aloittaja = Aloitusikkuna.PELAAJA_ALOITTAA
 
-        self.ikkuna = pygame.display.set_mode((Maaritykset.IKKUNAN_LEVEYS, Maaritykset.IKKUNAN_KORKEUS))#, pygame.NOFRAME)
+        self.ikkuna = pygame.display.set_mode(\
+                     (Maaritykset.IKKUNAN_LEVEYS, Maaritykset.IKKUNAN_KORKEUS))#, pygame.NOFRAME)
         self.ikkuna.fill(Maaritykset.POHJAVARI)
         pygame.init()
 
@@ -42,8 +51,9 @@ class Neljansuora:
         #print(f'Pelimuoto on: {pelimuoto}, Aloittaja on: {aloittaja}')
         self.alusta_peli(pelimuoto, aloittaja)
         self.aloita_peli()
-        
-    def piirra_nappi(self, x, y, leveys, korkeus, teksti, fontti, fontin_vari, taustavari, reunavari, reunan_koko):
+
+    def piirra_nappi(self, x_koord, y_koord, leveys, korkeus, teksti, \
+                     fontti, fontin_vari, taustavari, reunavari, reunan_koko):
         '''Piirtaa napin käyttäen parametrejä hyväkseen
 
         Parametrit:
@@ -58,15 +68,15 @@ class Neljansuora:
             reunavari: Napin reunan väri
             reunan_koko: Napin reunan koko
         '''
-    
-        koordinaatti = (x,y,leveys,korkeus)
+
+        koordinaatti = (x_koord,y_koord,leveys,korkeus)
 
         pygame.draw.rect(self.ikkuna, taustavari, pygame.Rect(koordinaatti))
         pygame.draw.rect(self.ikkuna, reunavari, pygame.Rect(koordinaatti), reunan_koko)
-        keskikohta = (x + leveys / 2, y + korkeus / 2)
-        
+        keskikohta = (x_koord + leveys / 2, y_koord + korkeus / 2)
+
         self.piirra_teksti(keskikohta, teksti, fontti, fontin_vari)
-        
+
     def piirra_teksti(self, koordinaatti, teksti, fontti, fontin_vari):
         '''Piirtää tekstin käyttäen parametrejä hyväkseen
 
@@ -82,12 +92,13 @@ class Neljansuora:
         self.ikkuna.blit(teksti, rect)
 
     def aloita_peli(self):
-        '''Alustaa pygamen ja aloittaa pelin. Pyörii loputtomassa for loopissa kunnes painetaan hiiren vasemmalla lautaa.
+        '''Alustaa pygamen ja aloittaa pelin.
+           Pyörii loputtomassa for loopissa kunnes painetaan hiiren vasemmalla lautaa.
         '''
 
         self.piirra_ikkuna()
         self.tarkista_tekoaly()
-        
+
         while self.on_kaynnissa:
 
             for tapahtuma in pygame.event.get():
@@ -95,7 +106,7 @@ class Neljansuora:
                     self.on_kaynnissa = False
                 elif tapahtuma.type == pygame.MOUSEBUTTONDOWN:
                     self.tarkista_hiiren_painallus(tapahtuma.pos[0], tapahtuma.pos[1])
-                    
+
         pygame.quit()
 
     def tarkista_tekoaly(self):
@@ -107,14 +118,14 @@ class Neljansuora:
         if self.aloittaja == Aloitusikkuna.TEKOALY_ALOITTAA:
             self.pelaa_tekoaly(vuoro)
             self.aloittaja = Aloitusikkuna.PELAAJA_ALOITTAA
-        elif self.pelimuoto == Pelimuoto.TEKOÄLY:
+        elif self.pelimuoto == Pelimuoto.TEKOALY:
             tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
             while tilanne == Tulos.MENEILLAAN:
                 self.pelaa_tekoaly(vuoro)
                 pygame.display.update()
                 vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko)
                 tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
-        
+
     def piirra_ikkuna(self):
         '''Piirtää pelille ikkunan
         '''
@@ -124,7 +135,7 @@ class Neljansuora:
         self.piirra_pelin_napit_ja_tekstit()
         self.piirra_tilanne()
         pygame.display.update()
-        
+
     def piirra_pelin_napit_ja_tekstit(self):
         '''Piirtää napit ja tekstit pelille
         '''
@@ -140,15 +151,22 @@ class Neljansuora:
         aloita_alusta_y = 0
         aloita_alusta_napin_leveys = Maaritykset.IKKUNAN_LEVEYS / Neljansuora.NAPPIEN_MAARA
         aloita_alusta_napin_korkeus = Maaritykset.VALIKON_KOKO
-        self.piirra_nappi(aloita_alusta_x, aloita_alusta_y, aloita_alusta_napin_leveys, aloita_alusta_napin_korkeus, 'Aloita alusta', fontti, nappuloiden_fontin_vari, Maaritykset.NAPPIEN_VARI, Maaritykset.NAPPIEN_REUNAN_VARI, Maaritykset.NAPPIEN_REUNAN_KOKO)
-        
+        self.piirra_nappi(aloita_alusta_x, aloita_alusta_y, aloita_alusta_napin_leveys, \
+                          aloita_alusta_napin_korkeus, 'Aloita alusta', \
+                          fontti, nappuloiden_fontin_vari, \
+                          Maaritykset.NAPPIEN_VARI, Maaritykset.NAPPIEN_REUNAN_VARI, \
+                          Maaritykset.NAPPIEN_REUNAN_KOKO)
+
         #Sulje
-        sulje_x = Maaritykset.IKKUNAN_LEVEYS - Maaritykset.IKKUNAN_LEVEYS / Neljansuora.NAPPIEN_MAARA
+        sulje_x = Maaritykset.IKKUNAN_LEVEYS - \
+                  Maaritykset.IKKUNAN_LEVEYS / Neljansuora.NAPPIEN_MAARA
         sulje_y = 0
         sulje_napin_leveys = Maaritykset.IKKUNAN_LEVEYS / Neljansuora.NAPPIEN_MAARA
         sulje_napin_korkeus = Maaritykset.VALIKON_KOKO
-        self.piirra_nappi(sulje_x, sulje_y, sulje_napin_leveys, sulje_napin_korkeus, 'Sulje peli', fontti, nappuloiden_fontin_vari, Maaritykset.NAPPIEN_VARI, Maaritykset.NAPPIEN_REUNAN_VARI, Maaritykset.NAPPIEN_REUNAN_KOKO)
-        
+        self.piirra_nappi(sulje_x, sulje_y, sulje_napin_leveys, sulje_napin_korkeus, \
+                          'Sulje peli', fontti, nappuloiden_fontin_vari, Maaritykset.NAPPIEN_VARI, \
+                          Maaritykset.NAPPIEN_REUNAN_VARI, Maaritykset.NAPPIEN_REUNAN_KOKO)
+
         #Status
         tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
         taustan_vari = (220,220,220)
@@ -168,25 +186,30 @@ class Neljansuora:
         elif tilanne == Tulos.PUNAINEN_VOITTI:
             vuoro = "Punainen voitti"
             status_fontin_vari = Maaritykset.PUNAINEN
-            
+
         #Statuksen tausta
         taustan_vari = Maaritykset.VASTAVARI
-        pygame.draw.rect(self.ikkuna, taustan_vari, (Maaritykset.IKKUNAN_LEVEYS / Neljansuora.NAPPIEN_MAARA,\
-                                                     0, Maaritykset.IKKUNAN_LEVEYS / Neljansuora.NAPPIEN_MAARA,\
+        pygame.draw.rect(self.ikkuna, taustan_vari, \
+                         (Maaritykset.IKKUNAN_LEVEYS / Neljansuora.NAPPIEN_MAARA,\
+                                      0, Maaritykset.IKKUNAN_LEVEYS / Neljansuora.NAPPIEN_MAARA,\
                                                      Maaritykset.VALIKON_KOKO))
-                                                     
         status = (Maaritykset.IKKUNAN_LEVEYS / 2, Maaritykset.VALIKON_KOKO / 2)
         self.piirra_teksti(status, vuoro, fontti, status_fontin_vari)
-    
+
     def piirra_taulukko(self):
         '''Piirtää taulukon neljänsuora pelille pygamen ikkunaan
         '''
 
-        for x in range(0, Maaritykset.IKKUNAN_LEVEYS, Maaritykset.RUUDUN_KOKO):
-            for y in range(Maaritykset.VALIKON_KOKO, Maaritykset.IKKUNAN_KORKEUS, Maaritykset.RUUDUN_KOKO):
-                ruutu = pygame.Rect(x, y, Maaritykset.IKKUNAN_LEVEYS, Maaritykset.IKKUNAN_KORKEUS)
-                pygame.draw.rect(self.ikkuna, Maaritykset.VASTAVARI, ruutu, Maaritykset.VIIVAN_LEVEYS)
-                                      
+        for rivi in range(0, Maaritykset.IKKUNAN_LEVEYS, \
+                          Maaritykset.RUUDUN_KOKO):
+            for sarake in range(Maaritykset.VALIKON_KOKO, \
+                           Maaritykset.IKKUNAN_KORKEUS, Maaritykset.RUUDUN_KOKO):
+                ruutu = pygame.Rect(\
+                        rivi, sarake, Maaritykset.IKKUNAN_LEVEYS, \
+                        Maaritykset.IKKUNAN_KORKEUS)
+                pygame.draw.rect(self.ikkuna, Maaritykset.VASTAVARI, \
+                                 ruutu, Maaritykset.VIIVAN_LEVEYS)
+
     def tarkista_hiiren_painallus(self, hiiri_x, hiiri_y):
         '''Tarkistaa mihin kohtaan on hiirellä painettu
 
@@ -198,26 +221,26 @@ class Neljansuora:
         tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
         if tilanne == Tulos.MENEILLAAN and hiiri_y > Maaritykset.VALIKON_KOKO:
             self.aseta_merkki(hiiri_x, hiiri_y)
-        elif hiiri_x >= Maaritykset.IKKUNAN_LEVEYS - Maaritykset.IKKUNAN_LEVEYS / Neljansuora.NAPPIEN_MAARA\
-        and hiiri_y <= Maaritykset.VALIKON_KOKO:
+        elif hiiri_x >= Maaritykset.IKKUNAN_LEVEYS - \
+                        Maaritykset.IKKUNAN_LEVEYS / Neljansuora.NAPPIEN_MAARA\
+                        and hiiri_y <= Maaritykset.VALIKON_KOKO:
             self.on_kaynnissa = False
-            
+
         elif hiiri_x < Maaritykset.IKKUNAN_LEVEYS / Neljansuora.NAPPIEN_MAARA\
         and hiiri_y <= Maaritykset.VALIKON_KOKO:
             self.on_kaynnissa = False
             self.lue_maaritykset()
-            
-                
+
     def aseta_merkki(self, hiiri_x, hiiri_y):
-        '''Asettaa merkin oikeaan kohtaan laudalle käyttämällä Lauta luokan metodeita lisaa_nappula tai 
-        lisaa_paras_siirto riippuen kumman pelaajan vuoro on
-        
+        '''Asettaa merkin oikeaan kohtaan laudalle käyttämällä 
+           Lauta luokan metodeita lisaa_nappula tai 
+           lisaa_paras_siirto riippuen kumman pelaajan vuoro on
+
         Parametrit:
             hiiri_x: X koordinaattii johon painettiin
             hiiri_y: Y koordinaatti johon painettiin
         '''
-        
-        #pygame.mixer.music.load('Pudotus.mp3')
+
         sarake = math.floor(hiiri_x / Maaritykset.RUUDUN_KOKO)
         rivi = math.floor(hiiri_y / Maaritykset.RUUDUN_KOKO)
 
@@ -266,10 +289,9 @@ class Neljansuora:
         '''
 
         rivi = self.lauta.lisaa_nappula(sarake, self.lauta.ruudukko)
-        if rivi == -1:
-            return rivi
         self.animoi_pudotus(sarake, rivi, vuoro)
         self.piirra_ikkuna()
+        return rivi
 
     def pelaa_tekoaly(self, vuoro):
         '''Pelaa tekoälyn vuoron
@@ -278,15 +300,16 @@ class Neljansuora:
             vuoro: Kumman vuoro
         '''
 
-        if self.pelimuoto == Pelimuoto.YKSINPELI or self.pelimuoto == Pelimuoto.TEKOÄLY:
-            sarake, rivi = self.lauta.lisaa_paras_siirto() #Jos halutaan pelaavan heti
+        if self.pelimuoto == Pelimuoto.YKSINPELI or self.pelimuoto == Pelimuoto.TEKOALY:
+            sarake, rivi, paras_tulos = self.lauta.lisaa_paras_siirto(Lauta.SYVYYYS)
+            print(paras_tulos)
             self.animoi_pudotus(sarake, rivi, vuoro)
             self.piirra_ikkuna()
         elif self.pelimuoto == Pelimuoto.HELPPO_YKSINPELI:
-            rivi, sarake = self.lauta.lisaa_satunnainen_punainen(vuoro)
+            rivi, sarake = self.lauta.lisaa_satunnainen(vuoro)
             self.animoi_pudotus(sarake, rivi, vuoro)
             self.piirra_ikkuna()
-        
+
     def animoi_pudotus(self, sarake, rivi, vuoro):
         '''Animoi pelinappulan pudotuksen
 
@@ -300,28 +323,37 @@ class Neljansuora:
         nappulan_vari = Maaritykset.KELTAINEN
         if vuoro == self.lauta.PUNAINEN:
             nappulan_vari = Maaritykset.PUNAINEN
-        x = Maaritykset.RUUDUN_KOKO * sarake + int(Maaritykset.RUUDUN_KOKO / 2)
-        y = Maaritykset.VALIKON_KOKO + int(Maaritykset.RUUDUN_KOKO / 2)
-        y_loppu = Maaritykset.RUUDUN_KOKO * rivi + int(Maaritykset.RUUDUN_KOKO / 2) + Maaritykset.VALIKON_KOKO
-        
-        for i in range(y, y_loppu):
+        x_koord = Maaritykset.RUUDUN_KOKO * sarake + int(Maaritykset.RUUDUN_KOKO / 2)
+        y_koord = Maaritykset.VALIKON_KOKO + int(Maaritykset.RUUDUN_KOKO / 2)
+        y_loppu = Maaritykset.RUUDUN_KOKO * rivi + \
+                  int(Maaritykset.RUUDUN_KOKO / 2) + Maaritykset.VALIKON_KOKO
+
+        for i in range(y_koord, y_loppu):
             self.piirra_taulukko()
-            pygame.draw.circle(self.ikkuna, nappulan_vari, (x, i), int(Maaritykset.RUUDUN_KOKO / 2))
+            pygame.draw.circle(self.ikkuna, nappulan_vari, (x_koord, i), \
+                               int(Maaritykset.RUUDUN_KOKO / 2))
             pygame.display.update()
-            pygame.draw.circle(self.ikkuna, Maaritykset.POHJAVARI, (x, i), int(Maaritykset.RUUDUN_KOKO / 2))
+            pygame.draw.circle(self.ikkuna, Maaritykset.POHJAVARI, (x_koord, i), \
+                               int(Maaritykset.RUUDUN_KOKO / 2))
         pygame.mixer.music.play(1)
-    
+
     def piirra_tilanne(self):
         '''Piirtää tilanteen pygamen ikkunaan Lauta luokan ruudukosta
         '''
 
         self.piirra_taulukko()
-        
+
         for x_ruutu in range(0, self.lauta.SARAKKEIDEN_MAARA):
             for y_ruutu in range(0, self.lauta.RIVIEN_MAARA):
-                x_koordinaatti = Maaritykset.RUUDUN_KOKO * x_ruutu + int(Maaritykset.RUUDUN_KOKO / 2)
-                y_koordinaatti = Maaritykset.RUUDUN_KOKO * y_ruutu + int(Maaritykset.RUUDUN_KOKO / 2) + Maaritykset.VALIKON_KOKO
+                x_koordinaatti = Maaritykset.RUUDUN_KOKO * x_ruutu + \
+                                 int(Maaritykset.RUUDUN_KOKO / 2)
+                y_koordinaatti = Maaritykset.RUUDUN_KOKO * y_ruutu + \
+                                 int(Maaritykset.RUUDUN_KOKO / 2) + Maaritykset.VALIKON_KOKO
                 if self.lauta.ruudukko[y_ruutu][x_ruutu] == 'K':
-                    pygame.draw.circle(self.ikkuna, Maaritykset.KELTAINEN, (x_koordinaatti, y_koordinaatti), int(Maaritykset.RUUDUN_KOKO / 2 - Maaritykset.VIIVAN_LEVEYS))
+                    pygame.draw.circle(self.ikkuna, Maaritykset.KELTAINEN, \
+                                    (x_koordinaatti, y_koordinaatti), \
+                                    int(Maaritykset.RUUDUN_KOKO / 2 - Maaritykset.VIIVAN_LEVEYS))
                 elif self.lauta.ruudukko[y_ruutu][x_ruutu] == 'P':
-                    pygame.draw.circle(self.ikkuna, Maaritykset.PUNAINEN, (x_koordinaatti, y_koordinaatti), int(Maaritykset.RUUDUN_KOKO / 2 - Maaritykset.VIIVAN_LEVEYS))
+                    pygame.draw.circle(self.ikkuna, Maaritykset.PUNAINEN, \
+                                    (x_koordinaatti, y_koordinaatti), \
+                                    int(Maaritykset.RUUDUN_KOKO / 2 - Maaritykset.VIIVAN_LEVEYS))
