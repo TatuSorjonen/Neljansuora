@@ -43,6 +43,6 @@ Jos tulee tasapeli eli lauta tulee täyteen, samaan kohtaan tulee tasapeli tekst
 
 ![](./kuvat/tasapeli.png)
 
-Jos painat aloita alusta, missä tahansa kohtaa pelin aikana, kun on pelaajan vuoro niin peli alkaa alusta ja palataan aloitusikkkunaan
+Jos painat aloita alusta, missä tahansa kohtaa pelin aikana, kun on pelaajan vuoro niin peli alkaa alusta ja palataan aloitusikkunaan
 
 ![](./kuvat/aloitusruutu.png)
