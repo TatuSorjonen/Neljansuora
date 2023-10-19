@@ -10,7 +10,7 @@ Voit tehdä yksikkötestit seuraavilla komennoilla (huom: ota lainausmerkit pois
 Voit halutessasi saada coverage -raportin komentosarjalla:
 1. 'coverage run --branch -m pytest src'
 2. Saat raportin äsken tehdystä komennolla 'coverage report -m'
-3. Jos haluat html -raportin voit käyttää komentoa 'coverage html'
+3. Jos haluat html -raportin voit käyttää komentoa 'coverage html'. Löydät raportin kansiosta tiha/htmlcov/index.html
 
 ## Yksikkötestaus
 
