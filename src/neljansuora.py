@@ -302,7 +302,7 @@ class Neljansuora:
 
         if self.pelimuoto == Pelimuoto.YKSINPELI or self.pelimuoto == Pelimuoto.TEKOALY:
             sarake, rivi, paras_tulos = self.lauta.lisaa_paras_siirto(Lauta.SYVYYYS)
-            print(paras_tulos)
+            self.lauta.tulosta_voitto(paras_tulos)
             self.animoi_pudotus(sarake, rivi, vuoro)
             self.piirra_ikkuna()
         elif self.pelimuoto == Pelimuoto.HELPPO_YKSINPELI:

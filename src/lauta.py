@@ -30,38 +30,6 @@ class Lauta:
     def __init__(self):
         self.ruudukko = [['-' for i in range(Lauta.SARAKKEIDEN_MAARA)] \
                               for j in range(Lauta.RIVIEN_MAARA)]
-        '''
-        self.ruudukko =       [['-', '-', '-', '-', '-', '-', '-'], \
-                               ['-', '-', '-', '-', '-', '-', '-'], \
-                               ['-', '-', 'K', 'P', '-', '-', '-'], \
-                               ['P', '-', 'P', 'K', 'K', '-', '-'], \
-                               ['P', 'K', 'P', 'K', 'K', 'K', '-'], \
-                               ['P', 'P', 'K', 'K', 'P', 'P', '-']]
-        '''
-        '''
-        self.ruudukko = [['-', 'P', 'P', 'P', 'K', '-', 'P'], \
-                         ['-', 'K', 'K', 'K', 'P', 'P', 'K'], \
-                         ['-', 'K', 'P', 'P', 'K', 'K', 'P'], \
-                         ['K', 'P', 'K', 'K', 'P', 'P', 'K'], \
-                         ['P', 'P', 'K', 'P', 'K', 'P', 'P'], \
-                         ['K', 'P', 'K', 'K', 'P', 'K', 'K']]
-        '''
-        '''
-        self.ruudukko =       [['-', '-', '-', '-', '-', '-', '-'], \
-                               ['-', '-', '-', '-', '-', '-', '-'], \
-                               ['-', '-', 'P', 'P', 'P', '-', '-'], \
-                               ['-', '-', 'P', 'K', 'K', '-', '-'], \
-                               ['-', 'P', 'K', 'P', 'K', '-', '-'], \
-                               ['K', 'K', 'P', 'K', 'K', '-', 'P']]
-        '''
-        '''
-        self.ruudukko =       [['-', '-', '-', '-', '-', '-', '-'], \
-                               ['-', '-', '-', 'P', '-', '-', '-'], \
-                               ['-', '-', '-', 'P', '-', '-', '-'], \
-                               ['K', '-', '-', 'K', '-', '-', '-'], \
-                               ['P', '-', 'K', 'K', '-', '-', '-'], \
-                               ['P', 'P', 'P', 'K', 'K', 'K', 'P']]
-        '''
         
     def lisaa_nappula(self, sarake, taulukko):
         '''Lisaa nappulan ruudukkoon
@@ -125,7 +93,7 @@ class Lauta:
             if rivi != -1:
                 self.lisaa_nappula(sarake, taulukko)
                 minimax_tulos = self.minimax(syvyys, False, taulukko, -math.inf, math.inf)
-                #print(f'Sarake: {sarake}, rivi: {rivi}, minimax_tulos: {minimax_tulos}')
+                print(f'Sarake: {sarake}, rivi: {rivi}, minimax_tulos: {minimax_tulos}')
                 if minimax_tulos > paras_tulos:
                     paras_tulos = minimax_tulos
                     paras_sarake = sarake
@@ -160,7 +128,7 @@ class Lauta:
                 return 0
             else:
                 #print(f'tulos on {tulos}, syvyys on {syvyys}')
-                return self.arvioi_asema(taulukko, onko_max, syvyys)
+                return self.arvioi_asema(taulukko)
 
         if onko_max:
             paras_tulos = -math.inf
@@ -195,8 +163,30 @@ class Lauta:
                     if beta <= alpha:
                         break
             return paras_tulos
+        
+    def tulosta_voitto(self, parhaat_pisteet):
+        vuoro = self.kenen_vuoro(self.ruudukko)
 
-    def arvioi_asema(self, taulukko, onko_max, syvyys):
+        seuraava = 'Punainen'
+        edellinen = 'Keltainen'
+        voittaja = None
+        siirtoja_voittoon = 0
+
+        if vuoro == Lauta.KELTAINEN:
+            seuraava = 'Keltainen'
+            edellinen = 'Punainen'            
+
+        if parhaat_pisteet <= 0 - Tulos.MAKSIMIPISTEET.value:
+            voittaja = seuraava
+        elif parhaat_pisteet >= Tulos.MAKSIMIPISTEET.value:
+            voittaja = edellinen
+
+        if voittaja is not None:
+            siirtoja_voittoon = Tulos.MAKSIMIPISTEET.value + Lauta.SYVYYYS - abs(parhaat_pisteet)
+            print(f'{voittaja} pystyy voittamaan {siirtoja_voittoon}:lla siirrolla')
+
+
+    def arvioi_asema(self, taulukko):
         '''Arvioi parhaimman aseman, jos ei ole löytynyt suoraa voittoa kummallekaan.
 
         Parametrit:
@@ -219,12 +209,12 @@ class Lauta:
         pisteet_keltainen = int(pisteet[Lauta.KELTAINEN])
         pisteet_punainen = int(pisteet[Lauta.PUNAINEN])
 
-        if onko_max and (pisteet_keltainen != pisteet_punainen):
-            return 0 - max(pisteet_keltainen, pisteet_punainen) - syvyys
-        elif pisteet_keltainen != pisteet_punainen:
-            return max(pisteet_keltainen, pisteet_punainen) + syvyys
+        vuoro = self.kenen_vuoro(taulukko)
+        if (vuoro == Lauta.KELTAINEN and Lauta.SYVYYYS % 2 != 0) or \
+           (vuoro == Lauta.PUNAINEN and Lauta.SYVYYYS % 2 == 0):
+            return pisteet_keltainen - pisteet_punainen
         else:
-            return 0
+            return pisteet_punainen - pisteet_keltainen
 
     def pisteyta_voittomahdollisuudet(self, taulukko, rivi, sarake, pisteet):
         '''Pisteyttää voittomahdollisuudet
@@ -329,14 +319,17 @@ class Lauta:
 
         if rivi == keskirivi and sarake == keskisarake:
             sijaintipisteet = oikea_ruutu
-        elif rivi+1 == keskirivi or rivi-1 == keskirivi or \
+        elif rivi+1 == keskirivi or \
                        sarake+1 == keskisarake or sarake-1 == keskisarake:
             sijaintipisteet = yhden_paassa_oikea_ruutu
-        elif rivi+2 == keskirivi or rivi-2 == keskirivi or \
+        elif rivi+2 == keskirivi or rivi-1 == keskirivi or \
                        sarake+2 == keskisarake or sarake-2 == keskisarake:
             sijaintipisteet = kahden_paassa_oikea_ruutu
         else:
             sijaintipisteet = muulloin
+
+        if rivi == 5 and sarake == 3:
+            sijaintipisteet += oikea_ruutu
 
         return sijaintipisteet
 
