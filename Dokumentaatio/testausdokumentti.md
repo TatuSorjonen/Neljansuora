@@ -19,3 +19,12 @@ Voit halutessasi saada coverage -raportin komentosarjalla:
 testi. Löytää voiton yhden ja muutaman siirron päässä alhaisella syvyydellä. Testattu myös isommalla syvyydellä. Tässä tapauksessa syvyydellä 7. Isomman syvyyden testiin on tehty välivaiheet ja toisen siirto laitetaan manuaalisesti parhaan mahdolliseen paikkaan. Olisi mennyt liian kauan aikaa yhteen testiin. Tällä hetkellä menee fuksiläppärillä yli minuutti. Minimaxille on myös tarkastettu tasapelin löytyminen ja vastustajan voiton estäminen muutaman syvyyden päästä.
 3. Tiedostoja neljansuora.py ja maarittely.py ei testata, sillä nämä ovat osa käyttöliittymää, jota ei tarvinnut testata.
 4. Alla coverage -raportti kokonaisuudessaan (Muista laittaa myöhemmin -Tatu). 
+
+## Kokeilemalla tehdyt testit
+
+1. Pelin valinta toimii, vaikka painaisi monta kertaa eri pelimuotoa.
+2. Valitse aloittaja tulee näkyville ainoastaan, kun on valittu yksinpeli tai helppo yksinpeli. Jos muut pelimuodot ovat valittuna samaan kohtaan painaminen ei muuta pelin logiikkaa millään tavalla.
+3. Pelissä jos sarake on täynnä ja painaa saraketta, peliruutu pysyy samana.
+4. Voiton tai tasapelin jälkeen pelissä ei voi lisätä nappuloita laudalle.
+5. Sulje ja Aloita alusta napit toimivat oikein.
+6. Muutenkin kaikki pelimuodot toimivat miten niiden on tarkoituskin toimia kaikilla syvyyksillä.
