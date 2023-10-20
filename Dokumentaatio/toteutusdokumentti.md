@@ -17,3 +17,9 @@ ylhäällä olevista 'aloita alusta' tai 'sulje' nappuloista. Jos painetaan etuk
 tai nappulan painallus tehdään heti tekoälyn lopetettua vuoronsa. 'Aloita alusta' nappi alustaa pelin
 ja avaa aloitusikkunan uudelleen. 'Sulje' nappi sulkee ohjelman.
 
+```mermaid
+sequenceDiagram
+  participant indeksi.py
+  participant Neljansuora
+  participant Aloitusikkuna
+```
