@@ -34,7 +34,7 @@ sequenceDiagram
   Neljansuora->> Neljansuora: aloita_peli()
 ```
 
-## Diagrammi pelin kulusta
+## Diagrammi pelin kulusta, kun on yksinpeli ja pelaajan aloitus
 
 ```mermaid
 sequenceDiagram
@@ -45,9 +45,14 @@ sequenceDiagram
   Neljansuora->> Neljansuora: aloita_peli()
   Neljansuora->> Neljansuora: piirra_ikkuna()
   Neljansuora->> Neljansuora: tarkista_tekoaly()
-  Pelaaja 1->> TicTacToe: tarkista_hiiren_painallus(hiiri_x, hiiri_y)
+  loop
+  Pelaaja 1->> Neljansuora: tarkista_hiiren_painallus(hiiri_x, hiiri_y)
   Neljansuora->> Neljansuora: Tarkistaa onko lautaa tai nappia painettu
-  Neljansuora->> Neljansuora: Jos on painettu nappia 'Aloita alusta', niin alustetaan peli uudelleen funktiolla lue_maaritykset()
-  Neljansuora->> Neljansuora: Jos on painettu 'Sulje' nappia, niin sulkee pelin
   Neljansuora->> Neljansuora: Jos on painettu laudalle, niin käytetään funktiota aseta_merkki
+  Neljansuora->> Neljansuora: pelaa_pelaaja()
+  Neljansuora->> Lauta: lisaa_nappula()
+  Neljansuora->> Lauta: tarkista_tilanne()
+  Neljansuora->> Neljansuora: pelaa_tekoaly()
+  Neljansuora->> Lauta: lisaa_paras_siirto()
+  end
 ```
