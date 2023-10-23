@@ -66,7 +66,7 @@ sequenceDiagram
 sequenceDiagram
   participant Neljansuora
   participant Lauta
-  participant Lauta_luokan minimax
+  participant Lauta luokan minimax
   participant Lauta luokan arvioi_asema
   Neljansuora->> Lauta: lisaa_paras_siirto(syvyys)
   for loop
