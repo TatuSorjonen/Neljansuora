@@ -62,7 +62,7 @@ sequenceDiagram
 
 ## Diagrammi funktiosta lisaa_paras_siirto ja minimaxista sekä tämän heuristiikasta
 
-Kun on tekoälyn vuoro kutsutaan Lauta luokan funktiota lisaa_paras_siirto. Funktio saa parametriksi syvyyden. Seuraavaksi käydään kaikki mahdolliset VAPAAT siirrot läpi ja kutsutaan kaikille minimax funtiota laudan kopioimisen jälkeen. Minimax saa parametriksi aina syvyyden, kumman vuoro on, kopioidun laudan, sekä alpha-beta pruningissa käytettävät miinus ääretön ja plus äärettömän.
+Kun on tekoälyn vuoro, kutsutaan Lauta luokan funktiota lisaa_paras_siirto. Funktio saa parametriksi syvyyden. Seuraavaksi käydään kaikki mahdolliset VAPAAT siirrot läpi ja kutsutaan kaikille minimax funtiota laudan kopioimisen jälkeen. Minimax saa parametriksi aina syvyyden, kumman vuoro on, kopioidun laudan, sekä alpha-beta pruningissa käytettävät miinus ääretön ja plus äärettömän.
 Minimax tarkastaa heti onko voittajaa löytynyt tai onko syvyys 0. Jos löytää voiton palauttaa parhaan tuloksen tai huonoimman tuloksen plus/miinus syvyyden. Riippuen kumman mahdollinen voitto on.
 Jos ei ole voittoa, niin vuorosta riipuen kulkeutuu if-else haarassa jompaan kumpaan omaan tai vastustajan vuoroon. Minimax lisää uuden siirron riippuen kumpaan haaran meni, itselle parhaan tai vastustajalle parhaan uudelle laudan kopiolle.
 Minimax kutsuu itseään rekursiivisesti pienentäen yhden syvyyden. Heti kun syvyys on 0 ja ei ole löytynyt vieläkään voittoa, minimax tarkastaa tasapelin. Jos ei ole myöskään taapeli, niin arvioi parhaan siirron heuristiikan avulla.
