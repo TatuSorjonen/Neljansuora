@@ -22,4 +22,9 @@ sequenceDiagram
   participant indeksi.py
   participant Neljansuora
   participant Aloitusikkuna
+  indeksi.py->> Neljansuora: lue_maaritykset()
+  Neljansuora->> Aloitusikkuna: lue_pelitapa()
+  Aloitusikkuna->> Neljansuora: pelimuoto ja aloittaja
+  Neljansuora->> Neljansuora: alusta_peli(pelimuoto, aloittaja)
+  Neljansuora->> Neljansuora: aloita_peli()
 ```
