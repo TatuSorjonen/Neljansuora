@@ -17,6 +17,11 @@ ylhäällä olevista 'aloita alusta' tai 'sulje' nappuloista. Jos painetaan etuk
 tai nappulan painallus tehdään heti tekoälyn lopetettua vuoronsa. 'Aloita alusta' nappi alustaa pelin
 ja avaa aloitusikkunan uudelleen. 'Sulje' nappi sulkee ohjelman.
 
+## Diagrammi pelin alustamisesta ja aloittamisesta
+
+Peli aloitetaan indeksi.py tiedostosta ja käynnistetään funktiolla lue_maaritykset().
+Aloitusikkuna luodaan Aloitusikkuna luokan funktiota käyttäen lue_pelitapa(). Tämä luo aloitusikkunan, jossa käyttäjä voi valita pelimuodon ja aloittajan pelimuodosta riippuen ja palauttaa nämä. Neljansuora luokassa alustetaan peli uudestaan käyttäen kyseistä pelimuotoa ja mahdollista aloittajaa. Tämän jälkeen aloitetaan peli.
+
 ```mermaid
 sequenceDiagram
   participant indeksi.py
