@@ -59,3 +59,5 @@ sequenceDiagram
   Neljansuora->> Lauta: lisaa_paras_siirto()
   end
 ```
+
+## Diagrammi funktiosta lisaa_paras_siirto ja minimaxista ja tämäm heuristiikasta
