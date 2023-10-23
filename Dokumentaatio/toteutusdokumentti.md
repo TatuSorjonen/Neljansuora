@@ -53,11 +53,37 @@ sequenceDiagram
   Neljansuora->> Neljansuora: Tarkistaa onko lautaa tai nappia painettu
   Neljansuora->> Neljansuora: Jos on painettu laudalle, niin käytetään funktiota aseta_merkki
   Neljansuora->> Neljansuora: pelaa_pelaaja()
-  Neljansuora->> Lauta: lisaa_nappula()
+  Neljansuora->> Lauta: lisaa_nappula(sarake, lauta.ruudukko)
   Neljansuora->> Lauta: tarkista_tilanne()
   Neljansuora->> Neljansuora: pelaa_tekoaly()
-  Neljansuora->> Lauta: lisaa_paras_siirto()
+  Neljansuora->> Lauta: lisaa_paras_siirto(syvyys)
   end
 ```
 
 ## Diagrammi funktiosta lisaa_paras_siirto ja minimaxista sekä tämän heuristiikasta
+
+```mermaid
+sequenceDiagram
+  participant Neljansuora
+  participant Lauta
+  participant Lauta luokan minimax
+  participant Lauta luokan arvioi_asema
+  Neljansuora->> Lauta: lisaa_paras_siirto(syvyys)
+  for loop
+  Lauta->> Lauta: Käydään läpi kaikki mahdolliset siirrot
+  Lauta->> Lauta: kopioi laudan
+  Lauta->> Lauta: vapaa_rivi_sarakkeessa(sarake, kopioitu lauta) palauttaa rivin
+  Lauta->> Lauta: jos rivi ei ole -1 (eli on vapaa) lisaa_nappula(sarake, kopioitu lauta)
+  Lauta->> Lauta: minimax(syvyys, toisen vuoro, kopioitu lauta, miinus ääretön, plus ääretön)
+  Lauta->> Lauta luokan minimax: tarkista_tilanne(kopioitu lauta)
+  Lauta luokan minimax->> Lauta luokan minimax: Jos jompikumpi voittaa, palauttaa tuloksen riippuen voittajasta
+  Lauta luokan minimax->> Lauta luokan minimax: Jos ei löytynyt voittajaa ja syvyys ei ole 0, kulkeutuu if-else haarassa parhaaseen mahdolliseen itsellä tai parhaaseen mahdolliseen vastustajalla riippuen vuorosta ja lisää tämän uudelle laudan kopiolle
+  Lauta luokan minimax->> Lauta luokan minimax: minimax(syvyys-1, toisen vuoro, kopioitu lauta, miinus ääretön, plus ääretön)
+  Lauta luokan minimax->> Lauta luokan minimax: Jos syvyys on 0 ja ei löytynyt voittajaa, tarkistaa onko tullut tasapeli ja jos ei ole niin arvioi parhaan mahdollisen aseman arvioi_asema(kopioitu lauta)
+  Lauta luokan minimax->> Lauta luokan arvioi_asema: Jos syvyys on 0 ja ei löydy voittajaa arvioi parhaan aseman. arvioi_asema(kopioitu taulukko)
+  Lauta luokan arvioi_asema->> Lauta luokan arvioi_asema: pisteyta_voittomahdollisuudet(kopioitu lauta, rivi, sarake, pisteet)
+  Lauta luokan arvioi_asema->> Lauta luokan arvioi_asema: pisteyta_nappula_sijainti(rivi, sarake)
+  Lauta luokan arvioi_asema->> Lauta: Jos vuoro on keltaisen ja syvyys ei ole jaollinen kahdella tai vuoro on punaisen ja syvyys on jaollinen kahdella pisteet_keltainen - pisteet_punainen. Muulloin pisteet_punainen - pisteet_keltainen
+  Lauta->> Lauta: Tarkastaa siirron pisteet ja jos on paras siirto niin pistää muistiin
+  Lauta->> Neljansuora: Palauttaa parhaan siirron kaikkien mahdollisten siirtojen jälkeen
+```
