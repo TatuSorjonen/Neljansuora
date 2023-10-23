@@ -62,6 +62,14 @@ sequenceDiagram
 
 ## Diagrammi funktiosta lisaa_paras_siirto ja minimaxista sekä tämän heuristiikasta
 
+Kun on tekoälyn vuoro kutsutaan Lauta luokan funktiota lisaa_paras_siirto. Funktio saa parametriksi syvyyden. Seuraavaksi käydään kaikki mahdolliset VAPAAT siirrot läpi ja kutsutaan kaikille minimax funtiota laudan kopioimisen jälkeen. Minimax saa parametriksi aina syvyyden, kumman vuoro on, kopioidun laudan, sekä alpha-beta pruningissa käytettävät miinus ääretön ja plus äärettömän.
+Minimax tarkastaa heti onko voittajaa löytynyt tai onko syvyys 0. Jos löytää voiton palauttaa parhaan tuloksen tai huonoimman tuloksen plus/miinus syvyyden. Riippuen kumman mahdollinen voitto on.
+Jos ei ole voittoa, niin vuorosta riipuen kulkeutuu if-else haarassa jompaan kumpaan omaan tai vastustajan vuoroon. Minimax lisää uuden siirron riippuen kumpaan haaran meni, itselle parhaan tai vastustajalle parhaan uudelle laudan kopiolle.
+Minimax kutsuu itseään rekursiivisesti pienentäen yhden syvyyden. Heti kun syvyys on 0 ja ei ole löytynyt vieläkään voittoa, minimax tarkastaa tasapelin. Jos ei ole myöskään taapeli, niin arvioi parhaan siirron heuristiikan avulla.
+arvioi-asema funktio käyttää pisteyttämiseen kahta eri apufunktiota. Nämä ovat pisteyta_voittomahdollisuudet(kopioitu lauta, rivi, sarake, pisteet), joka tarkastaa montako suoraa molemmat ovat saaneet kyseisessä tilanteessa, sekä pisteyta_nappulan_sijainti(rivi, sarake), joka antaa pisteet nappuloiden sijainneista.
+Jos vuoro on keltaisen ja syvyys ei ole jaollinen kahdella tai vuoro on punaisen ja syvyys on jaollinen kahdella pisteet_keltainen - pisteet_punainen. Muulloin pisteet_punainen - pisteet_keltainen.
+Minimaxin löydettyä parhaat pisteet kyseiselle mahdolliselle siirrolle se tarkastaa myös muut. Lopuksi palautetaan paras siirto. 
+
 ```mermaid
 sequenceDiagram
   participant Neljansuora
@@ -74,10 +82,10 @@ sequenceDiagram
   Lauta->> Lauta: kopioi laudan
   Lauta->> Lauta: vapaa_rivi_sarakkeessa(sarake, kopioitu lauta) palauttaa rivin
   Lauta->> Lauta: jos rivi ei ole -1 (eli on vapaa) lisaa_nappula(sarake, kopioitu lauta)
-  Lauta->> Lauta: minimax(syvyys, toisen vuoro, kopioitu lauta, miinus ääretön, plus ääretön)
-  Lauta->> Lauta luokan minimax: tarkista_tilanne(kopioitu lauta)
+  Lauta->> Lauta luokan minimax: minimax(syvyys, toisen vuoro, kopioitu lauta, miinus ääretön, plus ääretön)
+  Lauta luokan minimax->> Lauta luokan minimax: tarkista_tilanne(kopioitu lauta)
   Lauta luokan minimax->> Lauta luokan minimax: Jos jompikumpi voittaa, palauttaa tuloksen riippuen voittajasta
-  Lauta luokan minimax->> Lauta luokan minimax: Jos ei löytynyt voittajaa ja syvyys ei ole 0, kulkeutuu if-else haarassa parhaaseen mahdolliseen itsellä tai parhaaseen mahdolliseen vastustajalla riippuen vuorosta ja lisää tämän uudelle laudan kopiolle
+  Lauta luokan minimax->> Lauta luokan minimax: Jos ei löytynyt voittajaa ja syvyys ei ole 0, kulkeutuu if-else haarassa parhaaseen mahdolliseen itsellä tai parhaaseen mahdolliseen vastustajalla riippuen vuorosta ja lisää siirron uudelle laudan kopiolle
   Lauta luokan minimax->> Lauta luokan minimax: minimax(syvyys-1, toisen vuoro, kopioitu lauta, miinus ääretön, plus ääretön)
   Lauta luokan minimax->> Lauta luokan minimax: Jos syvyys on 0 ja ei löytynyt voittajaa, tarkistaa onko tullut tasapeli ja jos ei ole niin arvioi parhaan mahdollisen aseman arvioi_asema(kopioitu lauta)
   Lauta luokan minimax->> Lauta luokan arvioi_asema: Jos syvyys on 0 ja ei löydy voittajaa arvioi parhaan aseman. arvioi_asema(kopioitu taulukko)
