@@ -60,7 +60,7 @@ sequenceDiagram
   end
 ```
 
-## Diagrammi funktiosta lisaa_paras_siirto ja minimaxista sekä tämän heuristiikasta
+## Diagrammi funktiosta lisaa_paras_siirto, ja minimaxista sekä tämän heuristiikasta
 
 Kun on tekoälyn vuoro, kutsutaan Lauta luokan funktiota lisaa_paras_siirto. Funktio saa parametriksi syvyyden. Seuraavaksi käydään kaikki mahdolliset VAPAAT siirrot läpi ja kutsutaan kaikille minimax funtiota laudan kopioimisen jälkeen. Minimax saa parametriksi aina syvyyden, kumman vuoro on, kopioidun laudan, sekä alpha-beta pruningissa käytettävät miinus ääretön ja plus äärettömän.
 
