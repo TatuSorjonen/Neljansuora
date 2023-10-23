@@ -60,4 +60,4 @@ sequenceDiagram
   end
 ```
 
-## Diagrammi funktiosta lisaa_paras_siirto ja minimaxista ja tämäm heuristiikasta
+## Diagrammi funktiosta lisaa_paras_siirto ja minimaxista sekä tämän heuristiikasta
