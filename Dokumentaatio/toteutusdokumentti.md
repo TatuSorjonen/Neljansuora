@@ -2,7 +2,7 @@
 
 ## Käyttöliittymä
 
-Sovelluksen käyttöliittymä oon jaettu kahteen eri luokkaan. Aloitusikkunnaan joka löytyy samasta
+Sovelluksen käyttöliittymä on jaettu kahteen eri pääluokkaan. Aloitusikkunnaan joka löytyy samasta
 tiedostosta kuin Maarittely luokka eli maarittely.py ja Neljansuora luokkaan, joka löytyy tiedostosta
 neljansuora.py
 
