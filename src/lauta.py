@@ -78,6 +78,12 @@ class Lauta:
 
     def lisaa_paras_siirto(self, syvyys):
         '''Käy läpi kaikki mahdolliset siirrot ja kutsuu minimax algoritmia
+
+        Parametrit:
+            syvyys: miltä syvyydeltä katsotaan
+
+        Palauttaa:
+            parhaan sarakkeen, parhaan rivin ja parhaan tuloksen
         '''
 
         paras_tulos = -math.inf
@@ -119,13 +125,21 @@ class Lauta:
 
 
         if tulos != Tulos.MENEILLAAN or syvyys == 0:
+
+            # Jos vastustaja voittaa, palauttaa huonon tuloksen
             if onko_max and (tulos == Tulos.KELTAINEN_VOITTI or tulos == Tulos.PUNAINEN_VOITTI):
                 #print(f'tulos on {tulos}, syvyys on {syvyys}')
                 return 0 - Tulos.MAKSIMIPISTEET.value - syvyys
+            
+            # Jos itse voittaa palauttaa hyvän tuloksen
             elif tulos == Tulos.KELTAINEN_VOITTI or tulos == Tulos.PUNAINEN_VOITTI:
                 return Tulos.MAKSIMIPISTEET.value + syvyys
+            
+            # Jos löytyy tasapeli palauttaa 0
             elif tulos == Tulos.TASAPELI:
                 return 0
+            
+            # Muulloin arvioi parhaan aseman käyttäen arvioi_asema funktiota
             else:
                 #print(f'tulos on {tulos}, syvyys on {syvyys}')
                 return self.arvioi_asema(taulukko)
@@ -210,6 +224,12 @@ class Lauta:
         pisteet_punainen = int(pisteet[Lauta.PUNAINEN])
 
         vuoro = self.kenen_vuoro(taulukko)
+        '''
+        if vuoro == Lauta.KELTAINEN:
+            return pisteet_punainen - pisteet_keltainen
+        else:
+            return pisteet_keltainen - pisteet_punainen
+        '''
         if (vuoro == Lauta.KELTAINEN and Lauta.SYVYYYS % 2 != 0) or \
            (vuoro == Lauta.PUNAINEN and Lauta.SYVYYYS % 2 == 0):
             return pisteet_keltainen - pisteet_punainen

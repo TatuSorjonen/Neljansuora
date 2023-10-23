@@ -13,7 +13,7 @@ class Pelimuoto(Enum):
     YKSINPELI = 'Yksinpeli'
     HELPPO_YKSINPELI = 'Helppo yksinpeli'
     KAKSINPELI = 'Kaksinpeli'
-    TEKOALY = 'Tekoäly peli'
+    DEMO = 'Demo'
 
 class Maaritykset:
     '''Luokka, jossa pidetään eri pelin määrityksiä yllä
@@ -126,7 +126,7 @@ class Aloitusikkuna:
 
         #Tekoäly
         nappi_x = self.tekoalyn_peli_x
-        pelimuoto = Pelimuoto.TEKOALY
+        pelimuoto = Pelimuoto.DEMO
         self.tarkista_napin_painallus(pelimuoto, hiiri_x, hiiri_y, \
                                       nappi_x, nappi_y, napin_leveys, \
                                       napin_korkeus, None)
@@ -223,7 +223,7 @@ class Aloitusikkuna:
 
         #Tekoäly peli
         x_koord = self.tekoalyn_peli_x
-        self.piirra_nappi(x_koord, y_koord, leveys, korkeus, Pelimuoto.TEKOALY.value, \
+        self.piirra_nappi(x_koord, y_koord, leveys, korkeus, Pelimuoto.DEMO.value, \
                           fontti, fontin_vari, taustavari, reunavari, reunan_koko)
 
         if self.pelimuoto == Pelimuoto.YKSINPELI or self.pelimuoto == Pelimuoto.HELPPO_YKSINPELI:

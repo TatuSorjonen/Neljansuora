@@ -45,7 +45,6 @@ class Neljansuora:
         '''Alustaa aloitusikkunan
         '''
 
-        #print('toimii')
         aloitusikkuna = Aloitusikkuna(self.ikkuna)
         pelimuoto, aloittaja = aloitusikkuna.lue_pelitapa()
         #print(f'Pelimuoto on: {pelimuoto}, Aloittaja on: {aloittaja}')
@@ -115,10 +114,14 @@ class Neljansuora:
         '''
 
         vuoro = self.lauta.kenen_vuoro(self.lauta.ruudukko)
+
+        #Jos tekoäly aloittaa tehdään sille ensimmäinen siirto
         if self.aloittaja == Aloitusikkuna.TEKOALY_ALOITTAA:
             self.pelaa_tekoaly(vuoro)
             self.aloittaja = Aloitusikkuna.PELAAJA_ALOITTAA
-        elif self.pelimuoto == Pelimuoto.TEKOALY:
+
+        #Jos pelimuotona on Demo. Pelataan demo suoraan yhden while loopin sisällä.
+        elif self.pelimuoto == Pelimuoto.DEMO:
             tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
             while tilanne == Tulos.MENEILLAAN:
                 self.pelaa_tekoaly(vuoro)
@@ -286,6 +289,9 @@ class Neljansuora:
         Parametrit:
             sarake: Sarake
             vuoro: Kumman vuoro
+
+        Palauttaa:
+            rivin
         '''
 
         rivi = self.lauta.lisaa_nappula(sarake, self.lauta.ruudukko)
@@ -300,7 +306,7 @@ class Neljansuora:
             vuoro: Kumman vuoro
         '''
 
-        if self.pelimuoto == Pelimuoto.YKSINPELI or self.pelimuoto == Pelimuoto.TEKOALY:
+        if self.pelimuoto == Pelimuoto.YKSINPELI or self.pelimuoto == Pelimuoto.DEMO:
             sarake, rivi, paras_tulos = self.lauta.lisaa_paras_siirto(Lauta.SYVYYYS)
             self.lauta.tulosta_voitto(paras_tulos)
             self.animoi_pudotus(sarake, rivi, vuoro)
