@@ -66,7 +66,7 @@ sequenceDiagram
 sequenceDiagram
   participant Neljansuora
   participant Lauta
-  participant Lauta luokan minimax
+  participant Lauta_luokan minimax
   participant Lauta luokan arvioi_asema
   Neljansuora->> Lauta: lisaa_paras_siirto(syvyys)
   for loop
@@ -85,5 +85,6 @@ sequenceDiagram
   Lauta luokan arvioi_asema->> Lauta luokan arvioi_asema: pisteyta_nappula_sijainti(rivi, sarake)
   Lauta luokan arvioi_asema->> Lauta: Jos vuoro on keltaisen ja syvyys ei ole jaollinen kahdella tai vuoro on punaisen ja syvyys on jaollinen kahdella pisteet_keltainen - pisteet_punainen. Muulloin pisteet_punainen - pisteet_keltainen
   Lauta->> Lauta: Tarkastaa siirron pisteet ja jos on paras siirto niin pistää muistiin
+  end
   Lauta->> Neljansuora: Palauttaa parhaan siirron kaikkien mahdollisten siirtojen jälkeen
 ```
