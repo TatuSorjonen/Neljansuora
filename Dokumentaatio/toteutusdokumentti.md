@@ -69,7 +69,7 @@ sequenceDiagram
   participant Lauta luokan minimax
   participant Lauta luokan arvioi_asema
   Neljansuora->> Lauta: lisaa_paras_siirto(syvyys)
-  for loop
+  loop
   Lauta->> Lauta: Käydään läpi kaikki mahdolliset siirrot
   Lauta->> Lauta: kopioi laudan
   Lauta->> Lauta: vapaa_rivi_sarakkeessa(sarake, kopioitu lauta) palauttaa rivin
