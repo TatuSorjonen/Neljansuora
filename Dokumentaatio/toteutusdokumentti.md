@@ -104,24 +104,24 @@ sequenceDiagram
 
 ## Minimaxin aika- ja tilavaativuudet
 
-Testasin minimax-algoritmin nopeutta ensimmäsiellä siirrolla eri syvyyksillä.
+Testasin minimax-algoritmin nopeutta ensimmäisellä siirrolla eri syvyyksillä. Ilman alpha-beta pruningia ja alpha-beta pruningin kanssa
 Sain tulokseksi.
 
-Syvyys = 1: 0,004 sekuntia.
+Syvyys = 1: 0,004 sekuntia alpha-beta pruningilla.
 
-Syvyys = 2: 0,02 sekuntia.
+Syvyys = 2: 0,02 sekuntia alpha-beta pruningilla.
 
-Syvyys = 3: 0,1 sekuntia.
+Syvyys = 3: 0,1 sekuntia alpha-beta pruningilla.
 
-Syvyys = 4: 0,5 sekuntia.
+Syvyys = 4: 0,5 sekuntia alpha-beta pruningilla.
 
-Syvyys = 5: 2,2 sekuntia.
+Syvyys = 5: 2,2 sekuntia alpha-beta pruningilla, kävi läpi 26 942 eri asemaa.
 
-Syvyys = 6:.
+Syvyys = 6: 10 sekuntia alpha-beta pruningilla, kävi läpi 122 877 eri asemaa.
 
-Syvyys = 7:.
+Syvyys = 7: 42 sekuntia alpha-beta pruningilla, kävi läpi 481 619 eri asemaa.
 
-Syvyys = 8:.
+Syvyys = 8: .
 
 Syvyys = 9:.
 
