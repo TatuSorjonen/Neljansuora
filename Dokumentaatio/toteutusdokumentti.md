@@ -135,3 +135,10 @@ Testeistä huomataan kuinka paljon nopeampi minimax on alpha-beta pruningilla bu
 Tämä johtuu siitä, että minimaxin aikavaatimus on mahdollisten siirtojen määrä potenssiin syvyys eli O(mahdollisten siirtojen määrä^syvyys) ja minimax alpha-beta pruningilla on siirtojen määrä potenssiin (syvyys jaettuna kahdella) eli O(mahdollisten siirtojen määrä^(syvyys/2)).
 
 Tilavaativuus taas ei muutu näiden kahden välillä. Se on aina mahdollisten siirtojen määrä kertaa syvyys eli O(mahdollisten siirtojen määrä * syvyys)
+
+## Puutteet ja parannusehdotukset
+
+1. Syvyyden valinta itse pelissä. Nyt tarvitsee muuttaa koodissa Lauta luokan luokkamuuttujasta.
+2. Arviointi funktio toimii sen verran hyvin, että minulla on vaikeata voittaa tekoälyä, mutta ei ole vielä täydellinen. Sitä voi hioa melkein loputtomiin lisää.
+3. Lopeta nappula olisi hyvä olla myös aloitusruudussa (nyt en kerennyt tekemään).
+4. Helppo peli pelimuoto voisi olla esimerkiksi heikompi minimax heikommalla arviointi funktiolla. Nyt niin helppo, että laittaa vaan satunnaisen nappulan. 
