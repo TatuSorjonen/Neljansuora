@@ -106,15 +106,23 @@ sequenceDiagram
 
 Testasin minimax-algoritmin nopeutta ensimmäsiellä siirrolla eri syvyyksillä.
 Sain tulokseksi.
+
 Syvyys = 1: 0,004 sekuntia.
 
 Syvyys = 2: 0,02 sekuntia.
 
 Syvyys = 3: 0,1 sekuntia.
+
 Syvyys = 4: 0,5 sekuntia.
+
 Syvyys = 5: 2,2 sekuntia.
+
 Syvyys = 6:.
+
 Syvyys = 7:.
+
 Syvyys = 8:.
+
 Syvyys = 9:.
+
 Syvyys = 10:.
