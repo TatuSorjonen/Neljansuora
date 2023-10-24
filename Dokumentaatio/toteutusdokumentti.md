@@ -126,4 +126,4 @@ Syvyys = 6: 10 sekuntia alpha-beta pruningilla, kävi läpi 122 877 eri asemaa. 
 
 Syvyys = 7: 42 sekuntia alpha-beta pruningilla, kävi läpi 481 619 eri asemaa. Ilman pruningia 655 sekuntia, kävi läpi 6 634 026 eri asemaa.
 
-Syvyys = 8: 190 sekuntia alpha-beta pruningilla, kävi läpi 2 101 209 eri asemaa. Ilman pruningia 4620 sekuntia, kävi läpi 399 eri asemaa.
+Syvyys = 8: 190 sekuntia alpha-beta pruningilla, kävi läpi 2 101 209 eri asemaa. Ilman pruningia 4620 sekuntia, kävi läpi 46 028 598 eri asemaa.
