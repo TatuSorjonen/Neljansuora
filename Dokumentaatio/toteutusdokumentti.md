@@ -104,27 +104,26 @@ sequenceDiagram
 
 ## Minimaxin aika- ja tilavaativuudet
 
-Testasin minimax-algoritmin nopeutta ensimmäisellä siirrolla eri syvyyksillä. Ilman alpha-beta pruningia ja alpha-beta pruningin kanssa
+Testasin minimax-algoritmin nopeutta kaikilla vaihtoehdoilla ensimmäisellä siirrolla eri syvyyksillä, kun lauta on tyhjä (eli 7 mahdollista aloitus-siirtoa). Alpha-beta pruningilla ja ilman. Myös sen kuinka monta eri mahdollisuutta minimax löytää kaiken kaikkiaan.
+
+Testit ovat tehty yliopistolta lainaksi saadulla fuksi-läppärillä.
+
 Sain tulokseksi.
 
-Syvyys = 0: 0,0005 sekuntia alpha-beta pruningilla, kävi läpi 7 asemaa. 
+Syvyys = 0: 0,0005 sekuntia alpha-beta pruningilla, kävi läpi 7 asemaa. Sama myös ilman pruningia.
 
-Syvyys = 1: 0,004 sekuntia alpha-beta pruningilla, kävi läpi 56 eri asemaa.
+Syvyys = 1: 0,004 sekuntia alpha-beta pruningilla, kävi läpi 56 eri asemaa. Sama myös ilman pruningia.
 
-Syvyys = 2: 0,02 sekuntia alpha-beta pruningilla, kävi läpi 267 eri asemaa.
+Syvyys = 2: 0,02 sekuntia alpha-beta pruningilla, kävi läpi 267 eri asemaa. Ilman pruningia 0,03 sekuntia, kävi läpi 399 eri asemaa.
 
-Syvyys = 3: 0,1 sekuntia alpha-beta pruningilla, kävi läpi 1449 eri asemaa.
+Syvyys = 3: 0,1 sekuntia alpha-beta pruningilla, kävi läpi 1449 eri asemaa. Ilman pruningia 0,2 sekuntia, kävi läpi 2800 eri asemaa.
 
-Syvyys = 4: 0,5 sekuntia alpha-beta pruningilla, kävi läpi 6 167 eri asemaa.
+Syvyys = 4: 0,5 sekuntia alpha-beta pruningilla, kävi läpi 6 167 eri asemaa. Ilman pruningia 1,6 sekuntia, kävi läpi 19 607 eri asemaa.
 
-Syvyys = 5: 2,2 sekuntia alpha-beta pruningilla, kävi läpi 26 942 eri asemaa.
+Syvyys = 5: 2,2 sekuntia alpha-beta pruningilla, kävi läpi 26 942 eri asemaa. Ilman pruningia 12 sekuntia, kävi läpi 137 256 asemaa.
 
-Syvyys = 6: 10 sekuntia alpha-beta pruningilla, kävi läpi 122 877 eri asemaa.
+Syvyys = 6: 10 sekuntia alpha-beta pruningilla, kävi läpi 122 877 eri asemaa. Ilman pruningia 88 sekuntia, kävi läpi 960 792 eri asemaa.
 
-Syvyys = 7: 42 sekuntia alpha-beta pruningilla, kävi läpi 481 619 eri asemaa.
+Syvyys = 7: 42 sekuntia alpha-beta pruningilla, kävi läpi 481 619 eri asemaa. Ilman pruningia 655 sekuntia, kävi läpi 6 634 026 eri asemaa.
 
-Syvyys = 8: .
-
-Syvyys = 9:.
-
-Syvyys = 10:.
+Syvyys = 8: 190 sekuntia alpha-beta pruningilla, kävi läpi 2 101 209 eri asemaa. Ilman pruningia 4620 sekuntia, kävi läpi 399 eri asemaa.
