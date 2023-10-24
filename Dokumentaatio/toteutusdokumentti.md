@@ -128,7 +128,7 @@ Syvyys = 7: 42 sekuntia alpha-beta pruningilla, kävi läpi 481 619 eri asemaa. 
 
 Syvyys = 8: 190 sekuntia alpha-beta pruningilla, kävi läpi 2 101 209 eri asemaa. Ilman pruningia 4620 sekuntia, kävi läpi 46 028 598 eri asemaa.
 
-
+$a^2$
 
 Testeistä huomataan kuinka paljon nopeampi minimax on alpha-beta pruningilla buustattuna. Ja vaikutus on todella iso mitä syvemmälle mennään.
 
