@@ -107,13 +107,15 @@ sequenceDiagram
 Testasin minimax-algoritmin nopeutta ensimmäisellä siirrolla eri syvyyksillä. Ilman alpha-beta pruningia ja alpha-beta pruningin kanssa
 Sain tulokseksi.
 
-Syvyys = 1: 0,004 sekuntia alpha-beta pruningilla.
+Syvyys = 0: 0,0005 sekuntia alpha-beta pruningilla, kävi läpi 7 asemaa. 
 
-Syvyys = 2: 0,02 sekuntia alpha-beta pruningilla.
+Syvyys = 1: 0,004 sekuntia alpha-beta pruningilla, kävi läpi 56 eri asemaa.
 
-Syvyys = 3: 0,1 sekuntia alpha-beta pruningilla.
+Syvyys = 2: 0,02 sekuntia alpha-beta pruningilla, kävi läpi 267 eri asemaa.
 
-Syvyys = 4: 0,5 sekuntia alpha-beta pruningilla.
+Syvyys = 3: 0,1 sekuntia alpha-beta pruningilla, kävi läpi 1449 eri asemaa.
+
+Syvyys = 4: 0,5 sekuntia alpha-beta pruningilla, kävi läpi 6 167 eri asemaa.
 
 Syvyys = 5: 2,2 sekuntia alpha-beta pruningilla, kävi läpi 26 942 eri asemaa.
 
