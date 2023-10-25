@@ -16,7 +16,7 @@ Voit halutessasi saada coverage -raportin komentosarjalla:
 
 1. Yksikkötestit löytyvät täältä (tee linkki, -Tatu).
 2. Yksikkötestit on tehty kaikille Lauta -luokan funktioille. Minimaxille on tehty muutama eri
-testi. Löytää voiton yhden ja muutaman siirron päässä alhaisella syvyydellä. Testattu myös isommalla syvyydellä. Tässä tapauksessa syvyydellä 7. Isomman syvyyden testiin on tehty välivaiheet ja toisen siirto laitetaan manuaalisesti parhaan mahdolliseen paikkaan. Olisi mennyt liian kauan aikaa yhteen testiin. Tällä hetkellä menee fuksiläppärillä yli minuutti. Minimaxille on myös tarkastettu tasapelin löytyminen ja vastustajan voiton estäminen muutaman syvyyden päästä.
+testi. Löytää voiton yhden ja muutaman siirron päässä alhaisella syvyydellä. Testattu myös isommalla syvyydellä. Tässä tapauksessa syvyydellä 7. Isomman syvyyden testiin on tehty välivaiheet ja toisen siirto laitetaan manuaalisesti parhaan mahdolliseen paikkaan. Olisi mennyt liian kauan aikaa yhteen testiin. Tällä hetkellä menee fuksiläppärillä noin 3 minuuttia. Minimaxille on myös tarkastettu tasapelin löytyminen ja vastustajan voiton estäminen muutaman syvyyden päästä.
 3. Tiedostoja neljansuora.py ja maarittely.py ei testata, sillä nämä ovat osa käyttöliittymää, jota ei tarvinnut testata.
 4. Alla coverage -raportti kokonaisuudessaan (Muista laittaa myöhemmin -Tatu). 
 
