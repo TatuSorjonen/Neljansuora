@@ -2,6 +2,8 @@
 
 ## Komennot
 
+1. Lataa sovellus itsellesi, joko kloonaamalla komennolla git clone 'työn linkki' tai lataamalla tästä (tee linkki -Tatu)
+
 1. Mene hakemistoon Tiha
 
 2. Lataa poetry: 'poetry install'
