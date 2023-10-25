@@ -6,7 +6,7 @@
 
 2. Lataa poetry komennolla poetry install
 
-3. Pelin aloittaminen: python3 src/indeksi.py
+3. Pelin aloittaminen: python3 src/indeksi.py Huom. toimii myös komennolla poetry run python3 src/indeksi.py mutta tämä ei ole suositeltavaa. Toimii huonommin.
 
 4. Testien suorittaminen: poetry run pytest src
 
