@@ -147,7 +147,7 @@ Syvyys = 8.
 2. Heuristiikalla: 49 sekuntia alpha-beta pruningilla, kävi läpi 637 235 eri asemaa. Ilman pruningia 4620 sekuntia, kävi läpi 46 028 598 eri asemaa.
 
 Testeistä huomataan kuinka paljon hyvin pelaavan heuristiikka funktion lisääminen vaikuttaa buustatun minimaxin nopeuteen. Tämä johtuu nimittäin alpha-beta pruningista. Kokeilin nimittäin vaihtaa heuristiikka funktiota ja minimax toimi edelleen samalla tavalla, mutta pruning oli hitaampi tai nopeampi riippuen muutoksista.
-Mitä enemmän samoja vaihtoehtoja sitä nopeammin alpha-beta pruning saa laskettua parhaan. Tämä tekisi ohjelmasta huomattavalla tavalla tehokkaamman, mutta peli pelaisi paljon huonommin.
+Mitä enemmän samoja vaihtoehtoja sitä nopeammin alpha-beta pruning saa laskettua parhaan. Samojen pistemäärien antaminen heuristiikassa tekisi ohjelmasta huomattavalla tavalla tehokkaamman, mutta peli pelaisi paljon huonommin.
 
 Olisin saanut ohjelman nopeammaksi hyvin helposti, mutta silloin täkoäly olisi pelannut heikommin. Heikommin pelaamista ei kyllä välttämättä olisi huomannut muut. Itse kyllä huomasin, sillä olen pelannut peliä paljon vuosien varrella. Huonosti pelaaminen häiritsi paljon ja päätin jättää paremmin pelaavan version loppupalautukseen, vaikka toimi hitaammin. Demotilaisuuden aikana tajusin oman ohjelmani olevan liian hidas verrattuna muihin neljänsuora töihin. Lisäsin työhön kymmenittäin pyöristyksen heuristiikan pisteissä. Tämä nopeutti ohjelmaa, mutta heikensi peliä minun silmiini jonkin verran. Tämä on myös loogista, sillä nyt ei käydä niin montaa mahdollista asemaa läpi. Kuitenkin edelleen tekoäly pelaa todella hyvin. Voisin ihan hyvin pyöristää tuloksen satoihin ja luultavasti olisi todella paljon nopeampi, mutta pelaisi huomattavasti heikommalla tasolla.
 
