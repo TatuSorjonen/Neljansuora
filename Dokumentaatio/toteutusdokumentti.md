@@ -151,7 +151,7 @@ Mitä enemmän samoja vaihtoehtoja sitä nopeammin alpha-beta pruning saa lasket
 
 Olisin saanut ohjelman nopeammaksi hyvin helposti, mutta silloin täkoäly olisi pelannut heikommin. Heikommin pelaamista ei kyllä välttämättä olisi huomannut muut. Itse kyllä huomasin, sillä olen pelannut peliä paljon vuosien varrella. Huonosti pelaaminen häiritsi paljon ja päätin jättää paremmin pelaavan version loppupalautukseen, vaikka toimi hitaammin. Demotilaisuuden aikana tajusin oman ohjelmani olevan liian hidas verrattuna muihin neljänsuora töihin. Lisäsin työhön kymmenittäin pyöristyksen heuristiikan pisteissä. Tämä nopeutti ohjelmaa, mutta heikensi peliä minun silmiini jonkin verran. Tämä on myös loogista, sillä nyt ei käydä niin montaa mahdollista asemaa läpi. Kuitenkin edelleen tekoäly pelaa todella hyvin. Voisin ihan hyvin pyöristää tuloksen satoihin ja luultavasti olisi todella paljon nopeampi, mutta pelaisi huomattavasti heikommalla tasolla.
 
-Testeistä huomataan myös, kuinka paljon nopeampi minimax on alpha-beta pruningilla buustattuna. Ja vaikutus on todella iso mitä isompi syvyys on.
+Testeistä huomataan myös, kuinka paljon nopeampi minimax on alpha-beta pruningilla buustattuna. Ja vaikutus on todella iso mitä suurempi syvyys on.
 Tämä johtuu siitä, että minimaxin aikavaatimus on mahdollisten siirtojen määrä potenssiin syvyys eli O(mahdollisten siirtojen määrä^syvyys) ja minimax alpha-beta pruningilla on siirtojen määrä potenssiin (syvyys jaettuna kahdella) eli O(mahdollisten siirtojen määrä^(syvyys/2)).
 
 Tilavaativuus taas ei muutu näiden kahden välillä. Se on aina mahdollisten siirtojen määrä kertaa syvyys eli O(mahdollisten siirtojen määrä * syvyys)
