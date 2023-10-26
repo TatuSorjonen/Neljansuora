@@ -104,7 +104,7 @@ sequenceDiagram
 
 ## Minimaxin aika- ja tilavaativuudet
 
-Testasin tekoälyn nopeutta kaikilla vaihtoehdoilla ensimmäisellä siirrolla eri syvyyksillä, kun lauta on tyhjä (eli 7 mahdollista aloitus-siirtoa). Ilman heuristiikkaa, heuristiikalla alpha-beta pruningilla ja ilman. Myös sen kuinka monta eri mahdollisuutta minimax löytää kaiken kaikkiaan.
+Testasin tekoälyn nopeutta kaikilla vaihtoehdoilla ensimmäisellä siirrolla eri syvyyksillä, kun lauta on tyhjä (eli 7 mahdollista aloitus-siirtoa). Ilman heuristiikkaa alpha-beta pruningilla, heuristiikalla alpha-beta pruningilla ja heuristiikalla ilman pruningia. Myös sen kuinka monta eri mahdollisuutta minimax löytää kaiken kaikkiaan.
 
 Testit ovat tehty yliopistolta lainaksi saadulla fuksi-läppärillä.
 
