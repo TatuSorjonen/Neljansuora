@@ -128,8 +128,6 @@ Syvyys = 7: 42 sekuntia alpha-beta pruningilla, kävi läpi 481 619 eri asemaa. 
 
 Syvyys = 8: 190 sekuntia alpha-beta pruningilla, kävi läpi 2 101 209 eri asemaa. Ilman pruningia 4620 sekuntia, kävi läpi 46 028 598 eri asemaa.
 
-$a^2$
-
 Testeistä huomataan kuinka paljon nopeampi minimax on alpha-beta pruningilla buustattuna. Ja vaikutus on todella iso mitä syvemmälle mennään.
 
 Tämä johtuu siitä, että minimaxin aikavaatimus on mahdollisten siirtojen määrä potenssiin syvyys eli O(mahdollisten siirtojen määrä^syvyys) ja minimax alpha-beta pruningilla on siirtojen määrä potenssiin (syvyys jaettuna kahdella) eli O(mahdollisten siirtojen määrä^(syvyys/2)).
@@ -141,4 +139,6 @@ Tilavaativuus taas ei muutu näiden kahden välillä. Se on aina mahdollisten si
 1. Syvyyden valinta itse pelissä. Nyt tarvitsee muuttaa koodissa Lauta luokan luokkamuuttujasta.
 2. Arviointi funktio toimii sen verran hyvin, että minulla on vaikeata voittaa tekoälyä, mutta ei ole vielä täydellinen. Sitä voi hioa melkein loputtomiin lisää.
 3. Lopeta nappula olisi hyvä olla myös aloitusruudussa (nyt en kerennyt tekemään).
-4. Helppo peli pelimuoto voisi olla esimerkiksi heikompi minimax heikommalla arviointi funktiolla. Nyt niin helppo, että laittaa vaan satunnaisen nappulan. 
+4. Helppo peli pelimuoto voisi olla esimerkiksi heikompi minimax heikommalla arviointi funktiolla. Nyt niin helppo, että laittaa vaan satunnaisen nappulan.
+
+$a^2$
