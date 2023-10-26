@@ -120,39 +120,38 @@ Syvyys = 1.
 
 Syvyys = 2.
 1. Ilman heuristiikkaa: 0,007 sekuntia, kävi läpi 147 eri asemaa.
-2. Heuristiikalla: 0,02 sekuntia alpha-beta pruningilla, kävi läpi 267 eri asemaa. Ilman pruningia 0,03 sekuntia, kävi läpi 399 eri asemaa.
+2. Heuristiikalla: 0,02 sekuntia alpha-beta pruningilla, kävi läpi 237 eri asemaa. Ilman pruningia 0,03 sekuntia, kävi läpi 399 eri asemaa.
 
 Syvyys = 3. 
 1. Ilman heuristiikkaa: 0,03 sekuntia, kävi läpi 532 eri asemaa.
-2. Heuristiikalla: 0,1 sekuntia alpha-beta pruningilla, kävi läpi 1449 eri asemaa. Ilman pruningia 0,2 sekuntia, kävi läpi 2800 eri asemaa.
+2. Heuristiikalla: 0,06 sekuntia alpha-beta pruningilla, kävi läpi 879 eri asemaa. Ilman pruningia 0,2 sekuntia, kävi läpi 2800 eri asemaa.
 
 Syvyys = 4.
 1. Ilman heuristiikkaa: 0,05 sekuntia, kävi läpi 1 211 eri asemaa.
-2. Heuristiikalla: 0,5 sekuntia alpha-beta pruningilla, kävi läpi 6 167 eri asemaa. Ilman pruningia 1,6 sekuntia, kävi läpi 19 607 eri asemaa.
+2. Heuristiikalla: 0,3 sekuntia alpha-beta pruningilla, kävi läpi 3 766 eri asemaa. Ilman pruningia 1,6 sekuntia, kävi läpi 19 607 eri asemaa.
 
 Syvyys = 5.
 1. Ilman heuristiikkaa: 0,18 sekuntia, kävi läpi 3 948 eri asemaa.
-2. Heuristiikalla: 2,2 sekuntia alpha-beta pruningilla, kävi läpi 26 942 eri asemaa. Ilman pruningia 12 sekuntia, kävi läpi 137 256 asemaa.
+2. Heuristiikalla: 1 sekuntia alpha-beta pruningilla, kävi läpi 13 831 eri asemaa. Ilman pruningia 12 sekuntia, kävi läpi 137 256 asemaa.
 
 Syvyys = 6.
 1. Ilman heuristiikkaa: 0,52 sekuntia, kävi läpi 11 904 eri asemaa.
-2. Heuristiikalla: 10 sekuntia alpha-beta pruningilla, kävi läpi 122 877 eri asemaa. Ilman pruningia 88 sekuntia, kävi läpi 960 792 eri asemaa.
+2. Heuristiikalla: 10 sekuntia alpha-beta pruningilla, kävi läpi 52 442 eri asemaa. Ilman pruningia 88 sekuntia, kävi läpi 960 792 eri asemaa.
 
 Syvyys = 7.
 1. Ilman heuristiikkaa: 1,6 sekuntia, kävi läpi 37 709 eri asemaa.
-2. Heuristiikalla: 42 sekuntia alpha-beta pruningilla, kävi läpi 481 619 eri asemaa. Ilman pruningia 655 sekuntia, kävi läpi 6 634 026 eri asemaa.
+2. Heuristiikalla: 10 sekuntia alpha-beta pruningilla, kävi läpi 143 965 eri asemaa. Ilman pruningia 655 sekuntia, kävi läpi 6 634 026 eri asemaa.
 
 Syvyys = 8.
 1. Ilman heuristiikkaa: 6 sekuntia, kävi läpi 134 436 eri asemaa.
-2. Heuristiikalla: 190 sekuntia alpha-beta pruningilla, kävi läpi 2 101 209 eri asemaa. Ilman pruningia 4620 sekuntia, kävi läpi 46 028 598 eri asemaa.
+2. Heuristiikalla: 49 sekuntia alpha-beta pruningilla, kävi läpi 637 235 eri asemaa. Ilman pruningia 4620 sekuntia, kävi läpi 46 028 598 eri asemaa.
 
-Testeistä huomataan kuinka paljon hyvin pelaavan heuristiikka funktion lisääminen vaikuttaa buustatun minimaxin nopeuteen. Tämä johtuu nimittäin alpha-beta pruningista.
-Koodia pystyisi huijaamalla muuttamalla silleen, että laittaa mahdollisimman isoja ja aina samoja lukuja. Mitä enemmän samoja vaihtoehtoja sitä nopeammin alpha-beta pruning saa laskettua parhaan. Tämä tekisi ohjelmasta huomattavalla tavalla tehokkaamman, mutta peli pelaisi paljon huonommin.
+Testeistä huomataan kuinka paljon hyvin pelaavan heuristiikka funktion lisääminen vaikuttaa buustatun minimaxin nopeuteen. Tämä johtuu nimittäin alpha-beta pruningista. Kokeilin nimittäin vaihtaa heuristiikka funktiota ja minimax toimi edelleen samalla tavalla, mutta pruning oli hitaampi tai nopeampi riippuen muutoksista.
+Mitä enemmän samoja vaihtoehtoja sitä nopeammin alpha-beta pruning saa laskettua parhaan. Tämä tekisi ohjelmasta huomattavalla tavalla tehokkaamman, mutta peli pelaisi paljon huonommin.
 
-Olisin saanut ohjelman nopeammaksi hyvin helposti, mutta silloin täkoäly olisi pelannut heikommin. Heikommin pelaamista ei kyllä välttämättä olisi huomannut muut. Itse kyllä huomasin, sillä olen pelannut peliä paljon vuosien varrella. Huonosti pelaaminen häiritsi paljon ja päätin jättää paremmin pelaavan version loppupalautukseen, vaikka toimi hitaammin.
+Olisin saanut ohjelman nopeammaksi hyvin helposti, mutta silloin täkoäly olisi pelannut heikommin. Heikommin pelaamista ei kyllä välttämättä olisi huomannut muut. Itse kyllä huomasin, sillä olen pelannut peliä paljon vuosien varrella. Huonosti pelaaminen häiritsi paljon ja päätin jättää paremmin pelaavan version loppupalautukseen, vaikka toimi hitaammin. Demotilaisuuden aikana tajusin oman ohjelmani olevan liian hidas verrattuna muihin neljänsuora töihin. Lisäsin työhön kymmenittäin pyöristyksen heuristiikan pisteissä. Tämä nopeutti ohjelmaa, mutta heikensi peliä minun silmiini jonkin verran. Tämä on myös loogista, sillä nyt ei käydä niin montaa mahdollista asemaa läpi. Kuitenkin edelleen tekoäly pelaa todella hyvin. Voisin ihan hyvin pyöristää tuloksen satoihin ja luultavasti olisi todella paljon nopeampi, mutta pelaisi huomattavasti heikommalla tasolla.
 
 Testeistä huomataan myös, kuinka paljon nopeampi minimax on alpha-beta pruningilla buustattuna. Ja vaikutus on todella iso mitä isompi syvyys on.
-
 Tämä johtuu siitä, että minimaxin aikavaatimus on mahdollisten siirtojen määrä potenssiin syvyys eli O(mahdollisten siirtojen määrä^syvyys) ja minimax alpha-beta pruningilla on siirtojen määrä potenssiin (syvyys jaettuna kahdella) eli O(mahdollisten siirtojen määrä^(syvyys/2)).
 
 Tilavaativuus taas ei muutu näiden kahden välillä. Se on aina mahdollisten siirtojen määrä kertaa syvyys eli O(mahdollisten siirtojen määrä * syvyys)
