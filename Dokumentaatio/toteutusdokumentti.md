@@ -98,8 +98,7 @@ sequenceDiagram
   Lauta luokan minimax->> Lauta luokan minimax: Jos syvyys on 0 ja ei löytynyt voittajaa, tarkistaa onko tullut tasapeli ja jos ei ole niin arvioi parhaan mahdollisen aseman arvioi_asema(kopioitu lauta)
   Lauta luokan minimax->> Lauta luokan arvioi_asema: Jos syvyys on 0 ja ei löydy voittajaa arvioi parhaan aseman. arvioi_asema(kopioitu taulukko)
   Lauta luokan arvioi_asema->> Lauta luokan arvioi_asema: pisteyta_voittomahdollisuudet(kopioitu lauta, rivi, sarake, pisteet)
-  Lauta luokan arvioi_asema->> Lauta luokan arvioi_asema: pisteyta_nappula_sijainti(rivi, sarake)
-  Lauta luokan arvioi_asema->> Lauta: Jos vuoro on keltaisen ja syvyys ei ole jaollinen kahdella tai vuoro on punaisen ja syvyys on jaollinen kahdella pisteet_keltainen - pisteet_punainen. Muulloin pisteet_punainen - pisteet_keltainen
+  Lauta luokan arvioi_asema->> Lauta: Jos vuoro on keltaisen ja syvyys ei ole jaollinen kahdella tai vuoro on punaisen ja syvyys on jaollinen kahdella (pisteet_keltainen - pisteet_punainen) jaettuna nappuloiden määrä pyöristäen kymmeniin. Muulloin (pisteet_punainen - pisteet_keltainen) jaettuna nappuloiden määrällä ja myös pyöristettynä kymmeniin
   Lauta->> Lauta: Tarkastaa siirron pisteet ja jos on paras siirto niin pistää muistiin
   end
   Lauta->> Neljansuora: Palauttaa parhaan siirron kaikkien mahdollisten siirtojen jälkeen
