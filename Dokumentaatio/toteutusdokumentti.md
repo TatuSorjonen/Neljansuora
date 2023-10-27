@@ -1,8 +1,5 @@
 # Toteutusdokumentti
 
-Pelasin peliä muutaman kerran sivuston https://connect4.gamesolver.org/ avustuksella.
-Työni pelaa hyvin lähelle samalla tavalla, kuin miten täydellisesti pelaava pelaa. Pieniä viilauksia pitäisi kuitenkin vielä tehdä. Nyt painottaa vähän liikaa keskisaraketta. Löysin vain muutaman kohdan, missä tekoäly pelasi toiseksi tai kolmanneksi parhaaseen paikkaan solverin mukaan. Testasin solverin kanssa syvyydellä 5.
-
 ## Käyttöliittymä
 
 Sovelluksen käyttöliittymä on jaettu kahteen eri pääluokkaan. Aloitusikkunnaan joka löytyy samasta
