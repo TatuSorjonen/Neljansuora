@@ -1,6 +1,3 @@
-'''Tiedostossa on luokat Tulos ja Lauta
-'''
-
 from enum import Enum
 import random
 import math
@@ -30,21 +27,6 @@ class Lauta:
     def __init__(self):
         self.ruudukko = [['-' for i in range(Lauta.SARAKKEIDEN_MAARA)] \
                               for j in range(Lauta.RIVIEN_MAARA)]
-        
-    def lisaa_nappula(self, sarake, taulukko):
-        '''Lisaa nappulan ruudukkoon
-        
-        Parametrit:
-            sarake: Mihin sarakkeeseen nappula laitetaan
-            taulukko: Taulukko mihin nappula laitetaan
-        '''
-
-        vuoro = self.kenen_vuoro(taulukko)
-        #print(f'Vuoro: {vuoro}')
-        vapaa_rivi = self.vapaa_rivi_sarakkeessa(sarake, taulukko)
-        if vapaa_rivi != -1:
-            taulukko[vapaa_rivi][sarake] = vuoro
-        return vapaa_rivi
 
     def kenen_vuoro(self, taulukko):
         '''Tarkistaa kumman pelaajan vuoro on seuraavaksi käymällä läpi taulukon 
@@ -75,284 +57,7 @@ class Lauta:
             vuoro = Lauta.PUNAINEN
 
         return vuoro
-
-    def lisaa_paras_siirto(self, syvyys):
-        '''Käy läpi kaikki mahdolliset siirrot ja kutsuu minimax algoritmia
-
-        Parametrit:
-            syvyys: miltä syvyydeltä katsotaan
-
-        Palauttaa:
-            parhaan sarakkeen, parhaan rivin ja parhaan tuloksen
-        '''
-
-        paras_tulos = -math.inf
-        paras_sarake = -1
-        paras_rivi = -1
-
-        for sarake in range(0, Lauta.SARAKKEIDEN_MAARA):
-
-            #Jokainen testattava siirto tehdään uudelle laudan kopiolle
-            taulukko = copy.deepcopy(self.ruudukko)
-
-            rivi = self.vapaa_rivi_sarakkeessa(sarake, taulukko)
-            if rivi != -1:
-                self.lisaa_nappula(sarake, taulukko)
-                minimax_tulos = self.minimax(syvyys, False, taulukko, -math.inf, math.inf)
-                print(f'Sarake: {sarake}, rivi: {rivi}, minimax_tulos: {minimax_tulos}')
-                if minimax_tulos > paras_tulos:
-                    paras_tulos = minimax_tulos
-                    paras_sarake = sarake
-                    paras_rivi = rivi
-
-        self.lisaa_nappula(paras_sarake, self.ruudukko)
-        return paras_sarake, paras_rivi, paras_tulos
-
-    def minimax(self, syvyys, onko_max, taulukko, alpha, beta):
-        '''Käy läpi eri vaihtoehtoja ja palauttaa parhaan vaihtoehdon
-        
-        Parametrit:
-            syvyys: Kuinka monen siirron takaa haetaan vaihtoehtoja
-            onko_max: Halutaanko tarkastaa paras vaihtoehto tekoälylle
-                      vai huonoin vaihtoehto pelaajalle
-            taulukko: Taulukko josta katsotaan vaihtoehdot
-        
-        Palauttaa:
-            Parhaan aseman pisteet
-        '''
-
-        tulos = self.tarkista_tilanne(taulukko)
-
-
-        if tulos != Tulos.MENEILLAAN or syvyys == 0:
-
-            # Jos vastustaja voittaa, palauttaa huonon tuloksen
-            if onko_max and (tulos == Tulos.KELTAINEN_VOITTI or tulos == Tulos.PUNAINEN_VOITTI):
-                #print(f'tulos on {tulos}, syvyys on {syvyys}')
-                return 0 - Tulos.MAKSIMIPISTEET.value - syvyys
-            
-            # Jos itse voittaa palauttaa hyvän tuloksen
-            elif tulos == Tulos.KELTAINEN_VOITTI or tulos == Tulos.PUNAINEN_VOITTI:
-                return Tulos.MAKSIMIPISTEET.value + syvyys
-            
-            # Jos löytyy tasapeli palauttaa 0
-            elif tulos == Tulos.TASAPELI:
-                return 0
-            
-            # Muulloin arvioi parhaan aseman käyttäen arvioi_asema funktiota
-            else:
-                #print(f'tulos on {tulos}, syvyys on {syvyys}')
-                return self.arvioi_asema(taulukko)
-
-        if onko_max:
-            paras_tulos = -math.inf
-            for sarake in range(0, Lauta.SARAKKEIDEN_MAARA):
-                
-
-                #Jokainen testattava siirto tehdään uudelle laudan kopiolle
-                kopio_taulukko = copy.deepcopy(taulukko)
-
-                rivi = self.vapaa_rivi_sarakkeessa(sarake, taulukko)
-                if rivi != -1:
-                    self.lisaa_nappula(sarake, kopio_taulukko)
-                    minimax_tulos = self.minimax(syvyys - 1, False, kopio_taulukko, alpha, beta)
-                    paras_tulos = max(paras_tulos, minimax_tulos)
-                    alpha = max(alpha, paras_tulos)
-                    if beta <= alpha:
-                        break
-            return paras_tulos
-        else:
-            paras_tulos = math.inf
-            for sarake in range(0, Lauta.SARAKKEIDEN_MAARA):
-
-                #Jokainen testattava siirto tehdään uudelle laudan kopiolle
-                kopio_taulukko = copy.deepcopy(taulukko)
-
-                rivi = self.vapaa_rivi_sarakkeessa(sarake, taulukko)
-                if rivi != -1:
-                    self.lisaa_nappula(sarake, kopio_taulukko)
-                    minimax_tulos = self.minimax(syvyys - 1, True, kopio_taulukko, alpha, beta)
-                    paras_tulos = min(minimax_tulos, paras_tulos)
-                    beta = min(beta, paras_tulos)
-                    if beta <= alpha:
-                        break
-            return paras_tulos
-        
-    def tulosta_voitto(self, parhaat_pisteet):
-        vuoro = self.kenen_vuoro(self.ruudukko)
-
-        seuraava = 'Punainen'
-        edellinen = 'Keltainen'
-        voittaja = None
-        siirtoja_voittoon = 0
-
-        if vuoro == Lauta.KELTAINEN:
-            seuraava = 'Keltainen'
-            edellinen = 'Punainen'            
-
-        if parhaat_pisteet <= 0 - Tulos.MAKSIMIPISTEET.value:
-            voittaja = seuraava
-        elif parhaat_pisteet >= Tulos.MAKSIMIPISTEET.value:
-            voittaja = edellinen
-
-        if voittaja is not None:
-            siirtoja_voittoon = Tulos.MAKSIMIPISTEET.value + Lauta.SYVYYYS - abs(parhaat_pisteet)
-            print(f'{voittaja} pystyy voittamaan {siirtoja_voittoon}:lla siirrolla')
-
-
-    def arvioi_asema(self, taulukko):
-        '''Arvioi parhaimman aseman, jos ei ole löytynyt suoraa voittoa kummallekaan.
-
-        Parametrit:
-            taulukko: Taulukko mistä arvioidaan
-            onko_max: Kumman pelaajan vuoro
-            syvyys: Miltä syvyydeltä ollaan katsottu
-
-        Palauttaa:
-            Parhaat pisteet
-        '''
-
-        pisteet = {Lauta.KELTAINEN: 0, Lauta.PUNAINEN: 0}
-        for rivi in range(0, Lauta.RIVIEN_MAARA):
-            for sarake in range(0, Lauta.SARAKKEIDEN_MAARA):
-                if taulukko[rivi][sarake] == Lauta.TYHJA:
-                    continue
-                pisteet = self.pisteyta_voittomahdollisuudet(taulukko, rivi, sarake, pisteet)
-                pisteet[taulukko[rivi][sarake]] += self.pisteyta_nappulan_sijainti(rivi, sarake)
-
-        pisteet_keltainen = int(pisteet[Lauta.KELTAINEN])
-        pisteet_punainen = int(pisteet[Lauta.PUNAINEN])
-
-        vuoro = self.kenen_vuoro(taulukko)
-        '''
-        if vuoro == Lauta.KELTAINEN:
-            return pisteet_punainen - pisteet_keltainen
-        else:
-            return pisteet_keltainen - pisteet_punainen
-        '''
-        if (vuoro == Lauta.KELTAINEN and Lauta.SYVYYYS % 2 != 0) or \
-           (vuoro == Lauta.PUNAINEN and Lauta.SYVYYYS % 2 == 0):
-            return pisteet_keltainen - pisteet_punainen
-        else:
-            return pisteet_punainen - pisteet_keltainen
-
-    def pisteyta_voittomahdollisuudet(self, taulukko, rivi, sarake, pisteet):
-        '''Pisteyttää voittomahdollisuudet
-
-        Parametrit:
-            taulukko: Taulukko josta pisteytetään
-            rivi: Rivi josta pisteytetään
-            sarake: Sarake josta pisteytetään
-            pisteet: Pisteet joihin lisätään
-
-        Palauttaa:
-            Pisteet lisäämisten jälkeen
-        '''
-
-        vari = taulukko[rivi][sarake]
-        pisteet_kolmesta = int(Tulos.MAKSIMIPISTEET.value/7)
-        pisteet_kahdesta = int(Tulos.MAKSIMIPISTEET.value/30)
-        pisteet_yhdesta = int(Tulos.MAKSIMIPISTEET.value/75)
-
-        #Neljän suoran mahdollisuudet ruudusta suoraan ylöspäin
-        if rivi-4 >= 0:
-            if taulukko[rivi][sarake] == taulukko[rivi-1][sarake] == \
-                taulukko[rivi-2][sarake] and taulukko[rivi-3][sarake] == Lauta.TYHJA:
-                pisteet[vari] += pisteet_kolmesta
-            elif taulukko[rivi][sarake] == taulukko[rivi-1][sarake] and \
-                  taulukko[rivi-2][sarake] == taulukko[rivi-3][sarake] == Lauta.TYHJA:
-                pisteet[vari] += pisteet_kahdesta
-            elif taulukko[rivi-1][sarake] == taulukko[rivi-2][sarake] == \
-                  taulukko[rivi-3][sarake] == Lauta.TYHJA:
-                pisteet[vari] += pisteet_yhdesta
-
-        #Neljän suoran mahdollisuudet ruudusta suoraan vasemmalle
-        if sarake-3 >= 0:
-            if taulukko[rivi][sarake] == taulukko[rivi][sarake-1] == \
-                taulukko[rivi][sarake-2] and taulukko[rivi][sarake-3] == Lauta.TYHJA:
-                pisteet[vari] += pisteet_kolmesta
-            elif taulukko[rivi][sarake] == taulukko[rivi][sarake-1] and \
-                  taulukko[rivi][sarake-2] == taulukko[rivi][sarake-3] == Lauta.TYHJA:
-                pisteet[vari] += pisteet_kahdesta
-            elif taulukko[rivi][sarake-1] == taulukko[rivi][sarake-2] == \
-                  taulukko[rivi][sarake-3] == Lauta.TYHJA:
-                pisteet[vari] += pisteet_yhdesta
-
-        #Neljän suoran mahdollisuudet ruudusta suoraan oikealle
-        if sarake+3 < Lauta.SARAKKEIDEN_MAARA:
-            if taulukko[rivi][sarake] == taulukko[rivi][sarake+1] == \
-                taulukko[rivi][sarake+2] and taulukko[rivi][sarake+3] == Lauta.TYHJA:
-                pisteet[vari] += pisteet_kolmesta
-            elif taulukko[rivi][sarake] == taulukko[rivi][sarake+1] and \
-                  taulukko[rivi][sarake+2] == taulukko[rivi][sarake+3] == Lauta.TYHJA:
-                pisteet[vari] += pisteet_kahdesta
-            elif taulukko[rivi][sarake+1] == taulukko[rivi][sarake+2] == \
-                  taulukko[rivi][sarake+3] == Lauta.TYHJA:
-                pisteet[vari] += pisteet_yhdesta
-
-        #Neljän suoran mahdollisuudet ruudusta vinosti oikealle ylös
-        if sarake+3 < Lauta.SARAKKEIDEN_MAARA and rivi-3 >= 0:
-            if taulukko[rivi][sarake] == taulukko[rivi-1][sarake+1] == \
-                taulukko[rivi-2][sarake+2] and taulukko[rivi-3][sarake+3] == Lauta.TYHJA:
-                pisteet[vari] += pisteet_kolmesta
-            elif taulukko[rivi][sarake] == taulukko[rivi-1][sarake+1] and \
-                  taulukko[rivi-2][sarake+2] == taulukko[rivi-3][sarake+3] == Lauta.TYHJA:
-                pisteet[vari] += pisteet_kahdesta
-            elif taulukko[rivi-1][sarake+1] == taulukko[rivi-2][sarake+2] == \
-                  taulukko[rivi-3][sarake+3] == Lauta.TYHJA:
-                pisteet[vari] += pisteet_yhdesta
-
-        #Neljän suoran mahdollisuudet ruudusta vinosti vasemmalle ylös
-        if sarake-3 >= 0 and rivi-3 >= 0:
-            if taulukko[rivi][sarake] == taulukko[rivi-1][sarake-1] == \
-                taulukko[rivi-2][sarake-2] and taulukko[rivi-3][sarake-3] == Lauta.TYHJA:
-                pisteet[vari] += pisteet_kolmesta
-            elif taulukko[rivi][sarake] == taulukko[rivi-1][sarake-1] and \
-                  taulukko[rivi-2][sarake-2] == taulukko[rivi-3][sarake-3] == Lauta.TYHJA:
-                pisteet[vari] += pisteet_kahdesta
-            elif taulukko[rivi-1][sarake-1] == taulukko[rivi-2][sarake-2] == \
-                  taulukko[rivi-3][sarake-3] == Lauta.TYHJA:
-                pisteet[vari] += pisteet_yhdesta
-
-        return pisteet
-
-    def pisteyta_nappulan_sijainti(self, rivi, sarake):
-        '''Pisteyttää nappulan sijainnista riippuen
-
-        Parametrit:
-            rivi: Rivi josta pisteytetään
-            sarake: Sarake, josta pisteytetään
-
-        Palauttaa:
-            Sijainnista saadut pisteet
-        '''
-
-        keskirivi = 2
-        keskisarake = 3
-
-        sijaintipisteet = 0
-
-        oikea_ruutu = int(Tulos.MAKSIMIPISTEET.value/7)
-        yhden_paassa_oikea_ruutu = int(Tulos.MAKSIMIPISTEET.value/200)
-        kahden_paassa_oikea_ruutu = int(Tulos.MAKSIMIPISTEET.value/500)
-        muulloin = int(Tulos.MAKSIMIPISTEET.value/Tulos.MAKSIMIPISTEET.value)
-
-        if rivi == keskirivi and sarake == keskisarake:
-            sijaintipisteet = oikea_ruutu
-        elif rivi+1 == keskirivi or \
-                       sarake+1 == keskisarake or sarake-1 == keskisarake:
-            sijaintipisteet = yhden_paassa_oikea_ruutu
-        elif rivi+2 == keskirivi or rivi-1 == keskirivi or \
-                       sarake+2 == keskisarake or sarake-2 == keskisarake:
-            sijaintipisteet = kahden_paassa_oikea_ruutu
-        else:
-            sijaintipisteet = muulloin
-
-        if rivi == 5 and sarake == 3:
-            sijaintipisteet += oikea_ruutu
-
-        return sijaintipisteet
-
+    
     def vapaa_rivi_sarakkeessa(self, sarake, taulukko):
         '''Tarkistaa annetun sarakkeen avulla seuraavan vapaan rivin
 
@@ -448,6 +153,20 @@ class Lauta:
         if not any('-' in x for x in taulukko):
             tilanne = Tulos.TASAPELI
         return tilanne
+        
+    def lisaa_nappula(self, sarake, taulukko):
+        '''Lisaa nappulan ruudukkoon
+        
+        Parametrit:
+            sarake: Mihin sarakkeeseen nappula laitetaan
+            taulukko: Taulukko mihin nappula laitetaan
+        '''
+
+        vuoro = self.kenen_vuoro(taulukko)
+        vapaa_rivi = self.vapaa_rivi_sarakkeessa(sarake, taulukko)
+        if vapaa_rivi != -1:
+            taulukko[vapaa_rivi][sarake] = vuoro
+        return vapaa_rivi
 
     def lisaa_satunnainen(self, vari):
         '''Lisää satunnaisen pelinappulan laudalle
@@ -468,3 +187,215 @@ class Lauta:
             if vapaa_rivi != -1:
                 self.ruudukko[vapaa_rivi][sarake] = vari
         return vapaa_rivi, sarake
+
+    def lisaa_paras_siirto(self, syvyys):
+        '''Käy läpi kaikki mahdolliset siirrot ja kutsuu minimax algoritmia
+
+        Parametrit:
+            syvyys: miltä syvyydeltä katsotaan
+
+        Palauttaa:
+            parhaan sarakkeen, parhaan rivin ja parhaan tuloksen
+        '''
+        paras_tulos = -math.inf
+        paras_sarake = -1
+        paras_rivi = -1
+
+        for sarake in range(0, Lauta.SARAKKEIDEN_MAARA):
+
+            #Jokainen testattava siirto tehdään uudelle laudan kopiolle
+            taulukko = copy.deepcopy(self.ruudukko)
+
+            etaisyys_keskelta = abs(sarake - 3)
+
+            rivi = self.vapaa_rivi_sarakkeessa(sarake, taulukko)
+            if rivi != -1:
+                self.lisaa_nappula(sarake, taulukko)
+                minimax_tulos = self.minimax(syvyys, False, taulukko, -math.inf, math.inf)
+                if minimax_tulos > paras_tulos or \
+                  (minimax_tulos == paras_tulos and etaisyys_keskelta < paras_etaisyys):
+                    paras_tulos = minimax_tulos
+                    paras_sarake = sarake
+                    paras_rivi = rivi
+                    paras_etaisyys = etaisyys_keskelta
+
+        self.lisaa_nappula(paras_sarake, self.ruudukko)
+        return paras_sarake, paras_rivi, paras_tulos
+
+    def minimax(self, syvyys, onko_max, taulukko, alpha, beta):
+        '''Käy läpi eri vaihtoehtoja ja palauttaa parhaan vaihtoehdon
+        
+        Parametrit:
+            syvyys: Kuinka monen siirron takaa haetaan vaihtoehtoja
+            onko_max: Halutaanko tarkastaa paras vaihtoehto tekoälylle
+                      vai huonoin vaihtoehto pelaajalle
+            taulukko: Taulukko josta katsotaan vaihtoehdot
+        
+        Palauttaa:
+            Parhaan aseman pisteet
+        '''
+
+        tulos = self.tarkista_tilanne(taulukko)
+
+        if tulos != Tulos.MENEILLAAN or syvyys == 0:
+
+            # Jos vastustaja voittaa, palauttaa huonon tuloksen
+            if onko_max and (tulos == Tulos.KELTAINEN_VOITTI or tulos == Tulos.PUNAINEN_VOITTI):
+                return 0 - Tulos.MAKSIMIPISTEET.value - syvyys
+            
+            # Jos itse voittaa palauttaa hyvän tuloksen
+            elif tulos == Tulos.KELTAINEN_VOITTI or tulos == Tulos.PUNAINEN_VOITTI:
+                return Tulos.MAKSIMIPISTEET.value + syvyys
+            
+            # Jos löytyy tasapeli palauttaa 0
+            elif tulos == Tulos.TASAPELI:
+                return 0
+            
+            # Muulloin arvioi parhaan aseman käyttäen arvioi_asema funktiota
+            else:
+                return self.arvioi_asema(taulukko)
+
+        if onko_max:
+            paras_tulos = -math.inf
+            for sarake in range(0, Lauta.SARAKKEIDEN_MAARA):
+                
+
+                #Jokainen testattava siirto tehdään uudelle laudan kopiolle
+                kopio_taulukko = copy.deepcopy(taulukko)
+
+                rivi = self.vapaa_rivi_sarakkeessa(sarake, taulukko)
+                if rivi != -1:
+                    self.lisaa_nappula(sarake, kopio_taulukko)
+                    minimax_tulos = self.minimax(syvyys - 1, False, kopio_taulukko, alpha, beta)
+                    paras_tulos = max(minimax_tulos, paras_tulos)
+                    alpha = max(alpha, paras_tulos)
+                    if beta <= alpha:
+                        break
+            return paras_tulos
+        else:
+            paras_tulos = math.inf
+            for sarake in range(0, Lauta.SARAKKEIDEN_MAARA):
+
+                #Jokainen testattava siirto tehdään uudelle laudan kopiolle
+                kopio_taulukko = copy.deepcopy(taulukko)
+
+                rivi = self.vapaa_rivi_sarakkeessa(sarake, taulukko)
+                if rivi != -1:
+                    self.lisaa_nappula(sarake, kopio_taulukko)
+                    minimax_tulos = self.minimax(syvyys - 1, True, kopio_taulukko, alpha, beta)
+                    paras_tulos = min(minimax_tulos, paras_tulos)
+                    beta = min(beta, paras_tulos)
+                    if beta <= alpha:
+                        break
+            return paras_tulos
+
+    def arvioi_asema(self, taulukko):
+        '''Arvioi parhaimman aseman, jos ei ole löytynyt suoraa voittoa kummallekaan.
+
+        Parametrit:
+            taulukko: Taulukko mistä arvioidaan
+
+        Palauttaa:
+            Parhaat pisteet
+        '''
+        nappuloiden_maara = 0
+        pisteet = {Lauta.KELTAINEN: 0, Lauta.PUNAINEN: 0}
+        for rivi in range(0, Lauta.RIVIEN_MAARA):
+            for sarake in range(0, Lauta.SARAKKEIDEN_MAARA):
+                if taulukko[rivi][sarake] != Lauta.TYHJA:
+                    nappuloiden_maara += 1
+                else:
+                    continue
+                pisteet = self.pisteyta_voittomahdollisuudet(taulukko, rivi, sarake, pisteet)
+
+        pisteet_keltainen = int(pisteet[Lauta.KELTAINEN])
+        pisteet_punainen = int(pisteet[Lauta.PUNAINEN])
+
+        vuoro = self.kenen_vuoro(taulukko)
+        if (vuoro == Lauta.KELTAINEN and Lauta.SYVYYYS % 2 != 0) or \
+           (vuoro == Lauta.PUNAINEN and Lauta.SYVYYYS % 2 == 0):
+            pyoristys = (pisteet_keltainen - pisteet_punainen) / nappuloiden_maara
+            return int(10 * round(float(pyoristys) / 10))
+        else:
+            pyoristys = (pisteet_punainen - pisteet_keltainen) / nappuloiden_maara
+            return int(10 * round(float(pyoristys) / 10))
+
+    def pisteyta_voittomahdollisuudet(self, taulukko, rivi, sarake, pisteet):
+        '''Pisteyttää voittomahdollisuudet
+
+        Parametrit:
+            taulukko: Taulukko josta pisteytetään
+            rivi: Rivi josta pisteytetään
+            sarake: Sarake josta pisteytetään
+            pisteet: Pisteet joihin lisätään
+
+        Palauttaa:
+            Pisteet lisäämisten jälkeen
+        '''
+
+        vari = taulukko[rivi][sarake]
+        pisteet_kolmesta = int(Tulos.MAKSIMIPISTEET.value/7)
+        pisteet_kahdesta = int(Tulos.MAKSIMIPISTEET.value/30)
+        pisteet_yhdesta = int(Tulos.MAKSIMIPISTEET.value/75)
+
+        #Neljän suoran mahdollisuudet ruudusta suoraan ylöspäin
+        if rivi-4 >= 0:
+            if taulukko[rivi][sarake] == taulukko[rivi-1][sarake] == \
+                taulukko[rivi-2][sarake] and taulukko[rivi-3][sarake] == Lauta.TYHJA:
+                pisteet[vari] += pisteet_kolmesta
+            elif taulukko[rivi][sarake] == taulukko[rivi-1][sarake] and \
+                  taulukko[rivi-2][sarake] == taulukko[rivi-3][sarake] == Lauta.TYHJA:
+                pisteet[vari] += pisteet_kahdesta
+            elif taulukko[rivi-1][sarake] == taulukko[rivi-2][sarake] == \
+                  taulukko[rivi-3][sarake] == Lauta.TYHJA:
+                pisteet[vari] += pisteet_yhdesta
+
+        #Neljän suoran mahdollisuudet ruudusta suoraan vasemmalle
+        if sarake-3 >= 0:
+            if taulukko[rivi][sarake] == taulukko[rivi][sarake-1] == \
+                taulukko[rivi][sarake-2] and taulukko[rivi][sarake-3] == Lauta.TYHJA:
+                pisteet[vari] += pisteet_kolmesta
+            elif taulukko[rivi][sarake] == taulukko[rivi][sarake-1] and \
+                  taulukko[rivi][sarake-2] == taulukko[rivi][sarake-3] == Lauta.TYHJA:
+                pisteet[vari] += pisteet_kahdesta
+            elif taulukko[rivi][sarake-1] == taulukko[rivi][sarake-2] == \
+                  taulukko[rivi][sarake-3] == Lauta.TYHJA:
+                pisteet[vari] += pisteet_yhdesta
+
+        #Neljän suoran mahdollisuudet ruudusta suoraan oikealle
+        if sarake+3 < Lauta.SARAKKEIDEN_MAARA:
+            if taulukko[rivi][sarake] == taulukko[rivi][sarake+1] == \
+                taulukko[rivi][sarake+2] and taulukko[rivi][sarake+3] == Lauta.TYHJA:
+                pisteet[vari] += pisteet_kolmesta
+            elif taulukko[rivi][sarake] == taulukko[rivi][sarake+1] and \
+                  taulukko[rivi][sarake+2] == taulukko[rivi][sarake+3] == Lauta.TYHJA:
+                pisteet[vari] += pisteet_kahdesta
+            elif taulukko[rivi][sarake+1] == taulukko[rivi][sarake+2] == \
+                  taulukko[rivi][sarake+3] == Lauta.TYHJA:
+                pisteet[vari] += pisteet_yhdesta
+
+        #Neljän suoran mahdollisuudet ruudusta vinosti oikealle ylös
+        if sarake+3 < Lauta.SARAKKEIDEN_MAARA and rivi-3 >= 0:
+            if taulukko[rivi][sarake] == taulukko[rivi-1][sarake+1] == \
+                taulukko[rivi-2][sarake+2] and taulukko[rivi-3][sarake+3] == Lauta.TYHJA:
+                pisteet[vari] += pisteet_kolmesta
+            elif taulukko[rivi][sarake] == taulukko[rivi-1][sarake+1] and \
+                  taulukko[rivi-2][sarake+2] == taulukko[rivi-3][sarake+3] == Lauta.TYHJA:
+                pisteet[vari] += pisteet_kahdesta
+            elif taulukko[rivi-1][sarake+1] == taulukko[rivi-2][sarake+2] == \
+                  taulukko[rivi-3][sarake+3] == Lauta.TYHJA:
+                pisteet[vari] += pisteet_yhdesta
+
+        #Neljän suoran mahdollisuudet ruudusta vinosti vasemmalle ylös
+        if sarake-3 >= 0 and rivi-3 >= 0:
+            if taulukko[rivi][sarake] == taulukko[rivi-1][sarake-1] == \
+                taulukko[rivi-2][sarake-2] and taulukko[rivi-3][sarake-3] == Lauta.TYHJA:
+                pisteet[vari] += pisteet_kolmesta
+            elif taulukko[rivi][sarake] == taulukko[rivi-1][sarake-1] and \
+                  taulukko[rivi-2][sarake-2] == taulukko[rivi-3][sarake-3] == Lauta.TYHJA:
+                pisteet[vari] += pisteet_kahdesta
+            elif taulukko[rivi-1][sarake-1] == taulukko[rivi-2][sarake-2] == \
+                  taulukko[rivi-3][sarake-3] == Lauta.TYHJA:
+                pisteet[vari] += pisteet_yhdesta
+
+        return pisteet

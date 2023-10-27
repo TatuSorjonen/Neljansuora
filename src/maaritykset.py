@@ -1,6 +1,3 @@
-'''Tiedosto, jossa on luokat Peimuoto, Maaritykset, sekä Aloitusikkuna
-'''
-
 import math
 from enum import Enum
 import pygame
@@ -20,7 +17,7 @@ class Maaritykset:
     '''
 
     #Kummallekin näkymälle yhteiset määritykset
-    RUUDUN_KOKO = 150
+    RUUDUN_KOKO = 120
     VIIVAN_LEVEYS = int(RUUDUN_KOKO / 30)
     VALIKON_KOKO = math.ceil (2 * RUUDUN_KOKO / 3)
     IKKUNAN_LEVEYS = RUUDUN_KOKO * Lauta.SARAKKEIDEN_MAARA

@@ -227,13 +227,12 @@ class TestLauta(unittest.TestCase):
                                ['P', 'P', 'P', 'K', 'K', 'K', 'P']]
         minimax_tulos = self.lauta.lisaa_paras_siirto(syvyys)[2]
         self.assertEqual(minimax_tulos, Tulos.MAKSIMIPISTEET.value + syvyys - 2)
-    '''
+
     def test_tarkista_voitto_seitseman_siirron_paasta(self):
-    '''
-    '''Testissä käytetty manuaalista toisen pelaajan parasta siirtoa. 
+        '''Testissä käytetty manuaalista toisen pelaajan parasta siirtoa. 
         Olisi muuten kestänyt testi turhan kauan.
-    '''
-    '''
+        '''
+
         syvyys = 7
         self.lauta.ruudukko = [['-', '-', '-', '-', '-', '-', '-'], \
                                ['-', '-', '-', '-', '-', '-', '-'], \
@@ -280,7 +279,7 @@ class TestLauta(unittest.TestCase):
         self.assertEqual(minimax_tulos, Tulos.MAKSIMIPISTEET.value + syvyys - 0)
         tilanne = self.lauta.tarkista_tilanne(self.lauta.ruudukko)
         self.assertEqual(tilanne, Tulos.KELTAINEN_VOITTI)
-    '''
+
     def test_minimax_loytaa_tasapelin_toimii(self):
         '''Testaa löytääkö minimax varman tasapelin
         '''
