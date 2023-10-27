@@ -13,7 +13,7 @@
 
 1. Ikkunan kokoa voi tarvittaessa vaihtaa, vaihtamalla mmaritys.py Maaritys luokan RUUDUN_KOKO luokkamuuttujaa. Kaikki muu on tehty tämän ympärille.
 
-2. Jos haluat laittaa peliin kehyksen eli englanniksi 'Frame' (en ole varma käännöksestä), niin tämä onnistuu alla kuvatulla tavalla.
+2. Jos haluat laittaa peliin kehyksen eli englanniksi 'Frame' (en ole varma käännöksestä), niin tämä onnistuu alla kuvatulla tavalla kommentoimalla 'pygame.NOFRAME' pois koodista.
 
 ![](./kuvat/noframe.png)
 
