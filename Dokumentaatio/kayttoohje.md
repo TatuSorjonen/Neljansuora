@@ -9,7 +9,7 @@
 
 4. Voit aloittaa pelin komennolla "python3 src/indeksi.py", kun olet kansiossa
 
-## Muutama tieto, jotka auttavat mahdollisesti pelin pelaamista ja testaamista
+## Muutama asia, jotka auttavat mahdollisesti pelin pelaamista ja testaamista
 
 1. Ikkunan kokoa voi tarvittaessa vaihtaa, vaihtamalla mmaritys.py Maaritys luokan RUUDUN_KOKO luokkamuuttujaa. Kaikki muu on tehty tämän ympärille.
 
