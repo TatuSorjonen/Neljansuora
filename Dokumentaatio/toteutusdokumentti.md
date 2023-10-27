@@ -1,7 +1,7 @@
 # Toteutusdokumentti
 
 Pelasin peliä muutaman kerran sivuston https://connect4.gamesolver.org/ avustuksella.
-Työni pelaa hyvin lähelle samalla tavalla, kuin miten täydellisesti pelaava pelaa. Pieniä viilauksia pitäisi kuitenkin vielä tehdä. Nyt painottaa vähän liikaa keskisaraketta.
+Työni pelaa hyvin lähelle samalla tavalla, kuin miten täydellisesti pelaava pelaa. Pieniä viilauksia pitäisi kuitenkin vielä tehdä. Nyt painottaa vähän liikaa keskisaraketta. Löysin vain muutaman kohdan missä pelasin toiseksi tai kolmanneksi parhaaseen paikkaan solverin mukaan.
 
 ## Käyttöliittymä
 
