@@ -161,5 +161,11 @@ Tilavaativuus taas ei muutu näiden kahden välillä. Se on aina mahdollisten si
 2. Arviointi funktio toimii sen verran hyvin, että minulla on vaikeata voittaa tekoälyä, mutta ei ole vielä täydellinen. Sitä voi hioa melkein loputtomiin lisää.
 3. Lopeta nappula olisi hyvä olla myös aloitusruudussa (nyt en kerennyt tekemään).
 4. Helppo peli pelimuoto voisi olla esimerkiksi heikompi minimax heikommalla arviointi funktiolla. Nyt niin helppo, että laittaa vaan satunnaisen nappulan.
+5. Minimaxista ja tämän heuristiikasta voisi tehdä oman luokan. Nyt ei ollut vain aikaa tähän.
 
-$a^2$
+## Lähteet
+
+https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-1-introduction/
+https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-4-alpha-beta-pruning/
+https://www.youtube.com/watch?v=l-hh51ncgDI
+https://www.youtube.com/watch?v=trKjYdBASyQ
