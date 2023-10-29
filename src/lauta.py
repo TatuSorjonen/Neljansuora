@@ -2,8 +2,6 @@ from enum import Enum
 import random
 import math
 import copy
-from datetime import timedelta
-import time
 
 class Tulos(Enum):
     """Luokka joka kertoo pelin nykytilanteen
@@ -19,7 +17,7 @@ class Lauta:
     '''Lauta pitää yllä laudan tapahtumia
     '''
 
-    SYVYYYS = 6
+    SYVYYYS = 5
     SARAKKEIDEN_MAARA = 7
     RIVIEN_MAARA = 6
     KELTAINEN = 'K'
@@ -199,7 +197,7 @@ class Lauta:
         Palauttaa:
             parhaan sarakkeen, parhaan rivin ja parhaan tuloksen
         '''
-        starttime = time.perf_counter()
+
         paras_tulos = -math.inf
         paras_sarake = -1
         paras_rivi = -1
@@ -221,9 +219,6 @@ class Lauta:
                     paras_sarake = sarake
                     paras_rivi = rivi
                     paras_etaisyys = etaisyys_keskelta
-
-        aika = timedelta(seconds=time.perf_counter()-starttime)
-        print(aika)
 
         self.lisaa_nappula(paras_sarake, self.ruudukko)
         return paras_sarake, paras_rivi, paras_tulos
