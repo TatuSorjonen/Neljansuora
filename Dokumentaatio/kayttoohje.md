@@ -1,7 +1,7 @@
 # Neljänsuoran käyttöohjeet
 
 ## Tarvittavat komennot:
-1. Lataa ohjelma itsellesi komennolla " git clone "työn linkki" "
+1. Lataa ohjelma itsellesi komennolla " git clone "työn linkki" ", tai lataa ohjelma [täältä](https://github.com/TatuSorjonen/Tiha/releases/tag/Loppupalautus)
 
 2. Siirry ohjelman kansioon komennolla "cd Tiha"
 
