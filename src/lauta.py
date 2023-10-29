@@ -2,6 +2,8 @@ from enum import Enum
 import random
 import math
 import copy
+from datetime import timedelta
+import time
 
 class Tulos(Enum):
     """Luokka joka kertoo pelin nykytilanteen
@@ -17,7 +19,7 @@ class Lauta:
     '''Lauta pitää yllä laudan tapahtumia
     '''
 
-    SYVYYYS = 5
+    SYVYYYS = 6
     SARAKKEIDEN_MAARA = 7
     RIVIEN_MAARA = 6
     KELTAINEN = 'K'
@@ -197,6 +199,7 @@ class Lauta:
         Palauttaa:
             parhaan sarakkeen, parhaan rivin ja parhaan tuloksen
         '''
+        starttime = time.perf_counter()
         paras_tulos = -math.inf
         paras_sarake = -1
         paras_rivi = -1
@@ -219,6 +222,9 @@ class Lauta:
                     paras_rivi = rivi
                     paras_etaisyys = etaisyys_keskelta
 
+        aika = timedelta(seconds=time.perf_counter()-starttime)
+        print(aika)
+
         self.lisaa_nappula(paras_sarake, self.ruudukko)
         return paras_sarake, paras_rivi, paras_tulos
 
@@ -230,6 +236,8 @@ class Lauta:
             onko_max: Halutaanko tarkastaa paras vaihtoehto tekoälylle
                       vai huonoin vaihtoehto pelaajalle
             taulukko: Taulukko josta katsotaan vaihtoehdot
+            alpha: Pieni luku
+            beta: Suuri luku
         
         Palauttaa:
             Parhaan aseman pisteet

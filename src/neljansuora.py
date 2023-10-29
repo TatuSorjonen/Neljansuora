@@ -18,7 +18,7 @@ class Neljansuora:
         self.aloittaja = Aloitusikkuna.PELAAJA_ALOITTAA
 
         self.ikkuna = pygame.display.set_mode(\
-                     (Maaritykset.IKKUNAN_LEVEYS, Maaritykset.IKKUNAN_KORKEUS))#, pygame.NOFRAME)
+                     (Maaritykset.IKKUNAN_LEVEYS, Maaritykset.IKKUNAN_KORKEUS), pygame.NOFRAME)
         self.ikkuna.fill(Maaritykset.POHJAVARI)
         pygame.init()
 
@@ -30,7 +30,6 @@ class Neljansuora:
 
         aloitusikkuna = Aloitusikkuna(self.ikkuna)
         pelimuoto, aloittaja = aloitusikkuna.lue_pelitapa()
-        #print(f'Pelimuoto on: {pelimuoto}, Aloittaja on: {aloittaja}')
         self.alusta_peli(pelimuoto, aloittaja)
         self.aloita_peli()
 
