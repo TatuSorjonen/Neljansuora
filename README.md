@@ -22,7 +22,7 @@ Huom. toimii myös komennolla 'poetry run python3 src/indeksi.py', mutta tämä 
 
 ## Dokumentaatio
 
-[Määrittelydokumentti](https://github.com/TatuSorjonen/Tiha/blob/master/maarittelydokumentti.md)
+[Määrittelydokumentti](https://github.com/TatuSorjonen/Tiha/blob/master/Dokumentaatio/maarittelydokumentti.md)
 
 [Tuntikirjanpito/loppupalautus](https://github.com/TatuSorjonen/Tiha/blob/master/Dokumentaatio/tuntikirjanpito/loppupalautus.md)
 
