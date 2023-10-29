@@ -3,6 +3,9 @@
 Ohjelmaa testataan yksikkötesteillä unittestin avustuksella, sekä olen testannut myös manuaalisesti eri vaihtoehtoja.
 
 Voit tehdä yksikkötestit seuraavilla komennoilla (huom: ota lainausmerkit pois eli komennot ovat lainausmerkkien sisällä muodossa 'komento':
+1. Aja testit komennolla 'poetry run pytest src'
+
+Vaihtoehtoisesti.
 1. Käytä komentoa 'poetry shell'
 2. Tämän jälkeen aja testit komennolla 'pytest src'
 3. Tämän jälkeen voit poistua poetry shellistä komennolla 'exit'
