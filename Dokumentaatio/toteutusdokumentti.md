@@ -135,7 +135,7 @@ Syvyys = 5.
 
 Syvyys = 6.
 1. Ilman heuristiikkaa: 0,52 sekuntia, kävi läpi 11 904 eri asemaa.
-2. Heuristiikalla: 10 sekuntia alpha-beta pruningilla, kävi läpi 52 442 eri asemaa. Ilman pruningia 88 sekuntia, kävi läpi 960 792 eri asemaa.
+2. Heuristiikalla: 3,5 sekuntia alpha-beta pruningilla, kävi läpi 52 442 eri asemaa. Ilman pruningia 88 sekuntia, kävi läpi 960 792 eri asemaa.
 
 Syvyys = 7.
 1. Ilman heuristiikkaa: 1,6 sekuntia, kävi läpi 37 709 eri asemaa.
