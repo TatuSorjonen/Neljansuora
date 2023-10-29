@@ -24,7 +24,7 @@ Huom. toimii myös komennolla 'poetry run python3 src/indeksi.py', mutta tämä 
 
 [Määrittelydokumentti](https://github.com/TatuSorjonen/Tiha/blob/master/maarittelydokumentti.md)
 
-[Tuntikirjanpito/viikko6](https://github.com/TatuSorjonen/Tiha/blob/master/Dokumentaatio/tuntikirjanpito/viikko6.md)
+[Tuntikirjanpito/loppupalautus](https://github.com/TatuSorjonen/Tiha/blob/master/Dokumentaatio/tuntikirjanpito/loppupalautus.md)
 
 [Käyttöohje](https://github.com/TatuSorjonen/Tiha/blob/master/Dokumentaatio/kayttoohje.md)
 
