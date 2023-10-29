@@ -4,7 +4,7 @@ Neljänsuora on peli, jossa pelataan 6x7 laudalla eli 6 riviä ja 7 saraketta, j
 
 ## Komennot
 
-1. Lataa sovellus itsellesi, joko kloonaamalla komennolla git clone 'työn linkki' tai lataamalla tästä (tee linkki -Tatu)
+1. Lataa sovellus itsellesi, joko kloonaamalla komennolla git clone 'työn linkki' tai lataamalla [tästä](https://github.com/TatuSorjonen/Tiha/releases/tag/Loppupalautus)
 
 2. Mene hakemistoon Tiha
 
