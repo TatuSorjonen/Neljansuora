@@ -16,7 +16,7 @@ Huom. toimii myös komennolla 'poetry run python3 src/indeksi.py', mutta tämä 
 5. Testien suorittaminen: 'poetry run pytest src'
 
 6. Coverage raportin testeistä saadaan komennoilla.
-   1. coverage run --branch -m pytest src.
+   1. coverage run --branch -m pytest src
    2. coverage report -m
    3. coverage html
 
