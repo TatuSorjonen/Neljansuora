@@ -13,7 +13,7 @@ Vaihtoehtoisesti.
 Voit halutessasi saada coverage -raportin komentosarjalla:
 1. 'coverage run --branch -m pytest src'
 2. Saat raportin äsken tehdystä komennolla 'coverage report -m'
-3. Jos haluat html -raportin voit käyttää komentoa 'coverage html'. Löydät raportin tiedostosta joka löytyy polusta tiha/htmlcov/index.html
+3. Jos haluat html -raportin voit käyttää komentoa 'coverage html'. Löydät raportin tiedostosta joka löytyy polusta Tiha/htmlcov/index.html
 
 ## Yksikkötestaus
 
